@@ -1,15 +1,12 @@
 import React from "react";
 import Menubar from "../components/Menubar";
-import { Grid } from "@mui/material";
 
-const home = () => {
+const home: React.FC = () => {
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={4}>
-        <Menubar />
-      </Grid>
-      <Grid item xs={8}></Grid>
-    </Grid>
+    <div style={{ display: "flex", flexDirection: "row", height: '100%' }}>
+      <Menubar />
+      <main style={{width : '100vw'}}>Hello</main>
+    </div>
   );
 };
 
