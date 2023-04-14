@@ -1,5 +1,5 @@
 
-export const first = (payload: any) => ({
-  type: "GET",
-  payload,
+export const userAction = (payload: any) => ({
+  type: "GETUSER",
+  payload : payload,
 });

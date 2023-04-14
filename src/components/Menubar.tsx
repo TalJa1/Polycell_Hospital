@@ -11,6 +11,7 @@ import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import MenuIcon from "@mui/icons-material/Menu";
 import InfoIcon from "@mui/icons-material/Info";
 import ForumIcon from "@mui/icons-material/Forum";
+import logo from "../assets/imgs/logo51.png";
 
 const Menubar: React.FC = () => {
   const { collapseSidebar, broken, toggleSidebar, collapsed } = useProSidebar();
@@ -34,7 +35,8 @@ const Menubar: React.FC = () => {
           </div>
         ) : (
           <div className="menutittle">
-            <span>INKWELL</span>
+            <img className="image" src={logo} alt="" style={{color : "black"}} />
+            {/* <span>INKWELL</span> */}
           </div>
         )}
         <Menu>

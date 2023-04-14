@@ -1,11 +1,12 @@
-import { Address, Company } from "./../models/userModel";
 import { User } from "../models/userModel";
 
 interface initState {
   user: User;
+  page: number;
 }
 
 const initialState: initState = {
+  page: 0,
   user: {
     id: 0,
     name: "",
@@ -38,8 +39,8 @@ interface Props {
 
 const userReducer = (state = initialState, { type, payload }: Props) => {
   switch (type) {
-    case "GET":
-      return { ...state, ...payload };
+    case "GETUSER":
+      return { ...state, user: payload };
 
     default:
       return state;

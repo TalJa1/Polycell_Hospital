@@ -20,3 +20,9 @@
   right: 0;
   top: 0;
 }
+
+.image {
+  filter: grayscale(100%);
+  -webkit-filter: brightness(0%);
+  /* color: black; */
+}
