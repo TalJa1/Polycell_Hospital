@@ -7,3 +7,16 @@
   height: 100vh;
 }
 
+.menutittle {
+  text-align: center;
+  align-items: center;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.togglebtn {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 0;
+}

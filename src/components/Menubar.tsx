@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   Sidebar,
   Menu,
@@ -9,9 +9,13 @@ import {
 import { Link } from "react-router-dom";
 import "../styles/Menubar.css";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
+import MenuIcon from "@mui/icons-material/Menu";
+import InfoIcon from "@mui/icons-material/Info";
+import ForumIcon from "@mui/icons-material/Forum";
 
 const Menubar: React.FC = () => {
-  const { collapseSidebar, broken, toggleSidebar } = useProSidebar();
+  const { collapseSidebar, broken, toggleSidebar, collapsed } = useProSidebar();
+
   return (
     <div style={{ display: "flex" }}>
       <Sidebar
@@ -25,24 +29,41 @@ const Menubar: React.FC = () => {
           },
         }}
       >
+        {collapsed ? (
+          <div className="menutittle">
+            <span>I</span>
+          </div>
+        ) : (
+          <div className="menutittle">
+            <span>INKWELL</span>
+          </div>
+        )}
         <Menu>
           <MenuItem icon={<AccessibilityIcon />} component={<Link to="/" />}>
             Home
           </MenuItem>
-          <MenuItem component={<Link to="/about" />}>About</MenuItem>
-          <MenuItem component={<Link to="/" />}>Community</MenuItem>
+          <MenuItem icon={<InfoIcon />} component={<Link to="/about" />}>
+            About
+          </MenuItem>
+          <MenuItem icon={<ForumIcon />} component={<Link to="/" />}>
+            Community
+          </MenuItem>
         </Menu>
+        <main className="togglebtn">
+          <div style={{ marginBottom: "16px" }}>
+            {broken || (
+              <div onClick={() => collapseSidebar()}>
+                <MenuIcon />
+              </div>
+            )}
+          </div>
+        </main>
       </Sidebar>
-      <main>
-        <div style={{ marginBottom: "16px" }}>
-          {broken && (
-            <button className="sb-button" onClick={() => toggleSidebar()}>
-              Toggle
-            </button>
-          )}
+      {broken && (
+        <div className="sb-button" onClick={() => toggleSidebar()}>
+          <MenuIcon />
         </div>
-        <button onClick={() => collapseSidebar()}>Collapse</button>
-      </main>
+      )}
     </div>
   );
 };
