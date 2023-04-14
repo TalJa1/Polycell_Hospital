@@ -3,17 +3,21 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import { Provider } from "react-redux";
 import { ProSidebarProvider } from "react-pro-sidebar";
+import store from "./store";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <BrowserRouter>
-    <ProSidebarProvider>
-      <App />
-    </ProSidebarProvider>
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <ProSidebarProvider>
+        <App />
+      </ProSidebarProvider>
+    </BrowserRouter>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
