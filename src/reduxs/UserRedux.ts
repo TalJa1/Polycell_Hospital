@@ -3,9 +3,11 @@ import { User } from "../models/userModel";
 interface initState {
   user: User;
   page: number;
+  list: Array<User>;
 }
 
 const initialState: initState = {
+  list: [],
   page: 0,
   user: {
     id: 0,

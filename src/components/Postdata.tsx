@@ -12,21 +12,22 @@ const Postdata: React.FC = () => {
 
   const fetchPostApi = useCallback(async () => {
     try {
-      // const param = {
-      //   _page: getPage,
-      //   _limit: 5,
-      // };
-      const response = await postApi.getAll(null);
+      const param = {
+        _page: getPage,
+        _limit: 5,
+      };
+      const response = await postApi.getAll(param);
+      console.log("response data >> " + response.headers);
       const action = fetchPost(response.data);
-      // const actionPage = getTotalPage(
-      //   response.headers["x-total-count"] / param._limit
-      // );
+      const actionPage = getTotalPage(
+        response.headers["x-total-count"] / param._limit
+      );
       dispatch(action);
-      // dispatch(actionPage);
+      dispatch(actionPage);
     } catch (error) {
       console.log(error);
     }
-  }, [dispatch]);
+  }, [dispatch, getPage]);
 
   useEffect(() => {
     fetchPostApi();
