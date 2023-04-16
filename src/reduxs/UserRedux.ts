@@ -10,8 +10,8 @@ const initialState: initState = {
   user: {
     id: 0,
     name: "",
-    username: "string",
-    email: "string",
+    username: "",
+    email: "",
     address: {
       street: "",
       suite: "",
@@ -22,8 +22,8 @@ const initialState: initState = {
         lng: "",
       },
     },
-    phone: "string",
-    website: "string",
+    phone: "",
+    website: "",
     company: {
       name: "",
       catchPhrase: "",
