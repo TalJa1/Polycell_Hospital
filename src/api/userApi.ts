@@ -1,9 +1,13 @@
 import axiosClient from "./axiosClient";
 
 const userApi = {
-  getAll: (params: any, id: number) => {
+  getByID: (params: any, id: number) => {
     console.log("id >> " + id);
     const url: string = `/users/${id}`;
+    return axiosClient.get(url, { params });
+  },
+  getAll: (params: any) => {
+    const url: string = `/users`;
     return axiosClient.get(url, { params });
   },
   // deleteBy: (param: any) => {

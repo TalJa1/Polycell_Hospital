@@ -39,14 +39,23 @@ interface Props {
   payload: any;
 }
 
-const userReducer = (state = initialState, { type, payload }: Props) => {
+const UserReducer = (state = initialState, { type, payload }: Props) => {
   switch (type) {
-    case "GETUSER":
-      return { ...state, user: payload };
+    case "FETCHUSER":
+      // console.log("state >> " + payload.map((e: any) => e));
+      return { ...state, list: payload };
+
+    case "FETCHUSERBYID":
+      const userbyID = state.list.find((users) => users.id === payload);
+      console.log("user by ID >> " + userbyID);
+      return {
+        ...state,
+        user: userbyID,
+      };
 
     default:
       return state;
   }
 };
 
-export default userReducer;
+export default UserReducer;

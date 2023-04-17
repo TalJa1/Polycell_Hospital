@@ -1,9 +1,12 @@
+
+//payload : list post
 export const fetchPost = (payload: any) => ({
   type: "GETPOST",
   payload: payload,
 });
 
-export const getTotalPage = (payload: any) => {
+//payload : total page number
+export const getTotalPage = (payload: number) => {
   return {
     type: "TOTAL_PAGE",
     payload: payload,
