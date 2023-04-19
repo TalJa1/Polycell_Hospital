@@ -6,11 +6,12 @@ import { fetchUser } from "../actions/userAction";
 import { Post } from "../models/postModel";
 import { RootState } from "../reduxs/Root";
 import userApi from "../api/userApi";
-import { User } from "../models/userModel";
+// import { User } from "../models/userModel";
 
 const Postdata: React.FC = () => {
   const getPost: Post[] = useSelector((state: RootState) => state.post.list);
   // const getUser: User[] = useSelector((state: RootState) => state.user.list);
+  const getUser = useSelector((state: any) => state.user.list);
   const dispatch = useDispatch();
   const getPage = useSelector<any>((state) => state.post.page);
   // const getUserbyID = useSelector<any>((state) => state.user.user);
@@ -48,7 +49,11 @@ const Postdata: React.FC = () => {
         return (
           <div key={key}>
             {value.title}
-            <div>{}</div>
+            <div>
+              {getUser.map((value: any, key: any) => {
+                return <div key={key}>{value.name}</div>;
+              })}
+            </div>
           </div>
         );
       })}

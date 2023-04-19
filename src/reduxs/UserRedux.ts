@@ -2,8 +2,8 @@ import { User } from "../models/userModel";
 
 interface initState {
   user: User;
-  page: number;
   list: Array<User>;
+  page: number;
 }
 
 const initialState: initState = {
