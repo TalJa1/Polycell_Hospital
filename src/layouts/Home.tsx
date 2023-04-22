@@ -20,7 +20,8 @@ const home: React.FC = () => {
           height: "100vh",
           maxHeight: "100%",
           paddingLeft: "1%",
-          paddingTop: '1%'
+          paddingTop: "1%",
+          // paddingBottom: "1%",
         }}
       >
         <Postdata />

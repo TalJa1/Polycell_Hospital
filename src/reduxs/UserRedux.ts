@@ -42,7 +42,7 @@ interface Props {
 const UserReducer = (state = initialState, { type, payload }: Props) => {
   switch (type) {
     case "FETCHUSER":
-      // console.log("state >> " + payload.map((e: any) => e));
+      // console.log("state user >> " + payload.map((e: any) => e));
       return { ...state, list: payload };
 
     case "FETCHUSERBYID":

@@ -29,10 +29,19 @@ const PostReducer = (state = initialState, { type, payload }: Props) => {
     case "GETPOST":
       return { ...state, list: payload };
 
-    case "":
+    case "TOTAL_PAGE":
+      if (payload % 2 !== 0) {
+        payload = Math.floor(payload) + 1;
+      }
       return {
         ...state,
         totalpage: payload,
+      };
+
+    case "PAGING":
+      return {
+        ...state,
+        page: payload,
       };
 
     default:

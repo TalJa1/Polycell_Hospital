@@ -12,3 +12,10 @@ export const getTotalPage = (payload: number) => {
     payload: payload,
   };
 };
+
+export const paging = (payload: number) => {
+  return {
+    type: "PAGING",
+    payload: payload,
+  };
+};
