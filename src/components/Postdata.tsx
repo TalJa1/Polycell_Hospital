@@ -6,6 +6,7 @@ import { fetchUser } from "../actions/userAction";
 import { Post } from "../models/postModel";
 import { RootState } from "../reduxs/Root";
 import userApi from "../api/userApi";
+import { User } from "../models/userModel";
 // import { User } from "../models/userModel";
 
 const Postdata: React.FC = () => {
@@ -46,14 +47,12 @@ const Postdata: React.FC = () => {
   return (
     <div>
       {getPost.map((value, key) => {
+        const user: User = getUser.find((v: any) => v.id === value.userId);
+        console.log("get user >> " + user.name);
         return (
           <div key={key}>
             {value.title}
-            <div>
-              {getUser.map((value: any, key: any) => {
-                return <div key={key}>{value.name}</div>;
-              })}
-            </div>
+            <div>{user.name}</div>
           </div>
         );
       })}
