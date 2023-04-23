@@ -4,11 +4,13 @@ interface initState {
   user: User;
   list: Array<User>;
   page: number;
+  isLogin: boolean;
 }
 
 const initialState: initState = {
   list: [],
   page: 0,
+  isLogin: false,
   user: {
     id: 0,
     name: "",

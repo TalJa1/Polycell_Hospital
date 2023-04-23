@@ -12,9 +12,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import InfoIcon from "@mui/icons-material/Info";
 import ForumIcon from "@mui/icons-material/Forum";
 import logo from "../assets/imgs/logo51.png";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useDispatch, useSelector } from "react-redux";
 
 const Menubar: React.FC = () => {
   const { collapseSidebar, broken, toggleSidebar, collapsed } = useProSidebar();
+  const isLogined = useSelector((state: any) => state.user.isLogin);
 
   return (
     <div style={{ display: "flex" }}>
@@ -23,9 +28,7 @@ const Menubar: React.FC = () => {
         breakPoint="lg"
         rootStyles={{
           [`.${sidebarClasses.container}`]: {
-            // backgroundColor: "red",
-            // width: "100%"
-            height: "100vh",
+            height: "100%",
           },
         }}
       >
@@ -35,7 +38,12 @@ const Menubar: React.FC = () => {
           </div>
         ) : (
           <div className="menutittle">
-            <img className="image" src={logo} alt="" style={{color : "black"}} />
+            <img
+              className="image"
+              src={logo}
+              alt=""
+              style={{ color: "black" }}
+            />
             {/* <span>INKWELL</span> */}
           </div>
         )}
@@ -49,6 +57,15 @@ const Menubar: React.FC = () => {
           <MenuItem icon={<ForumIcon />} component={<Link to="/" />}>
             Community
           </MenuItem>
+          {isLogined === false ? (
+            <MenuItem icon={<LoginIcon />} component={<Link to="/login" />}>
+              Login
+            </MenuItem>
+          ) : (
+            <MenuItem icon={<LogoutIcon />} component={<Link to="/" />}>
+              logout
+            </MenuItem>
+          )}
         </Menu>
         <main className="togglebtn">
           <div style={{ marginBottom: "16px" }}>

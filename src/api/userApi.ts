@@ -10,6 +10,10 @@ const userApi = {
     const url: string = `/users`;
     return axiosClient.get(url, { params });
   },
+  login: (params: any) => {
+    const url: string = `/users`;
+    return axiosClient.get(url, { params });
+  },
   // deleteBy: (param: any) => {
   //   const url = `/posts/${param}`;
   //   return axiosClient.delete(url);
