@@ -1,4 +1,5 @@
-import axios from "axios";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import axios, { AxiosError, AxiosHeaders } from "axios";
 import queryString from "query-string";
 
 const axiosClient = axios.create({
@@ -8,8 +9,13 @@ const axiosClient = axios.create({
   },
   paramsSerializer: (params) => queryString.stringify(params),
 });
+
 axiosClient.interceptors.request.use(async (config) => {
   // Handle token here ...
+  // const token = await getItem("jwtToken");
+  //   if (config.headers)
+  //       (config.headers as AxiosHeaders).set("Authorization", `Bearer
+  //    ${token}`);
   return config;
 });
 axiosClient.interceptors.response.use(
@@ -21,6 +27,10 @@ axiosClient.interceptors.response.use(
   },
   (error) => {
     // Handle errors
+    // if (error instanceof AxiosError && error.response?.status === 401) {
+    //   useAuthStore.setState({ signedInAs: undefined });
+    // }
+    // return Promise.reject(error);
     throw error;
   }
 );
