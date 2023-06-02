@@ -8,12 +8,15 @@ import { Post } from "../models/postModel";
 import { RootState } from "../reduxs/Root";
 import userApi from "../api/userApi";
 import { User } from "../models/userModel";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+// import Pagination from "@mui/material/Pagination";
+// import PaginationItem from "@mui/material/PaginationItem";
+// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+// import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import Header from "./Header";
+import Footer from "./Footer";
 
 const Postdata: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [page, setPage] = React.useState<number>(1);
   const getPost: Post[] = useSelector((state: RootState) => state.post.list);
   // const getUser: User[] = useSelector((state: RootState) => state.user.list);
@@ -58,19 +61,20 @@ const Postdata: React.FC = () => {
     console.log("CLicked >> " + postid);
   };
 
-  const handelPaging = (event: React.ChangeEvent<unknown>, newPage: number) => {
-    try {
-      setPage(newPage);
-    } catch (error) {
-      console.log(error);
-    }
-    // console.log("new page >>" + page);
-  };
+  // const handelPaging = (event: React.ChangeEvent<unknown>, newPage: number) => {
+  //   try {
+  //     setPage(newPage);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   // console.log("new page >>" + page);
+  // };
 
   console.log("pagenow >>" + page);
 
   return (
-    <div>
+    <div className="class-container">
+      <Header title="Class Management" imageUrl="" />
       {getPost.map((value, key) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         var user: User | undefined = getUser.find(
@@ -95,7 +99,7 @@ const Postdata: React.FC = () => {
           </div>
         );
       })}
-      <div className="pagingDiv">
+      {/* <div className="pagingDiv">
         <Pagination
           onChange={handelPaging}
           page={page}
@@ -107,7 +111,8 @@ const Postdata: React.FC = () => {
             />
           )}
         />
-      </div>
+      </div> */}
+      <Footer />
     </div>
   );
 };
