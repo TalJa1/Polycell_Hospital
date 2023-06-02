@@ -99,6 +99,8 @@ const Postdata: React.FC = () => {
           </div>
         );
       })}
+
+      {/* For paging */}
       {/* <div className="pagingDiv">
         <Pagination
           onChange={handelPaging}
@@ -112,6 +114,7 @@ const Postdata: React.FC = () => {
           )}
         />
       </div> */}
+      
       <Footer />
     </div>
   );
