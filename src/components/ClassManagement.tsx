@@ -57,9 +57,9 @@ const Postdata: React.FC = () => {
     fetchPostApi();
   }, [fetchPostApi]);
 
-  const handleClick = (postid: number) => {
-    console.log("CLicked >> " + postid);
-  };
+  // const handleClick = (postid: number) => {
+  //   console.log("CLicked >> " + postid);
+  // };
 
   // const handelPaging = (event: React.ChangeEvent<unknown>, newPage: number) => {
   //   try {
@@ -75,30 +75,17 @@ const Postdata: React.FC = () => {
   return (
     <div className="class-container">
       <Header title="Class Management" imageUrl="" />
-      {getPost.map((value, key) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        var user: User | undefined = getUser.find(
-          (v: User) => v.id === value.userId
-        );
-        // console.log("get user >> " + user?.name);
-        return (
-          <div
-            key={key}
-            className="postDiv"
-            onClick={() => handleClick(value.id)}
-          >
-            <div style={{ textAlign: "center", fontSize: "20px" }}>
-              {value.title}
-            </div>
-            <div style={{ paddingLeft: "1%" }}>
-              Author: {user?.name ?? "unknown"}
-            </div>
-            <div style={{ paddingLeft: "1%" }}>
-              Email: {user?.email ?? "unknown"}
-            </div>
+      <div className="content-container">
+        <div className="tabbar">
+          <div className="search-item">
+            <input type="text" placeholder="Search" />
           </div>
-        );
-      })}
+          <div className="add-btn">
+            <button>Add</button>
+          </div>
+        </div>
+        <div className="class-detail"></div>
+      </div>
 
       {/* For paging */}
       {/* <div className="pagingDiv">
@@ -114,7 +101,6 @@ const Postdata: React.FC = () => {
           )}
         />
       </div> */}
-      
       <Footer />
     </div>
   );
