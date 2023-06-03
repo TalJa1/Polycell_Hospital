@@ -4,23 +4,28 @@ import { useDispatch, useSelector } from "react-redux";
 import postApi from "../api/postApi";
 import { fetchPost, getTotalPage, paging } from "../actions/postAction";
 import { fetchUser } from "../actions/userAction";
-import { Post } from "../models/postModel";
+// import { Post } from "../models/postModel";
 import { RootState } from "../reduxs/Root";
 import userApi from "../api/userApi";
-import { User } from "../models/userModel";
+// import { User } from "../models/userModel";
+import Button from "@mui/material/Button";
 // import Pagination from "@mui/material/Pagination";
 // import PaginationItem from "@mui/material/PaginationItem";
 // import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 // import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Header from "./Header";
 import Footer from "./Footer";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
 
 const Postdata: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [page, setPage] = React.useState<number>(1);
-  const getPost: Post[] = useSelector((state: RootState) => state.post.list);
-  // const getUser: User[] = useSelector((state: RootState) => state.user.list);
-  const getUser: User[] = useSelector((state: any) => state.user.list);
+  const [search, setSearch] = React.useState<string>("");
+  // const getPost: Post[] = useSelector((state: RootState) => state.post.list);
+  // const getUser: User[] = useSelector((state: any) => state.user.list);
   const TotalPage: number = useSelector(
     (state: RootState) => state.post.totalpage
   );
@@ -70,6 +75,19 @@ const Postdata: React.FC = () => {
   //   // console.log("new page >>" + page);
   // };
 
+  const handleSearch = (input: string) => {
+    setSearch(input);
+    console.log(input);
+  };
+
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
+
   console.log("pagenow >>" + page);
 
   return (
@@ -77,14 +95,43 @@ const Postdata: React.FC = () => {
       <Header title="Class Management" imageUrl="" />
       <div className="content-container">
         <div className="tabbar">
-          <div className="search-item">
-            <input type="text" placeholder="Search" />
-          </div>
           <div className="add-btn">
-            <button>Add</button>
+            <Button variant="contained" sx={{ color: "black" }}>
+              Add
+            </Button>
+          </div>
+          <div className="search-item">
+            <input
+              type="text"
+              placeholder="Search"
+              value={search}
+              onChange={(e) => handleSearch(e.target.value)}
+            />
           </div>
         </div>
-        <div className="class-detail"></div>
+        <div className="class-detail">
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={9} md={9}>
+                <Item>Content</Item>
+              </Grid>
+              <Grid item xs={3} md={3}>
+                {/* <Item sx={{  }}>Filter</Item> */}
+                <div className="filter-box">
+                  <h4>Filter</h4>
+                  <div>
+                    <label>Name</label>
+                    <input />
+                  </div>
+                  <div>
+                    <label>Name</label>
+                    <input />
+                  </div>
+                </div>
+              </Grid>
+            </Grid>
+          </Box>
+        </div>
       </div>
 
       {/* For paging */}

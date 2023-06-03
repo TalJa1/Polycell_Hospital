@@ -21,7 +21,7 @@ body {
   margin-bottom: 10px;
 }
 
-.tabbar{
+.tabbar {
   height: 50px;
   width: inherit;
   display: flex;
@@ -31,18 +31,21 @@ body {
   padding: 10px;
 }
 
-.class-detail{
+.class-detail {
   flex: 1;
-  background-color: #E6E6E6;
+  background-color: #e6e6e6;
   border-radius: 5px;
   width: inherit;
   height: inherit;
   max-height: fit-content;
   margin-bottom: 17px;
+  padding: 10px;
+  margin: 5px;
 }
 
 .search-item {
   padding: 10px 0;
+  width: 30%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,4 +73,14 @@ body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.filter-box {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  height: inherit;
+  border-radius: 5px;
+  /* box-shadow: black; */
+  padding-left: 3px;
 }
