@@ -19,6 +19,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
 
 const Postdata: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -112,23 +113,14 @@ const Postdata: React.FC = () => {
         <div className="class-detail">
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
-              <Grid item xs={9} md={9}>
-                <Item>Content</Item>
-              </Grid>
-              <Grid item xs={3} md={3}>
-                {/* <Item sx={{  }}>Filter</Item> */}
-                <div className="filter-box">
-                  <h4>Filter</h4>
-                  <div>
-                    <label>Name</label>
-                    <input />
-                  </div>
-                  <div>
-                    <label>Name</label>
-                    <input />
-                  </div>
-                </div>
-              </Grid>
+              <Grid item xs={9} md={9}></Grid>
+              <Grid
+                item
+                xs={3}
+                md={3}
+                direction="column"
+                sx={{ backgroundColor: "black", height: "100%" }}
+              ></Grid>
             </Grid>
           </Box>
         </div>

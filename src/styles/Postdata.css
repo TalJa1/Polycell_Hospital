@@ -1,20 +1,14 @@
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 .content-container {
   background-color: white;
   display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
-  align-items: center;
   margin-left: auto;
   margin-right: auto;
-  min-height: 695px;
+  min-height: 100vh;
   max-height: fit-content;
   width: 97%;
   border-radius: 5px;
@@ -23,7 +17,6 @@ body {
 
 .tabbar {
   height: 50px;
-  width: inherit;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -33,14 +26,14 @@ body {
 
 .class-detail {
   flex: 1;
+  display: flex;
+  align-items: stretch;
+  position: relative;
   background-color: #e6e6e6;
   border-radius: 5px;
-  width: inherit;
-  height: inherit;
-  max-height: fit-content;
   margin-bottom: 17px;
-  padding: 10px;
-  margin: 5px;
+  padding: 0px 10px 0px 10px;
+  margin: 0px 5px 5px 5px;
 }
 
 .search-item {
@@ -75,12 +68,3 @@ body {
   cursor: pointer;
 }
 
-.filter-box {
-  display: flex;
-  flex-direction: column;
-  background-color: #ffffff;
-  height: inherit;
-  border-radius: 5px;
-  /* box-shadow: black; */
-  padding-left: 3px;
-}
