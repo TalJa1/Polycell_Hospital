@@ -68,3 +68,102 @@
   cursor: pointer;
 }
 
+.column-9 {
+  flex: 9;
+  background-color: white;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+.column-3 {
+  flex: 3;
+  margin: 10px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filter-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.class-show {
+  width: 100%;
+  height: fit-content;
+  background-color: grey;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.lable-div {
+  display: flex;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+  font-weight: bold;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.class-item {
+  display: flex;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.lable-div span {
+  text-align: center;
+  padding: 5px;
+  width: 8%;
+  overflow: hidden;
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 8px;
+  }
+}
+
+.class-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.class-item span {
+  text-align: center;
+  width: 8%;
+  overflow: visible;
+  text-overflow: ellipsis;
+  padding: 5px;
+  white-space: normal;
+}
+
+.class-item span {
+  white-space: pre-wrap;
+  font-size: 16px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 8px;
+  }
+}
+
+.class-item.even {
+  background-color: lightgray;
+}
+
+.class-item.odd {
+  background-color: whitesmoke;
+}
