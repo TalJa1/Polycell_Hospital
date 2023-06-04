@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import "../styles/Postdata.css";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,10 +16,9 @@ import Button from "@mui/material/Button";
 // import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Header from "./Header";
 import Footer from "./Footer";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import TextField from "@mui/material/TextField";
 
 const Postdata: React.FC = () => {
@@ -81,14 +81,6 @@ const Postdata: React.FC = () => {
     console.log(input);
   };
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
-
   console.log("pagenow >>" + page);
 
   return (
@@ -125,6 +117,13 @@ const Postdata: React.FC = () => {
           </Box>
         </div>
       </div>
+      <Footer />
+    </div>
+  );
+};
+
+export default Postdata;
+
 
       {/* For paging */}
       {/* <div className="pagingDiv">
@@ -140,9 +139,3 @@ const Postdata: React.FC = () => {
           )}
         />
       </div> */}
-      <Footer />
-    </div>
-  );
-};
-
-export default Postdata;

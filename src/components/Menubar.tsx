@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import "../styles/Menubar.css";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import MenuIcon from "@mui/icons-material/Menu";
+import SchoolIcon from "@mui/icons-material/School";
 import InfoIcon from "@mui/icons-material/Info";
 import ForumIcon from "@mui/icons-material/Forum";
 import logo from "../assets/imgs/logo51.png";
@@ -50,6 +51,12 @@ const Menubar: React.FC = () => {
         <Menu>
           <MenuItem icon={<AccessibilityIcon />} component={<Link to="/" />}>
             Home
+          </MenuItem>
+          <MenuItem
+            icon={<SchoolIcon />}
+            component={<Link to="/class-management" />}
+          >
+            Class
           </MenuItem>
           <MenuItem icon={<InfoIcon />} component={<Link to="/about" />}>
             About
