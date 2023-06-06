@@ -1,5 +1,4 @@
 import React from "react";
-import "../../styles/Postdata.css";
 import Menubar from "../../components/Menubar";
 import ClassApprovalCp from "../../components/ClassApprovalCp";
 
