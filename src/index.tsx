@@ -6,6 +6,8 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import store from "./store";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,7 +16,9 @@ root.render(
   <Provider store={store}>
     <BrowserRouter>
       <ProSidebarProvider>
-        <App />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <App />
+        </LocalizationProvider>
       </ProSidebarProvider>
     </BrowserRouter>
   </Provider>

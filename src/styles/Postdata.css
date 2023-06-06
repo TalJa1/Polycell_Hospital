@@ -1,29 +1,22 @@
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 .content-container {
   background-color: white;
   display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
-  align-items: center;
   margin-left: auto;
   margin-right: auto;
-  min-height: 695px;
+  min-height: 100vh;
   max-height: fit-content;
   width: 97%;
   border-radius: 5px;
   margin-bottom: 10px;
 }
 
-.tabbar{
+.tabbar {
   height: 50px;
-  width: inherit;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -31,18 +24,21 @@ body {
   padding: 10px;
 }
 
-.class-detail{
+.class-detail {
   flex: 1;
-  background-color: #E6E6E6;
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  background-color: #e6e6e6;
   border-radius: 5px;
-  width: inherit;
-  height: inherit;
-  max-height: fit-content;
   margin-bottom: 17px;
+  padding: 0px 10px 0px 10px;
+  margin: 0px 5px 5px 5px;
 }
 
 .search-item {
   padding: 10px 0;
+  width: 30%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,4 +66,104 @@ body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.column-9 {
+  flex: 9;
+  background-color: white;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+.column-3 {
+  flex: 3;
+  margin: 10px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filter-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.class-show {
+  width: 100%;
+  height: fit-content;
+  background-color: grey;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.lable-div {
+  display: flex;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+  font-weight: bold;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.class-item {
+  display: flex;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.lable-div span {
+  text-align: center;
+  padding: 5px;
+  width: 8%;
+  overflow: hidden;
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 8px;
+  }
+}
+
+.class-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.class-item span {
+  text-align: center;
+  width: 8%;
+  overflow: visible;
+  text-overflow: ellipsis;
+  padding: 5px;
+  white-space: normal;
+}
+
+.class-item span {
+  white-space: pre-wrap;
+  font-size: 16px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 8px;
+  }
+}
+
+.class-item.even {
+  background-color: lightgray;
+}
+
+.class-item.odd {
+  background-color: whitesmoke;
 }
