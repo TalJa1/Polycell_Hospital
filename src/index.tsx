@@ -6,7 +6,9 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import store from "./store";
-import { LocalizationProvider } from "@mui/x-date-pickers";
+
+import { LocalizationProvider } from '@mui/x-date-pickers';
+
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 const root = ReactDOM.createRoot(
