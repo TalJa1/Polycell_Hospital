@@ -19,6 +19,7 @@ import { Autocomplete } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers";
 import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Link } from "react-router-dom";
 
 const Postdata: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -85,9 +86,11 @@ const Postdata: React.FC = () => {
       <div className="content-container">
         <div className="tabbar">
           <div className="add-btn">
-            <Button variant="contained" sx={{ color: "black" }}>
-              Add
-            </Button>
+            <Link to="/add-class">
+              <Button variant="contained" sx={{ color: "black" }}>
+                Add
+              </Button>
+            </Link>
           </div>
           <div className="search-item">
             <input

@@ -12,6 +12,7 @@ import {
   TextField,
 } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers";
+import Menubar from "../components/Menubar";
 
 const AddClass: React.FC = () => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -24,138 +25,150 @@ const AddClass: React.FC = () => {
   };
 
   return (
-    <div className="class-container">
-      <Header title="Add Class" imageUrl="" />
-      <Box sx={{ padding: 5 }}>
-        <Grid container spacing={3}>
-          <Grid item xs={9}>
+    <div className="container">
+      <Menubar />
+      <main className="rightlayout">
+        <div>
+          <Header title="Add Class" imageUrl="" />
+          <Box sx={{ padding: 5 }}>
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={2}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    fontWeight: 700,
-                  }}
-                >
-                  Program
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} sm={10}>
-                <Autocomplete
-                  options={courses}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Program" />
-                  )}
-                  value={selectedCourse}
-                  onChange={handleCourseChange}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={2}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    fontWeight: 700,
-                  }}
-                >
-                  Trainer
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} sm={10}>
-                <Autocomplete
-                  options={top100Films}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Trainer" />
-                  )}
-                  fullWidth
-                />
-              </Grid>
-              
+              <Grid item xs={9}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={2}>
+                    <InputLabel
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        fontWeight: 700,
+                      }}
+                    >
+                      Program
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={12} sm={10}>
+                    <Autocomplete
+                      options={courses}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Program" />
+                      )}
+                      value={selectedCourse}
+                      onChange={handleCourseChange}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={2}>
+                    <InputLabel
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        fontWeight: 700,
+                      }}
+                    >
+                      Trainer
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={12} sm={10}>
+                    <Autocomplete
+                      options={top100Films}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Trainer" />
+                      )}
+                      fullWidth
+                    />
+                  </Grid>
 
-              <Grid item xs={12} sm={2}>
-                <InputLabel
+                  <Grid item xs={12} sm={2}>
+                    <InputLabel
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        fontWeight: 700,
+                      }}
+                    >
+                      Department
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={12} sm={10}>
+                    <Autocomplete
+                      options={top100Films}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Department" />
+                      )}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={2}>
+                    <InputLabel
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        fontWeight: 700,
+                      }}
+                    >
+                      Due time
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TimePicker
+                      sx={{
+                        width: "100%",
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={2}>
+                    <InputLabel
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        fontWeight: 700,
+                      }}
+                    >
+                      Quantity
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      id="quantity"
+                      name="quantity"
+                      label="Quantity"
+                      fullWidth
+                      size="small"
+                      autoComplete="off"
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <Button
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "#000",
+                      }}
+                    >
+                      Save
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={3}>
+                <Card
                   sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    fontWeight: 700,
+                    height: "100%",
                   }}
                 >
-                  Department
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} sm={10}>
-                <Autocomplete
-                  options={top100Films}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Department" />
-                  )}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={2}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    fontWeight: 700,
-                  }}
-                >
-                  Due time
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TimePicker
-                  sx={{
-                    width: "100%",
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={2}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    fontWeight: 700,
-                  }}
-                >
-                  Quantity
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  id="quantity"
-                  name="quantity"
-                  label="Quantity"
-                  fullWidth
-                  size="small"
-                  autoComplete="off"
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
-                <Button variant="contained" 
-                sx={{
-                  backgroundColor: '#000'
-                }}>
-                  Save
-                </Button>
+                  <CardContent>
+                    {selectedCourse && <p>{selectedCourse.label}</p>}
+                  </CardContent>
+                </Card>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={3}>
-            <Card sx={{
-              height: '100%'
-            }}>
-              <CardContent>
-                {selectedCourse && <p>{selectedCourse.label}</p>}
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </Box>
-      <Footer />
+          </Box>
+          <Footer />
+        </div>
+      </main>
     </div>
   );
 };
