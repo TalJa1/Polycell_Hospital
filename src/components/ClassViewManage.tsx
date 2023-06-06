@@ -26,41 +26,40 @@ const Postdata: React.FC = () => {
   const [search, setSearch] = React.useState<string>("");
   // const getPost: Post[] = useSelector((state: RootState) => state.post.list);
   // const getUser: User[] = useSelector((state: any) => state.user.list);
-  const TotalPage: number = useSelector(
-    (state: RootState) => state.post.totalpage
-  );
-  const dispatch = useDispatch();
-  const getPage = useSelector<any>((state) => state.post.page);
+  // const TotalPage: number = useSelector(
+  //   (state: RootState) => state.post.totalpage
+  // );
+  // const dispatch = useDispatch();
+  // const getPage = useSelector<any>((state) => state.post.page);
 
-  console.log("total page >>" + TotalPage);
-  const fetchPostApi = useCallback(async () => {
-    try {
-      const param = {
-        _page: getPage,
-        _limit: 9,
-      };
-      const response = await postApi.getAll(param);
-      const response1 = await userApi.getAll(null);
-      console.log("response user data >> " + response1.data);
-      const action = fetchPost(response.data);
-      const action1 = fetchUser(response1.data);
-      console.log(response1.data.map((a: any) => a));
-      const actionPage = getTotalPage(
-        response.headers["x-total-count"] / param._limit
-      );
-      const action2 = paging(page);
-      dispatch(action);
-      dispatch(action2);
-      dispatch(action1);
-      dispatch(actionPage);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [dispatch, getPage, page]);
+  // const fetchPostApi = useCallback(async () => {
+  //   try {
+  //     const param = {
+  //       _page: getPage,
+  //       _limit: 9,
+  //     };
+  //     const response = await postApi.getAll(param);
+  //     const response1 = await userApi.getAll(null);
+  //     console.log("response user data >> " + response1.data);
+  //     const action = fetchPost(response.data);
+  //     const action1 = fetchUser(response1.data);
+  //     console.log(response1.data.map((a: any) => a));
+  //     const actionPage = getTotalPage(
+  //       response.headers["x-total-count"] / param._limit
+  //     );
+  //     const action2 = paging(page);
+  //     dispatch(action);
+  //     dispatch(action2);
+  //     dispatch(action1);
+  //     dispatch(actionPage);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [dispatch, getPage, page]);
 
-  useEffect(() => {
-    fetchPostApi();
-  }, [fetchPostApi]);
+  // useEffect(() => {
+  //   fetchPostApi();
+  // }, [fetchPostApi]);
 
   // const handleClick = (postid: number) => {
   //   console.log("CLicked >> " + postid);
@@ -114,7 +113,7 @@ const Postdata: React.FC = () => {
               </div>
               <div className="class-info">
                 {classDetail.map((item, index) => (
-                  <div>
+                  <div key={index}>
                     <div
                       className={`class-item ${
                         index % 2 === 0 ? "even" : "odd"

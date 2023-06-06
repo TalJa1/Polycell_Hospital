@@ -43,7 +43,7 @@ const ClassAcceptCp: React.FC = () => {
               </div>
               <div className="class-info">
                 {classDetail.map((item, index) => (
-                  <div>
+                  <div key={index}>
                     <div
                       className={`class-item ${
                         index % 2 === 0 ? "even" : "odd"
@@ -57,7 +57,7 @@ const ClassAcceptCp: React.FC = () => {
                       <span className="content">{item.duetime}</span>
                       <span>{item.deparment}</span>
                       <span>
-                        <Link to="/">
+                        <Link to="/class-approval">
                           <VisibilityIcon sx={{ color: "blue" }} />
                         </Link>
                       </span>
