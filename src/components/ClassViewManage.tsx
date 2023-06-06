@@ -80,8 +80,6 @@ const Postdata: React.FC = () => {
     console.log(input);
   };
 
-  console.log("pagenow >>" + page);
-
   return (
     <div className="class-container">
       <Header title="Class Management" imageUrl="" />
