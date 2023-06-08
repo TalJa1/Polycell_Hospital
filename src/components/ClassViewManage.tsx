@@ -1,13 +1,13 @@
 /* eslint-disable no-lone-blocks */
 import "../styles/Postdata.css";
-import React, { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import postApi from "../api/postApi";
-import { fetchPost, getTotalPage, paging } from "../actions/postAction";
-import { fetchUser } from "../actions/userAction";
+import React from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import postApi from "../api/postApi";
+// import { fetchPost, getTotalPage, paging } from "../actions/postAction";
+// import { fetchUser } from "../actions/userAction";
 // import { Post } from "../models/postModel";
-import { RootState } from "../reduxs/Root";
-import userApi from "../api/userApi";
+// import { RootState } from "../reduxs/Root";
+// import userApi from "../api/userApi";
 // import { User } from "../models/userModel";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
@@ -19,6 +19,7 @@ import { Autocomplete } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers";
 import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Link } from "react-router-dom";
 
 const Postdata: React.FC = () => {
@@ -105,13 +106,10 @@ const Postdata: React.FC = () => {
           <div className="column-9">
             <div className="class-show">
               <div className="lable-div">
-                <span>Courses</span>
                 <span>Classes</span>
-                <span>Quantities</span>
-                <span>Statuses</span>
-                <span>Trainers</span>
-                <span>Due time</span>
-                <span>Departments</span>
+                <span>Courses</span>
+                <span>Status</span>
+                <span>Created date</span>
                 <span>Options</span>
               </div>
               <div className="class-info">
@@ -122,14 +120,14 @@ const Postdata: React.FC = () => {
                         index % 2 === 0 ? "even" : "odd"
                       }`}
                     >
-                      <span>{item.course}</span>
                       <span>{item.class}</span>
-                      <span>{item.quantity}</span>
+                      <span>{item.course}</span>
                       <span>{item.status}</span>
-                      <span>{item.trainer}</span>
-                      <span className="content">{item.duetime}</span>
-                      <span>{item.deparment}</span>
-                      <span>
+                      <span>{item.createddate}</span>
+                      <span >
+                        <Link to="/class-detail">
+                          <VisibilityIcon />
+                        </Link>
                         <ModeIcon />
                         <DeleteIcon />
                       </span>
@@ -145,45 +143,11 @@ const Postdata: React.FC = () => {
             </label>
             <br />
             <div className="filter-detail">
-              <label>Location</label>
+              <label>Created date</label>
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
-                options={top100Films}
-                sx={{ width: "100%" }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-              <br />
-              <label>Type</label>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={{ width: "100%" }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-              <br />
-              <label>Season</label>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={{ width: "100%" }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-              <br />
-              <label>Time</label>
-              <TimePicker
-                sx={{
-                  width: "100%",
-                }}
-              />
-              <br />
-              <label>Sort by</label>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
+                options={filterCreatedDate}
                 sx={{ width: "100%" }}
                 renderInput={(params) => <TextField {...params} />}
               />
@@ -216,11 +180,14 @@ const top100Films = [
   },
 ];
 
+const filterCreatedDate = ["Most recently", "Oldest"];
+
 const classDetail = [
   {
     course: "PPG201",
     class: "SS011",
     quantity: "30",
+    createddate: "20/10/2023",
     status: "pending",
     trainer: "Pham Van A",
     duetime: "7am-9am (t4,t7)",
@@ -230,6 +197,7 @@ const classDetail = [
     course: "PPG202",
     class: "SS021",
     quantity: "25",
+    createddate: "20/10/2023",
     status: "pending",
     trainer: "Pham Van B",
     duetime: "7am-9am (t2,t6)",
