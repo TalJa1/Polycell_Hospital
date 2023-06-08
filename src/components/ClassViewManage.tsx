@@ -102,60 +102,97 @@ const Postdata: React.FC = () => {
             />
           </div>
         </div>
-        <div className="class-detail">
-          <div className="column-9">
-            <div className="class-show">
-              <div className="lable-div">
-                <span>Classes</span>
-                <span>Courses</span>
-                <span>Status</span>
-                <span>Created date</span>
-                <span>Options</span>
-              </div>
-              <div className="class-info">
-                {classDetail.map((item, index) => (
-                  <div key={index}>
-                    <div
-                      className={`class-item ${
-                        index % 2 === 0 ? "even" : "odd"
-                      }`}
-                    >
-                      <span>{item.class}</span>
-                      <span>{item.course}</span>
-                      <span>{item.status}</span>
-                      <span>{item.createddate}</span>
-                      <span >
-                        <Link to="/class-detail">
-                          <VisibilityIcon />
-                        </Link>
-                        <ModeIcon />
-                        <DeleteIcon />
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+        <div className="biggest-detail-container">
+          <div className="tabs-container">
+            <div className="tabs-position">
+              <strong style={{ color: "white" }}>Status: </strong>
+              <Button
+                variant="outlined"
+                sx={{
+                  ":hover": {
+                    color: "white",
+                  },
+                }}
+              >
+                Pending
+              </Button>
+              <Button
+                variant="outlined"
+                sx={{
+                  ":hover": {
+                    color: "white",
+                  },
+                }}
+              >
+                Rejected
+              </Button>
+              <Button
+                variant="outlined"
+                sx={{
+                  ":hover": {
+                    color: "white",
+                  },
+                }}
+              >
+                Accepted
+              </Button>
             </div>
           </div>
-          <div className="column-3">
-            <label style={{ fontWeight: "bold", fontSize: "20px" }}>
-              Filter
-            </label>
-            <br />
-            <div className="filter-detail">
-              <label>Created date</label>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={filterCreatedDate}
-                sx={{ width: "100%" }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-              <br />
+          <div className="class-detail">
+            <div className="column-9">
+              <div className="class-show">
+                <div className="lable-div">
+                  <span>Classes</span>
+                  <span>Courses</span>
+                  <span>Status</span>
+                  <span>Created date</span>
+                  <span>Options</span>
+                </div>
+                <div className="class-info">
+                  {classDetail.map((item, index) => (
+                    <div key={index}>
+                      <div
+                        className={`class-item ${
+                          index % 2 === 0 ? "even" : "odd"
+                        }`}
+                      >
+                        <span>{item.class}</span>
+                        <span>{item.course}</span>
+                        <span>{item.status}</span>
+                        <span>{item.createddate}</span>
+                        <span>
+                          <Link to="/class-detail">
+                            <VisibilityIcon />
+                          </Link>
+                          <ModeIcon />
+                          <DeleteIcon />
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-            <Button variant="contained" endIcon={<SendIcon />}>
-              Send
-            </Button>
+            <div className="column-3">
+              <label style={{ fontWeight: "bold", fontSize: "20px" }}>
+                Filter
+              </label>
+              <br />
+              <div className="filter-detail">
+                <label>Created date</label>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={filterCreatedDate}
+                  sx={{ width: "100%" }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+                <br />
+              </div>
+              <Button variant="contained" endIcon={<SendIcon />}>
+                Send
+              </Button>
+            </div>
           </div>
         </div>
       </div>

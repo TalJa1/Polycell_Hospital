@@ -4,7 +4,6 @@
   align-items: stretch;
   flex-wrap: wrap;
   flex-direction: column;
-  justify-content: space-between;
   flex: 1;
   margin-left: auto;
   margin-right: auto;
@@ -22,6 +21,24 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px;
+}
+
+.biggest-detail-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: rgb(61, 61, 61);
+  border-radius: 5px;
+}
+
+.tabs-container{
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+
+.tabs-position button{
+  margin-right: 5px;
 }
 
 .class-detail {
