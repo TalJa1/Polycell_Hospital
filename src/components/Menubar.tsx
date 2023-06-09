@@ -26,7 +26,7 @@ const Menubar: React.FC = () => {
     <div style={{ display: "flex" }}>
       <Sidebar
         image="https://user-images.githubusercontent.com/25878302/144499035-2911184c-76d3-4611-86e7-bc4e8ff84ff5.jpg"
-        breakPoint="lg"
+        breakPoint="xl"
         rootStyles={{
           [`.${sidebarClasses.container}`]: {
             height: "100%",

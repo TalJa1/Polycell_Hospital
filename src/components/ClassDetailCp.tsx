@@ -1,7 +1,9 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Link } from "react-router-dom";
 
 const ClassDetailCp: React.FC = () => {
   return (
@@ -36,63 +38,264 @@ const ClassDetailCp: React.FC = () => {
             borderRadius: "5px",
           }}
         >
-          <Grid item xs={8}>
+          <Grid item xs={7}>
             <Grid
               container
               direction="row"
               sx={{
-                margin: "5px",
-                minHeight: "200px",
+                minHeight: "400px",
                 maxHeight: "fit-content",
-                width: "100%",
               }}
             >
-              <Grid item xs={3}>
-                <Grid container direction="column" rowGap={2}>
-                  <strong>Course</strong>
-                  <strong>Trainer</strong>
-                  <strong>Department</strong>
-                  <strong>Quantity</strong>
-                  <strong>Max Quantity</strong>
-                  <strong>Start Date</strong>
-                  <strong>End Date</strong>
-                  <strong>Due Time From</strong>
-                  <strong>Due Time To</strong>
-                  <strong>Status</strong>
-                  <strong>Class Dates</strong>
+              <Grid
+                container
+                direction="column"
+                rowGap={2}
+                sx={{
+                  fontSize: "23px",
+                  margin: "5px",
+                  padding: "5px",
+                  borderRadius: "5px",
+                  minHeight: "400px",
+                  maxHeight: "fit-content",
+                  "@media (max-width: 1000px)": {
+                    fontSize: "17px",
+                  },
+                }}
+              >
+                <Grid item container direction="row">
+                  <Grid item xs={3}>
+                    <strong>Course:</strong>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={5}
+                    sx={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    {classDetail.course[1]}
+                  </Grid>
+                  <Grid
+                    item
+                    xs={4}
+                    sx={{
+                      textAlign: "center",
+                    }}
+                  >
+                    Code: {classDetail.course[0]}
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid item xs={9}>
-                <Grid container direction="column" rowSpacing={2}>
-                  <Grid item>
-                    {classDetail.course[0]} - {classDetail.course[1]}
+                <Grid item container direction="row">
+                  <Grid item xs={3}>
+                    <strong>Trainer:</strong>
                   </Grid>
-                  <Grid item>
-                    {classDetail.trainer[0]} - {classDetail.trainer[1]}
+                  <Grid
+                    item
+                    xs={5}
+                    sx={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    {classDetail.trainer[1]}
                   </Grid>
-                  <Grid item>{classDetail.department}</Grid>
-                  <Grid item>{classDetail.quantity}</Grid>
-                  <Grid item>{classDetail.quantityMax}</Grid>
-                  <Grid item>{classDetail.startdate}</Grid>
-                  <Grid item>{classDetail.endate}</Grid>
-                  <Grid item>{classDetail.duetimefrom}</Grid>
-                  <Grid item>{classDetail.duetimeto}</Grid>
-                  <Grid item>{classDetail.status}</Grid>
-                  <Grid item>{classDetail.classdate.join(", ")}</Grid>
+                  <Grid
+                    item
+                    xs={4}
+                    sx={{
+                      textAlign: "center",
+                    }}
+                  >
+                    Code: {classDetail.trainer[0]}
+                  </Grid>
+                </Grid>
+                <Grid item container direction="row">
+                  <Grid item xs={3}>
+                    <strong>Location:</strong>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={9}
+                    sx={{
+                      textAlign: "center",
+                    }}
+                  >
+                    {classDetail.department}
+                  </Grid>
+                </Grid>
+                <Grid item container direction="row">
+                  <Grid item xs={3}>
+                    <strong>Quantity:</strong>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    {classDetail.quantity}/
+                    <strong>{classDetail.quantityMax}</strong>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Link to="">
+                      <VisibilityIcon
+                        sx={{
+                          paddingLeft: "5px",
+                          display: "flex",
+                          justifyContent: "start",
+                          alignItems: "center",
+                          height: "100%",
+                        }}
+                      />
+                    </Link>
+                  </Grid>
+                </Grid>
+                <Grid item container direction="row">
+                  <Grid item xs={3}>
+                    <strong>Start Date:</strong>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    {classDetail.startdate}
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      textAlign: "center",
+                    }}
+                  >
+                    <strong>End at</strong>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    {classDetail.endate}
+                  </Grid>
+                </Grid>
+
+                <Grid item container direction="row">
+                  <Grid item xs={3}>
+                    <strong>Begin at:</strong>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    {classDetail.duetimefrom}
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      textAlign: "center",
+                    }}
+                  >
+                    <strong>End at</strong>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    {classDetail.duetimeto}
+                  </Grid>
+                </Grid>
+
+                <Grid item container direction="row">
+                  <Grid item xs={3}>
+                    <strong>Status:</strong>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={4}
+                    sx={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    {classDetail.status}
+                  </Grid>
+                  <Grid item xs={5}></Grid>
+                </Grid>
+                <Grid item container direction="row">
+                  <Grid item xs={3}>
+                    <strong>Slots:</strong>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={4}
+                    sx={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    {classDetail.classdate.join(", ")}
+                  </Grid>
+                  <Grid item xs={5}></Grid>
+                </Grid>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Button variant="contained">Edit</Button>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <Box
               sx={{
                 margin: "5px",
-                backgroundColor: "white",
-                borderRadius: "5px",
                 minHeight: "400px",
                 maxHeight: "fit-content",
+                "@media (max-width: 1000px)": {
+                  fontSize: "10px",
+                },
               }}
-            ></Box>
+            >
+              <Box
+                sx={{
+                  margin: "5px",
+                  backgroundColor: "white",
+                  borderRadius: "5px",
+                  minHeight: "400px",
+                  maxHeight: "fit-content",
+                }}
+              >
+                <strong style={{ padding: "5px", fontSize: "24px" }}>
+                  PPG201
+                </strong>
+              </Box>
+            </Box>
           </Grid>
         </Grid>
       </Box>
