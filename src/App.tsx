@@ -7,6 +7,7 @@ import ClassManagement from "./layouts/ClassManagement";
 import ClassAcceptance from "./layouts/upperClass/ClassAcceptance";
 import ClassApproval from "./layouts/upperClass/ClassApproval";
 import AddClass from "./layouts/AddClass";
+import TraineeManagement from "./layouts/TraineeManagement";
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
       <Route path="/" />
       <Route path="/login" Component={Loginpage} />
       <Route path="/add-class" Component={AddClass} />
+      <Route path="/trainee-management" Component={TraineeManagement} />
+
 
     </Routes>
   );
