@@ -23,17 +23,19 @@
   padding: 10px;
 }
 
-.biggest-detail-container {
+/* .biggest-detail-container {
   display: flex;
   flex-direction: column;
   flex: 1;
   background-color: rgb(61, 61, 61);
   border-radius: 5px;
-}
+} */
 
 .tabs-container{
   display: flex;
   flex-direction: row;
+  background-color: #e6e6e6;
+
   padding: 10px;
 }
 
@@ -87,8 +89,9 @@
 
 .column-9 {
   flex: 9;
-  background-color: white;
   margin: 10px;
+  /* min-height: 100vh; */
+  max-height: fit-content;
   border-radius: 5px;
 }
 
@@ -154,6 +157,7 @@
 .class-info {
   display: flex;
   flex-direction: column;
+  max-height: fit-content;
 }
 
 .class-item span {

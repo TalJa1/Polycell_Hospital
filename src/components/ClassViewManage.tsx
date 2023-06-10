@@ -16,7 +16,7 @@ import Footer from "./Footer";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import TextField from "@mui/material/TextField";
 import { Autocomplete } from "@mui/material";
-import { TimePicker } from "@mui/x-date-pickers";
+// import { TimePicker } from "@mui/x-date-pickers";
 import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -103,43 +103,43 @@ const Postdata: React.FC = () => {
           </div>
         </div>
         <div className="biggest-detail-container">
-          <div className="tabs-container">
-            <div className="tabs-position">
-              <strong style={{ color: "white" }}>Status: </strong>
-              <Button
-                variant="outlined"
-                sx={{
-                  ":hover": {
-                    color: "white",
-                  },
-                }}
-              >
-                Pending
-              </Button>
-              <Button
-                variant="outlined"
-                sx={{
-                  ":hover": {
-                    color: "white",
-                  },
-                }}
-              >
-                Rejected
-              </Button>
-              <Button
-                variant="outlined"
-                sx={{
-                  ":hover": {
-                    color: "white",
-                  },
-                }}
-              >
-                Accepted
-              </Button>
-            </div>
-          </div>
           <div className="class-detail">
             <div className="column-9">
+              <div className="tabs-container">
+                <div className="tabs-position">
+                  <strong style={{ color: "black" }}>Status: </strong>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      ":hover": {
+                        color: "black",
+                      },
+                    }}
+                  >
+                    Pending
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      ":hover": {
+                        color: "black",
+                      },
+                    }}
+                  >
+                    Rejected
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      ":hover": {
+                        color: "black",
+                      },
+                    }}
+                  >
+                    Accepted
+                  </Button>
+                </div>
+              </div>
               <div className="class-show">
                 <div className="lable-div">
                   <span>Classes</span>
@@ -203,20 +203,6 @@ const Postdata: React.FC = () => {
 
 export default Postdata;
 
-const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
-  { label: "The Dark Knight", year: 2008 },
-  { label: "12 Angry Men", year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: "Pulp Fiction", year: 1994 },
-  {
-    label: "The Lord of the Rings: The Return of the King",
-    year: 2003,
-  },
-];
-
 const filterCreatedDate = ["Most recently", "Oldest"];
 
 const classDetail = [
@@ -228,6 +214,36 @@ const classDetail = [
     status: "pending",
     trainer: "Pham Van A",
     duetime: "7am-9am (t4,t7)",
+    deparment: "A",
+  },
+  {
+    course: "PPG202",
+    class: "SS021",
+    quantity: "25",
+    createddate: "20/10/2023",
+    status: "pending",
+    trainer: "Pham Van B",
+    duetime: "7am-9am (t2,t6)",
+    deparment: "A",
+  },
+  {
+    course: "PPG202",
+    class: "SS021",
+    quantity: "25",
+    createddate: "20/10/2023",
+    status: "pending",
+    trainer: "Pham Van B",
+    duetime: "7am-9am (t2,t6)",
+    deparment: "A",
+  },
+  {
+    course: "PPG202",
+    class: "SS021",
+    quantity: "25",
+    createddate: "20/10/2023",
+    status: "pending",
+    trainer: "Pham Van B",
+    duetime: "7am-9am (t2,t6)",
     deparment: "A",
   },
   {

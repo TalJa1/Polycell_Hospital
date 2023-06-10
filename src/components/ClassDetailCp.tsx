@@ -87,7 +87,7 @@ const ClassDetailCp: React.FC = () => {
                     Code: {classDetail.course[0]}
                   </Grid>
                 </Grid>
-                <Grid item container direction="row">
+                {/* <Grid item container direction="row">
                   <Grid item xs={3}>
                     <strong>Trainer:</strong>
                   </Grid>
@@ -110,7 +110,7 @@ const ClassDetailCp: React.FC = () => {
                   >
                     Code: {classDetail.trainer[0]}
                   </Grid>
-                </Grid>
+                </Grid> */}
                 <Grid item container direction="row">
                   <Grid item xs={3}>
                     <strong>Location:</strong>

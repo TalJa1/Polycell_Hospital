@@ -74,10 +74,11 @@ const ClassApprovalCp: React.FC = () => {
               <Grid container direction="row">
                 <Grid
                   item
-                  xs={5}
+                  xs={7}
                   sx={{
                     width: "50%",
                     paddingRight: "5px",
+                    fontSize: "20px"
                   }}
                 >
                   <Grid container spacing={2}>
@@ -88,7 +89,7 @@ const ClassApprovalCp: React.FC = () => {
                         </Grid>
                         <Grid
                           item
-                          xs={6}
+                          xs={5}
                           // sx={{
                           //   textAlign: "right",
                           // }}
@@ -99,7 +100,7 @@ const ClassApprovalCp: React.FC = () => {
                     ))}
                   </Grid>
                 </Grid>
-                <Grid item xs={7}>
+                <Grid item xs={5}>
                   <Box
                     sx={{
                       backgroundColor: "#E6E6E6",
@@ -207,7 +208,6 @@ export default ClassApprovalCp;
 
 const classManagement = {
   Class: "PPG001",
-  Trainer: "Nguyen Van Dung",
   Duetime: "7am-9am (t4,t7)",
   Department: "Department A",
   Cycle: "Summer 2023",
