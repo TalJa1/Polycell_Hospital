@@ -1,5 +1,5 @@
 import {
-    Autocomplete,
+  Autocomplete,
   Button,
   Paper,
   Table,
@@ -15,6 +15,10 @@ import Header from "./Header";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
+import ModeIcon from "@mui/icons-material/Mode";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
 
 const TraineeManagementTable: React.FC = () => {
   return (
@@ -30,24 +34,24 @@ const TraineeManagementTable: React.FC = () => {
             </Link>
           </div>
           <div className="search-item">
-            <input
-              type="text"
-              placeholder="Search"
-              
-            />
+            <input type="text" placeholder="Search" />
           </div>
         </div>
         <div className="class-detail">
           <div className="column-9">
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
+                <TableHead sx={{
+                    backgroundColor: "#B3B3B3"
+                }}>
                   <TableRow>
                     <TableCell>ID</TableCell>
                     <TableCell align="center">Name</TableCell>
                     <TableCell align="center">Phone</TableCell>
                     <TableCell align="center">Title</TableCell>
                     <TableCell align="center">Action</TableCell>
+                    <TableCell align="center">Result</TableCell>
+                    <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -63,7 +67,17 @@ const TraineeManagementTable: React.FC = () => {
                       <TableCell align="center">{row.phone}</TableCell>
                       <TableCell align="center">{row.title}</TableCell>
                       <TableCell align="center">
-                        {row.currentSpecialization}
+                        <ModeIcon />
+                        <DeleteIcon />
+                        <VisibilityIcon />
+                      </TableCell>
+                      <TableCell align="center">
+                        <ControlPointIcon />
+                      </TableCell>
+                      <TableCell align="center">
+                        <Button variant="contained" sx={{
+                            backgroundColor: "#000"
+                        }}>Export</Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -121,9 +135,7 @@ const TraineeManagementTable: React.FC = () => {
               />
               <br />
             </div>
-            <Button variant="contained">
-              Send
-            </Button>
+            <Button variant="contained">Send</Button>
           </div>
         </div>
       </div>
@@ -152,17 +164,17 @@ const rows = [
 ];
 
 const top100Films = [
-    { label: "The Shawshank Redemption", year: 1994 },
-    { label: "The Godfather", year: 1972 },
-    { label: "The Godfather: Part II", year: 1974 },
-    { label: "The Dark Knight", year: 2008 },
-    { label: "12 Angry Men", year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: "Pulp Fiction", year: 1994 },
-    {
-      label: "The Lord of the Rings: The Return of the King",
-      year: 2003,
-    },
-  ];
+  { label: "The Shawshank Redemption", year: 1994 },
+  { label: "The Godfather", year: 1972 },
+  { label: "The Godfather: Part II", year: 1974 },
+  { label: "The Dark Knight", year: 2008 },
+  { label: "12 Angry Men", year: 1957 },
+  { label: "Schindler's List", year: 1993 },
+  { label: "Pulp Fiction", year: 1994 },
+  {
+    label: "The Lord of the Rings: The Return of the King",
+    year: 2003,
+  },
+];
 
 export default TraineeManagementTable;
