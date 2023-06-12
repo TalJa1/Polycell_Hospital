@@ -23,7 +23,7 @@ import ControlPointIcon from "@mui/icons-material/ControlPoint";
 const TraineeManagementTable: React.FC = () => {
   return (
     <div className="class-container">
-      <Header title="Class Management" imageUrl="" />
+      <Header title="Trainee Management" imageUrl="" />
       <div className="content-container">
         <div className="tabbar">
           <div className="add-btn">
