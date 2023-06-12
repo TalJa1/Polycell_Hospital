@@ -21,6 +21,7 @@ function App() {
       <Route path="/class-acceptance" Component={ClassAcceptance} />
       <Route path="/class-approval" Component={ClassApproval} />
       <Route path="/class-detail" Component={ClassDetail} />
+      <Route path="/trainee-management" Component={TraineeManagement} />
       <Route path="/communty" />
       <Route path="/trainee-course-page" Component={CoursePage} />
       <Route path="/login" Component={Loginpage} />
