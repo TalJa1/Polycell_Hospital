@@ -7,20 +7,18 @@ import {
   Grid,
   InputLabel,
   TextField,
+  Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import ClassAddFormPopup from "./ClassAddFormPopup";
-
-import { TimePicker } from "antd";
 import TodoGeneralTimeList from "./ClassAddTodoGeneralTimeList";
 
 const ClassAddForm: React.FC = () => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   //   const [selectedTrainer, setselectedTrainer] = useState<Trainer | null>(null);
-  const [items, setItems] = useState<number[]>([1]);
 
   const handleCourseChange = (
     event: React.ChangeEvent<{}>,
@@ -29,25 +27,14 @@ const ClassAddForm: React.FC = () => {
     setSelectedCourse(value);
   };
 
-  //   const handleTrainerChange = (
-  //     event: React.ChangeEvent<{}>,
-  //     value: Course | null
-  //   ) => {
-  //     setselectedTrainer(value);
-  //   };
-
-  const handleControlPointClick = () => {
-    const newItem: number = items.length + 1;
-    console.log(newItem);
-    setItems([...items, newItem]);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setSelectedCourse((prevCourse: Course | null) => ({
+      ...(prevCourse as Course),
+      [name]: value,
+    }));
   };
 
-  const handleRemoveCircleClick = (item: number) => {
-    setItems(items.filter((e) => e !== item));
-    console.log(item);
-  };
-
-  const classes = useStyles();
 
   return (
     <Box sx={{ padding: 5 }}>
@@ -86,7 +73,7 @@ const ClassAddForm: React.FC = () => {
             </Grid>
             {selectedCourse != null ? (
               <Grid item xs={12} sm={5}>
-                {selectedCourse && <p>Code name: {selectedCourse.label}</p>}
+                {selectedCourse && <p>Code name: {selectedCourse.code}</p>}
               </Grid>
             ) : (
               <p></p>
@@ -349,42 +336,93 @@ const ClassAddForm: React.FC = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={3}>
-          <Card
-            sx={{
-              height: "100%",
-              maxHeight: 300,
-            }}
-          >
-            <CardContent>
-              {selectedCourse && <p>{selectedCourse.label}</p>}
-            </CardContent>
-          </Card>
-        </Grid>
+        {selectedCourse && (
+  <Grid item xs={3}>
+    <Card
+      sx={{
+        height: "100%",
+        maxHeight: 500,
+      }}
+    >
+      <CardContent>
+        <Typography variant="h6">{selectedCourse.label}</Typography>
+        <TextField
+          name="code"
+          label="Code"
+          value={selectedCourse.code}
+          onChange={handleInputChange}
+          fullWidth
+          multiline
+
+          sx={{ marginBottom: "1rem" }}
+        />
+        <TextField
+          name="syllabus"
+          label="Syllabus"
+          value={selectedCourse.syllabus}
+          onChange={handleInputChange}
+          fullWidth
+          multiline
+
+          sx={{ marginBottom: "1rem" }}
+        />
+        <TextField
+          name="department"
+          label="Department"
+          value={selectedCourse.department}
+          onChange={handleInputChange}
+          fullWidth
+          multiline
+
+          sx={{ marginBottom: "1rem" }}
+        />
+        <TextField
+          name="description"
+          label="Description"
+          value={selectedCourse.description}
+          onChange={handleInputChange}
+          fullWidth
+          multiline
+          rows={4}
+          sx={{ marginBottom: "1rem" }}
+        />
+        <Button variant="contained">
+          Modify
+        </Button>
+      </CardContent>
+    </Card>
+  </Grid>
+)}
+
       </Grid>
     </Box>
   );
 };
 
-const useStyles = makeStyles({
-  inputRoot: {
-    padding: 0, // Remove padding
-  },
-});
-
 interface Course {
   label: string;
+  code: string;
+  syllabus: string;
+  department: string;
+  description: string;
 }
 
 const courses: Course[] = [
-  { label: "PPG202" },
-  { label: "PPX201" },
-  { label: "PPV201" },
-  { label: "PPT202" },
-  { label: "PPA203" },
-  { label: "PPC201" },
-  { label: "PPB202" },
-  { label: "PPL203" },
+  {
+    label: "Course 1",
+    code: "PPG202",
+    syllabus: "Course syllabus for PPG202",
+    department: "Department A",
+    description: "Description of PPG202",
+  },
+  {
+    label: "Course 2",
+    code: "PPX201",
+    syllabus: "Course syllabus for PPX201",
+    department: "Department B",
+    description: "Description of PPX201",
+  },
+  // Add more courses...
 ];
 
 // interface Trainer {
@@ -411,15 +449,5 @@ const courses: Course[] = [
 //   },
 
 // ];
-
-const daysOfWeek: string[] = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
 
 export default ClassAddForm;
