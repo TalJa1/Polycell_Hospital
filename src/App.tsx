@@ -9,6 +9,7 @@ import ClassApproval from "./layouts/upperClass/ClassApproval";
 import AddClass from "./layouts/AddClass";
 import TraineeHome from "./layouts/trainee/TraineeHome";
 import ClassDetail from "./layouts/ClassDetail";
+import CoursePage from "./layouts/trainee/CoursePage";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
       <Route path="/class-approval" Component={ClassApproval} />
       <Route path="/class-detail" Component={ClassDetail} />
       <Route path="/communty" />
-      <Route path="/" />
+      <Route path="/trainee-course-page" Component={CoursePage} />
       <Route path="/login" Component={Loginpage} />
       <Route path="/add-class" Component={AddClass} />
 

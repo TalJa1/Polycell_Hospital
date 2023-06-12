@@ -64,6 +64,12 @@ const Menubar: React.FC = () => {
           >
             Class Acceptance
           </MenuItem>
+          <MenuItem
+            icon={<SchoolIcon />}
+            component={<Link to="/trainee-course-page" />}
+          >
+            Course Page
+          </MenuItem>
           <MenuItem icon={<InfoIcon />} component={<Link to="/about" />}>
             About
           </MenuItem>
