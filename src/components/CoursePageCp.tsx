@@ -5,7 +5,7 @@ import TraineeHeader from "./TraineeHeader";
 const CoursePageCp: React.FC = () => {
   return (
     <Box>
-      <TraineeHeader title="Course"></TraineeHeader>
+      <TraineeHeader title="My course"></TraineeHeader>
     </Box>
   );
 };

@@ -15,7 +15,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import TextField from "@mui/material/TextField";
-import { Autocomplete } from "@mui/material";
+import { Autocomplete, Box, Tab, Tabs } from "@mui/material";
 // import { TimePicker } from "@mui/x-date-pickers";
 import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -33,6 +33,10 @@ const Postdata: React.FC = () => {
   // );
   // const dispatch = useDispatch();
   // const getPage = useSelector<any>((state) => state.post.page);
+  const [value, setValue] = React.useState(0);
+  const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   // const fetchPostApi = useCallback(async () => {
   //   try {
@@ -81,6 +85,13 @@ const Postdata: React.FC = () => {
     console.log(input);
   };
 
+  function a11yProps(index: number) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
+
   return (
     <div className="class-container">
       <Header title="Class Management" imageUrl="" />
@@ -106,39 +117,29 @@ const Postdata: React.FC = () => {
           <div className="class-detail">
             <div className="column-9">
               <div className="tabs-container">
-                <div className="tabs-position">
-                  <strong style={{ color: "black" }}>Status: </strong>
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      ":hover": {
-                        color: "black",
-                      },
-                    }}
+                {/* <div className="tabs-position"> */}
+                <strong
+                  style={{
+                    color: "black",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  Status:{" "}
+                </strong>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <Tabs
+                    value={value}
+                    onChange={handleChangeTabs}
+                    aria-label="basic tabs example"
                   >
-                    Pending
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      ":hover": {
-                        color: "black",
-                      },
-                    }}
-                  >
-                    Rejected
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      ":hover": {
-                        color: "black",
-                      },
-                    }}
-                  >
-                    Accepted
-                  </Button>
-                </div>
+                    <Tab label="Pending" {...a11yProps(0)} />
+                    <Tab label="Accepted" {...a11yProps(1)} />
+                    <Tab label="Rejected" {...a11yProps(2)} />
+                  </Tabs>
+                </Box>
+                {/* </div> */}
               </div>
               <div className="class-show">
                 <div className="lable-div">
