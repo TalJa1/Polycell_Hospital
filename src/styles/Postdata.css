@@ -4,7 +4,6 @@
   align-items: stretch;
   flex-wrap: wrap;
   flex-direction: column;
-  justify-content: space-between;
   flex: 1;
   margin-left: auto;
   margin-right: auto;
@@ -22,6 +21,25 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px;
+}
+
+/* .biggest-detail-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: rgb(61, 61, 61);
+  border-radius: 5px;
+} */
+
+.tabs-container{
+  display: flex;
+  flex-direction: row;
+  background-color: #e6e6e6;
+  /* padding: 10px; */
+}
+
+.tabs-position button{
+  margin-right: 5px;
 }
 
 .class-detail {
@@ -70,8 +88,9 @@
 
 .column-9 {
   flex: 9;
-  background-color: white;
   margin: 10px;
+  /* min-height: 100vh; */
+  max-height: fit-content;
   border-radius: 5px;
 }
 
@@ -89,6 +108,7 @@
 .filter-detail {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .class-show {
@@ -122,7 +142,7 @@
 .lable-div span {
   text-align: center;
   padding: 5px;
-  width: 8%;
+  width: 15%;
   overflow: hidden;
   @media screen and (max-width: 768px) {
     font-size: 14px;
@@ -136,11 +156,12 @@
 .class-info {
   display: flex;
   flex-direction: column;
+  max-height: fit-content;
 }
 
 .class-item span {
   text-align: center;
-  width: 8%;
+  width: 15%;
   overflow: visible;
   text-overflow: ellipsis;
   padding: 5px;

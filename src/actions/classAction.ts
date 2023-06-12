@@ -1,6 +1,6 @@
 
 //payload : list post
-export const fetchPost = (payload: any) => ({
+export const fetchClass = (payload: any) => ({
   type: "GETPOST",
   payload: payload,
 });

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Autocomplete, TextField } from "@mui/material";
-import { TimePicker } from "@mui/x-date-pickers";
+// import { TimePicker } from "@mui/x-date-pickers";
 import SendIcon from "@mui/icons-material/Send";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -36,9 +36,7 @@ const ClassAcceptCp: React.FC = () => {
                 <span>Classes</span>
                 <span>Quantities</span>
                 <span>Statuses</span>
-                <span>Trainers</span>
-                <span>Due time</span>
-                <span>Departments</span>
+                <span>Created Date</span>
                 <span>Options</span>
               </div>
               <div className="class-info">
@@ -53,9 +51,7 @@ const ClassAcceptCp: React.FC = () => {
                       <span>{item.class}</span>
                       <span>{item.quantity}</span>
                       <span>{item.status}</span>
-                      <span>{item.trainer}</span>
-                      <span className="content">{item.duetime}</span>
-                      <span>{item.deparment}</span>
+                      <span>{item.createdDate}</span>
                       <span>
                         <Link to="/class-approval">
                           <VisibilityIcon sx={{ color: "blue" }} />
@@ -73,7 +69,7 @@ const ClassAcceptCp: React.FC = () => {
             </label>
             <br />
             <div className="filter-detail">
-              <label>Location</label>
+              <label>Create Date</label>
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
@@ -82,50 +78,7 @@ const ClassAcceptCp: React.FC = () => {
                 renderInput={(params) => <TextField {...params} />}
               />
               <br />
-              <label>Type</label>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={{ width: "100%" }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-              <br />
-              <label>Season</label>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={{ width: "100%" }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-              <br />
-              <label>From</label>
-              <span>
-                <TimePicker
-                  sx={{
-                    width: "70%",
-                  }}
-                />
-              </span>
-              <label>To</label>
-              <span>
-                <TimePicker
-                  sx={{
-                    width: "70%",
-                  }}
-                />
-              </span>
-              <br />
-              <label>Sort by</label>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={{ width: "60%" }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-              <br />
+              
             </div>
             <Button variant="contained" endIcon={<SendIcon />}>
               Send
@@ -141,17 +94,7 @@ const ClassAcceptCp: React.FC = () => {
 export default ClassAcceptCp;
 
 const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
-  { label: "The Dark Knight", year: 2008 },
-  { label: "12 Angry Men", year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: "Pulp Fiction", year: 1994 },
-  {
-    label: "The Lord of the Rings: The Return of the King",
-    year: 2003,
-  },
+  "Most recently","Old news"
 ];
 
 const classDetail = [
@@ -163,6 +106,7 @@ const classDetail = [
     trainer: "Pham Van A",
     duetime: "7am-9am (t4,t7)",
     deparment: "A",
+    createdDate: '20/10/2023'
   },
   {
     course: "PPG202",
@@ -172,5 +116,6 @@ const classDetail = [
     trainer: "Pham Van B",
     duetime: "7am-9am (t2,t6)",
     deparment: "A",
+    createdDate: '20/10/2023'
   },
 ];

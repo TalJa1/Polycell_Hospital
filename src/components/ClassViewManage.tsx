@@ -1,24 +1,25 @@
 /* eslint-disable no-lone-blocks */
 import "../styles/Postdata.css";
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import postApi from "../api/postApi";
-import { fetchPost, getTotalPage, paging } from "../actions/postAction";
+import postApi from "../api/classApi";
+import { fetchClass, getTotalPage, paging } from "../actions/classAction";
 import { fetchUser } from "../actions/userAction";
-// import { Post } from "../models/postModel";
+import { Post } from "../models/postModel";
 import { RootState } from "../reduxs/Root";
-import userApi from "../api/userApi";
 // import { User } from "../models/userModel";
+import userApi from "../api/userApi";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import Header from "./Header";
 import Footer from "./Footer";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import TextField from "@mui/material/TextField";
-import { Autocomplete } from "@mui/material";
-import { TimePicker } from "@mui/x-date-pickers";
+import { Autocomplete, Box, Tab, Tabs } from "@mui/material";
+// import { TimePicker } from "@mui/x-date-pickers";
 import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Link } from "react-router-dom";
 
 const Postdata: React.FC = () => {
@@ -27,44 +28,53 @@ const Postdata: React.FC = () => {
   const [search, setSearch] = React.useState<string>("");
   // const getPost: Post[] = useSelector((state: RootState) => state.post.list);
   // const getUser: User[] = useSelector((state: any) => state.user.list);
+  const dispatch = useDispatch();
   // const TotalPage: number = useSelector(
   //   (state: RootState) => state.post.totalpage
   // );
-  // const dispatch = useDispatch();
   // const getPage = useSelector<any>((state) => state.post.page);
+  const [tabsValue, setTabsValue] = React.useState(0);
+  const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
+    setTabsValue(newValue);
+  };
 
-  // const fetchPostApi = useCallback(async () => {
-  //   try {
-  //     const param = {
-  //       _page: getPage,
-  //       _limit: 9,
-  //     };
-  //     const response = await postApi.getAll(param);
-  //     const response1 = await userApi.getAll(null);
-  //     console.log("response user data >> " + response1.data);
-  //     const action = fetchPost(response.data);
-  //     const action1 = fetchUser(response1.data);
-  //     console.log(response1.data.map((a: any) => a));
-  //     const actionPage = getTotalPage(
-  //       response.headers["x-total-count"] / param._limit
-  //     );
-  //     const action2 = paging(page);
-  //     dispatch(action);
-  //     dispatch(action2);
-  //     dispatch(action1);
-  //     dispatch(actionPage);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [dispatch, getPage, page]);
+  if (tabsValue === 0) {
+    console.log("pending");
+  } else if (tabsValue === 1) {
+    console.log("accepted");
+  } else {
+    console.log("rejected");
+  }
 
-  // useEffect(() => {
-  //   fetchPostApi();
-  // }, [fetchPostApi]);
+  const fetchClassApi = React.useCallback(async () => {
+    try {
+      const param = {
+        // _page: getPage,
+        // _limit: 9,
+        
+      };
+      const response = await postApi.getAll(param);
+      const response1 = await userApi.getAll(null);
+      console.log("response user data >> " + response1.data);
+      const action = fetchClass(response.data);
+      // const action1 = fetchUser(response1.data);
+      console.log(response1.data.map((a: any) => a));
+      // const actionPage = getTotalPage(
+      //   response.headers["x-total-count"] / param._limit
+      // );
+      // const action2 = paging(page);
+      dispatch(action);
+      // dispatch(action2);
+      // dispatch(action1);
+      // dispatch(actionPage);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
 
-  // const handleClick = (postid: number) => {
-  //   console.log("CLicked >> " + postid);
-  // };
+  React.useEffect(() => {
+    fetchClassApi();
+  }, [fetchClassApi]);
 
   // const handelPaging = (event: React.ChangeEvent<unknown>, newPage: number) => {
   //   try {
@@ -79,6 +89,13 @@ const Postdata: React.FC = () => {
     setSearch(input);
     console.log(input);
   };
+
+  function a11yProps(index: number) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
 
   return (
     <div className="class-container">
@@ -101,97 +118,87 @@ const Postdata: React.FC = () => {
             />
           </div>
         </div>
-        <div className="class-detail">
-          <div className="column-9">
-            <div className="class-show">
-              <div className="lable-div">
-                <span>Courses</span>
-                <span>Classes</span>
-                <span>Quantities</span>
-                <span>Statuses</span>
-                <span>Trainers</span>
-                <span>Due time</span>
-                <span>Departments</span>
-                <span>Options</span>
+        <div className="biggest-detail-container">
+          <div className="class-detail">
+            <div className="column-9">
+              <div className="tabs-container">
+                {/* <div className="tabs-position"> */}
+                <strong
+                  style={{
+                    color: "black",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  Status:{" "}
+                </strong>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <Tabs
+                    value={tabsValue}
+                    onChange={handleChangeTabs}
+                    aria-label="basic tabs example"
+                  >
+                    <Tab label="Pending" {...a11yProps(0)} />
+                    <Tab label="Accepted" {...a11yProps(1)} />
+                    <Tab label="Rejected" {...a11yProps(2)} />
+                  </Tabs>
+                </Box>
+                {/* </div> */}
               </div>
-              <div className="class-info">
-                {classDetail.map((item, index) => (
-                  <div key={index}>
-                    <div
-                      className={`class-item ${
-                        index % 2 === 0 ? "even" : "odd"
-                      }`}
-                    >
-                      <span>{item.course}</span>
-                      <span>{item.class}</span>
-                      <span>{item.quantity}</span>
-                      <span>{item.status}</span>
-                      <span>{item.trainer}</span>
-                      <span className="content">{item.duetime}</span>
-                      <span>{item.deparment}</span>
-                      <span>
-                        <ModeIcon />
-                        <DeleteIcon />
-                      </span>
+              <div className="class-show">
+                <div className="lable-div">
+                  <span>Classes</span>
+                  <span>Courses</span>
+                  <span>Status</span>
+                  <span>Created date</span>
+                  <span>Options</span>
+                </div>
+                <div className="class-info">
+                  {classDetail.map((item, index) => (
+                    <div key={index}>
+                      <div
+                        className={`class-item ${
+                          index % 2 === 0 ? "even" : "odd"
+                        }`}
+                      >
+                        <span>{item.class}</span>
+                        <span>{item.course}</span>
+                        <span>{item.status}</span>
+                        <span>{item.createddate}</span>
+                        <span>
+                          <Link to="/class-detail">
+                            <VisibilityIcon />
+                          </Link>
+                          <ModeIcon />
+                          <DeleteIcon />
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="column-3">
-            <label style={{ fontWeight: "bold", fontSize: "20px" }}>
-              Filter
-            </label>
-            <br />
-            <div className="filter-detail">
-              <label>Location</label>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={{ width: "100%" }}
-                renderInput={(params) => <TextField {...params} />}
-              />
+            <div className="column-3">
+              <label style={{ fontWeight: "bold", fontSize: "20px" }}>
+                Filter
+              </label>
               <br />
-              <label>Type</label>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={{ width: "100%" }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-              <br />
-              <label>Season</label>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={{ width: "100%" }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-              <br />
-              <label>Time</label>
-              <TimePicker
-                sx={{
-                  width: "100%",
-                }}
-              />
-              <br />
-              <label>Sort by</label>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={{ width: "100%" }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-              <br />
+              <div className="filter-detail">
+                <label>Created date</label>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={filterCreatedDate}
+                  sx={{ width: "100%" }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+                <br />
+              </div>
+              <Button variant="contained" endIcon={<SendIcon />}>
+                Send
+              </Button>
             </div>
-            <Button variant="contained" endIcon={<SendIcon />}>
-              Send
-            </Button>
           </div>
         </div>
       </div>
@@ -202,25 +209,14 @@ const Postdata: React.FC = () => {
 
 export default Postdata;
 
-const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
-  { label: "The Dark Knight", year: 2008 },
-  { label: "12 Angry Men", year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: "Pulp Fiction", year: 1994 },
-  {
-    label: "The Lord of the Rings: The Return of the King",
-    year: 2003,
-  },
-];
+const filterCreatedDate = ["Most recently", "Oldest"];
 
 const classDetail = [
   {
     course: "PPG201",
     class: "SS011",
     quantity: "30",
+    createddate: "20/10/2023",
     status: "pending",
     trainer: "Pham Van A",
     duetime: "7am-9am (t4,t7)",
@@ -230,6 +226,37 @@ const classDetail = [
     course: "PPG202",
     class: "SS021",
     quantity: "25",
+    createddate: "20/10/2023",
+    status: "pending",
+    trainer: "Pham Van B",
+    duetime: "7am-9am (t2,t6)",
+    deparment: "A",
+  },
+  {
+    course: "PPG202",
+    class: "SS021",
+    quantity: "25",
+    createddate: "20/10/2023",
+    status: "pending",
+    trainer: "Pham Van B",
+    duetime: "7am-9am (t2,t6)",
+    deparment: "A",
+  },
+  {
+    course: "PPG202",
+    class: "SS021",
+    quantity: "25",
+    createddate: "20/10/2023",
+    status: "pending",
+    trainer: "Pham Van B",
+    duetime: "7am-9am (t2,t6)",
+    deparment: "A",
+  },
+  {
+    course: "PPG202",
+    class: "SS021",
+    quantity: "25",
+    createddate: "20/10/2023",
     status: "pending",
     trainer: "Pham Van B",
     duetime: "7am-9am (t2,t6)",
