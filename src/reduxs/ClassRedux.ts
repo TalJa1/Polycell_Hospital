@@ -24,7 +24,7 @@ interface Props {
   payload: any;
 }
 
-const PostReducer = (state = initialState, { type, payload }: Props) => {
+const ClassReducer = (state = initialState, { type, payload }: Props) => {
   switch (type) {
     case "GETPOST":
       return { ...state, list: payload };
@@ -49,4 +49,4 @@ const PostReducer = (state = initialState, { type, payload }: Props) => {
   }
 };
 
-export default PostReducer;
+export default ClassReducer;

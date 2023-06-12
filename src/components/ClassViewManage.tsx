@@ -1,14 +1,14 @@
 /* eslint-disable no-lone-blocks */
 import "../styles/Postdata.css";
 import React from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import postApi from "../api/postApi";
-// import { fetchPost, getTotalPage, paging } from "../actions/postAction";
-// import { fetchUser } from "../actions/userAction";
-// import { Post } from "../models/postModel";
-// import { RootState } from "../reduxs/Root";
-// import userApi from "../api/userApi";
+import { useDispatch, useSelector } from "react-redux";
+import postApi from "../api/classApi";
+import { fetchClass, getTotalPage, paging } from "../actions/classAction";
+import { fetchUser } from "../actions/userAction";
+import { Post } from "../models/postModel";
+import { RootState } from "../reduxs/Root";
 // import { User } from "../models/userModel";
+import userApi from "../api/userApi";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import Header from "./Header";
@@ -28,48 +28,53 @@ const Postdata: React.FC = () => {
   const [search, setSearch] = React.useState<string>("");
   // const getPost: Post[] = useSelector((state: RootState) => state.post.list);
   // const getUser: User[] = useSelector((state: any) => state.user.list);
+  const dispatch = useDispatch();
   // const TotalPage: number = useSelector(
   //   (state: RootState) => state.post.totalpage
   // );
-  // const dispatch = useDispatch();
   // const getPage = useSelector<any>((state) => state.post.page);
-  const [value, setValue] = React.useState(0);
+  const [tabsValue, setTabsValue] = React.useState(0);
   const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+    setTabsValue(newValue);
   };
 
-  // const fetchPostApi = useCallback(async () => {
-  //   try {
-  //     const param = {
-  //       _page: getPage,
-  //       _limit: 9,
-  //     };
-  //     const response = await postApi.getAll(param);
-  //     const response1 = await userApi.getAll(null);
-  //     console.log("response user data >> " + response1.data);
-  //     const action = fetchPost(response.data);
-  //     const action1 = fetchUser(response1.data);
-  //     console.log(response1.data.map((a: any) => a));
-  //     const actionPage = getTotalPage(
-  //       response.headers["x-total-count"] / param._limit
-  //     );
-  //     const action2 = paging(page);
-  //     dispatch(action);
-  //     dispatch(action2);
-  //     dispatch(action1);
-  //     dispatch(actionPage);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [dispatch, getPage, page]);
+  if (tabsValue === 0) {
+    console.log("pending");
+  } else if (tabsValue === 1) {
+    console.log("accepted");
+  } else {
+    console.log("rejected");
+  }
 
-  // useEffect(() => {
-  //   fetchPostApi();
-  // }, [fetchPostApi]);
+  const fetchClassApi = React.useCallback(async () => {
+    try {
+      const param = {
+        // _page: getPage,
+        // _limit: 9,
+        
+      };
+      const response = await postApi.getAll(param);
+      const response1 = await userApi.getAll(null);
+      console.log("response user data >> " + response1.data);
+      const action = fetchClass(response.data);
+      // const action1 = fetchUser(response1.data);
+      console.log(response1.data.map((a: any) => a));
+      // const actionPage = getTotalPage(
+      //   response.headers["x-total-count"] / param._limit
+      // );
+      // const action2 = paging(page);
+      dispatch(action);
+      // dispatch(action2);
+      // dispatch(action1);
+      // dispatch(actionPage);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
 
-  // const handleClick = (postid: number) => {
-  //   console.log("CLicked >> " + postid);
-  // };
+  React.useEffect(() => {
+    fetchClassApi();
+  }, [fetchClassApi]);
 
   // const handelPaging = (event: React.ChangeEvent<unknown>, newPage: number) => {
   //   try {
@@ -130,7 +135,7 @@ const Postdata: React.FC = () => {
                 </strong>
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                   <Tabs
-                    value={value}
+                    value={tabsValue}
                     onChange={handleChangeTabs}
                     aria-label="basic tabs example"
                   >
