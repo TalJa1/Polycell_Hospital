@@ -1,7 +1,8 @@
 import React from "react";
 
-import Menubar from "../components/Menubar";
+
 import TraineeDetailCp from "../components/TraineeDetailCp";
+import Menubar from "../components/layoutComponents/Menubar";
 
 const TraineeDetail: React.FC = () => {
   return (

@@ -16,6 +16,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import Footer from "../layoutComponents/Footer";
 import Header from "../layoutComponents/Header";
+import { Link } from "react-router-dom";
 
 const ClassListTrainee: React.FC = () => {
   return (

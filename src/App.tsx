@@ -11,8 +11,9 @@ import TraineeHome from "./layouts/trainee/TraineeHome";
 import ClassDetail from "./layouts/ClassDetail";
 import CoursePage from "./layouts/trainee/CoursePage";
 import TraineeManagement from "./layouts/TraineeManagement";
-import ClassListTrainee from "./components/ClassListTrainee";
+
 import TraineeDetail from "./layouts/TraineeDetail";
+import ClassListTrainee from "./components/classComponents/ClassListTrainee";
 
 function App() {
   return (

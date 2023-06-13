@@ -1,8 +1,10 @@
 import React from "react";
-import Header from "../components/Header";
+
 import { Link } from "react-router-dom";
-import Footer from "../components/Footer";
+
 import { Box, Button, Grid } from "@mui/material";
+import Header from "./layoutComponents/Header";
+import Footer from "./layoutComponents/Footer";
 
 const TraineeDetailCp: React.FC = () => {
   return (
