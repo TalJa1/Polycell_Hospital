@@ -4,60 +4,55 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { TimePicker } from "antd";
 import { RangeValue } from "rc-picker/lib/interface";
 import { Dayjs } from "dayjs";
+import { GeneralSchedule } from "../../utils/constant";
 
-interface Todo {
-    id: number;
-    time: RangeValue<Dayjs>;
-    dayOfWeek: string | null;
-  }
-
-const TodoGeneralTimeList: React.FC = () => {
+const GeneralScheduleGeneralTimeList: React.FC = () => {
   const daysOfWeek: string[] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [generalSchedules, setGeneralSchedules] = useState<GeneralSchedule[]>([]);
   const [nextId, setNextId] = useState(1);
 
-  const handleAddTodo = () => {
-    const newTodo: Todo = {
+  const handleAddGeneralSchedule = () => {
+    const newGeneralSchedule: GeneralSchedule = {
       id: nextId,
       time: null,
       dayOfWeek: null,
     };
-    setTodos([...todos, newTodo]);
+    setGeneralSchedules([...generalSchedules, newGeneralSchedule]);
     setNextId(nextId + 1);
   };
 
-  const handleRemoveTodo = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const handleRemoveGeneralSchedule = (id: number) => {
+    setGeneralSchedules(generalSchedules.filter((generalSchedule) => generalSchedule.id !== id));
   };
 
   const handleTimeChange = (id: number, time: RangeValue<Dayjs>) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, time: time || null } : todo
+    setGeneralSchedules(
+      generalSchedules.map((generalSchedule) =>
+        generalSchedule.id === id ? { ...generalSchedule, time: time || null } : generalSchedule
       )
     );
   };
 
   const handleDayOfWeekChange = (id: number, dayOfWeek: string | null) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, dayOfWeek: dayOfWeek || null } : todo
+    setGeneralSchedules(
+      generalSchedules.map((generalSchedule) =>
+        generalSchedule.id === id ? { ...generalSchedule, dayOfWeek: dayOfWeek || null } : generalSchedule
       )
     );
   };
 
   return (
     <>
-      {todos.map((todo) => (
-        <Grid container key={todo.id}>
+      {generalSchedules.map((generalSchedule) => (
+        <Grid container key={generalSchedule.id}>
           <Grid item sm={5}>
             <TimePicker.RangePicker
               style={{
                 width: "100%",
                 backgroundColor: "transparent",
               }}
-              value={todo.time || undefined}
-              onChange={(time) => handleTimeChange(todo.id, time)}
+              value={generalSchedule.time || undefined}
+              onChange={(time) => handleTimeChange(generalSchedule.id, time)}
             />
           </Grid>
           <Grid item sm={1}>
@@ -74,9 +69,9 @@ const TodoGeneralTimeList: React.FC = () => {
               options={daysOfWeek}
               renderInput={(params) => <TextField {...params} />}
               fullWidth
-              value={todo.dayOfWeek}
+              value={generalSchedule.dayOfWeek}
               onChange={(event, value) =>
-                handleDayOfWeekChange(todo.id, value)
+                handleDayOfWeekChange(generalSchedule.id, value)
               }
             />
           </Grid>
@@ -88,7 +83,7 @@ const TodoGeneralTimeList: React.FC = () => {
                 fontWeight: 700,
                 cursor: "pointer",
               }}
-              onClick={() => handleRemoveTodo(todo.id)}
+              onClick={() => handleRemoveGeneralSchedule(generalSchedule.id)}
             >
               <RemoveCircleOutlineIcon />
             </InputLabel>
@@ -97,7 +92,7 @@ const TodoGeneralTimeList: React.FC = () => {
       ))}
       <Button
         variant="contained"
-        onClick={handleAddTodo}
+        onClick={handleAddGeneralSchedule}
       >
         Add
       </Button>
@@ -105,4 +100,4 @@ const TodoGeneralTimeList: React.FC = () => {
   );
 };
 
-export default TodoGeneralTimeList;
+export default GeneralScheduleGeneralTimeList;
