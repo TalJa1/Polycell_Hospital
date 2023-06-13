@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 
 const classApi = {
   getAll: (params: any) => {
-    const url : string = "/posts";
+    const url : string = "/v1/class/search";
     return axiosClient.get(url, { params });
   },
   // deleteBy: (param: any) => {

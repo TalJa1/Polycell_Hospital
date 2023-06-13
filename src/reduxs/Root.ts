@@ -4,7 +4,7 @@ import CLassReducer from "./ClassRedux";
 
 const rootReducer = combineReducers({
   user: UserReducer,
-  post: CLassReducer,
+  class: CLassReducer,
 });
 
 
