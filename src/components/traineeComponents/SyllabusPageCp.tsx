@@ -1,31 +1,17 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Grid,
-  Typography,
-} from "@mui/material";
 import React from "react";
-import TraineeHeader from "../layoutComponents/TraineeHeader";
 import Footer from "../layoutComponents/Footer";
+import { Box, Button, Card, CardActions, CardContent, Grid, Typography } from "@mui/material";
+import TraineeHeader from "../layoutComponents/TraineeHeader";
 import { Link, useParams } from "react-router-dom";
 
-const CourseDetailPageCp: React.FC = () => {
+const SyllabusPageCp: React.FC = () => {
+
   const course = useParams<string>();
-  // console.log("Course code", course);
-  const bull = (
-    <Box
-      component="span"
-      sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-    >
-      •
-    </Box>
-  );
+
+
   return (
     <Box>
-      <TraineeHeader title={`${course?.code}`} />
+      <TraineeHeader title='Syllabus' />
       <Grid
         container
         direction="row"
@@ -55,7 +41,7 @@ const CourseDetailPageCp: React.FC = () => {
                     color="text.secondary"
                     gutterBottom
                   >
-                    <strong>Documents</strong>
+                    <strong>Detail</strong>
                   </Typography>
 
                   <Typography variant="body2">
@@ -64,11 +50,11 @@ const CourseDetailPageCp: React.FC = () => {
                     stored in a computer as one or more files.
                   </Typography>
                 </CardContent>
-                <CardActions>
+                {/* <CardActions>
                   <Link to="/document-page">
                     <Button size="small">Learn More</Button>
                   </Link>
-                </CardActions>
+                </CardActions> */}
               </Card>
             </Grid>
             <Grid item>
@@ -79,7 +65,7 @@ const CourseDetailPageCp: React.FC = () => {
                     color="text.secondary"
                     gutterBottom
                   >
-                    <strong>Quiz</strong>
+                    <strong>Grade</strong>
                   </Typography>
 
                   <Typography variant="body2">
@@ -88,9 +74,9 @@ const CourseDetailPageCp: React.FC = () => {
                     stored in a computer as one or more files.
                   </Typography>
                 </CardContent>
-                <CardActions>
+                {/* <CardActions>
                   <Button size="small">Learn More</Button>
-                </CardActions>
+                </CardActions> */}
               </Card>
             </Grid>
             <Grid item>
@@ -101,7 +87,7 @@ const CourseDetailPageCp: React.FC = () => {
                     color="text.secondary"
                     gutterBottom
                   >
-                    <strong>Assigment</strong>
+                    <strong>Source</strong>
                   </Typography>
 
                   <Typography variant="body2">
@@ -110,9 +96,9 @@ const CourseDetailPageCp: React.FC = () => {
                     stored in a computer as one or more files.
                   </Typography>
                 </CardContent>
-                <CardActions>
+                {/* <CardActions>
                   <Button size="small">Learn More</Button>
-                </CardActions>
+                </CardActions> */}
               </Card>
             </Grid>
           </Grid>
@@ -149,7 +135,7 @@ const CourseDetailPageCp: React.FC = () => {
               <Grid item>Trainer: {courseDetail.trainer}</Grid>
               <Grid item>Last: {courseDetail.last}</Grid>
               <Grid item>
-                <Link to={`/syllabus-page`}>Sylumbus</Link>
+                <Link to="/syllabus-page">Sylumbus</Link>
               </Grid>
             </Grid>
           </Grid>
@@ -160,10 +146,10 @@ const CourseDetailPageCp: React.FC = () => {
   );
 };
 
-export default CourseDetailPageCp;
+export default SyllabusPageCp;
 
 const courseDetail = {
-  class: "BS220",
-  trainer: "Kieu Trong Khanh",
-  last: "20 weeks",
-};
+    class: "BS220",
+    trainer: "Kieu Trong Khanh",
+    last: "20 weeks",
+  };

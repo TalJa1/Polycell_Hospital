@@ -1,7 +1,7 @@
 
 //payload : list post
 export const fetchClass = (payload: any) => ({
-  type: "GETPOST",
+  type: "GETCLASS",
   payload: payload,
 });
 

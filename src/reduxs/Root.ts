@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 import UserReducer from "./UserRedux";
 import CLassReducer from "./ClassRedux";
+import programReducer from "./ProgramRedux";
 
 const rootReducer = combineReducers({
   user: UserReducer,
-  post: CLassReducer,
+  class: CLassReducer,
+  program: programReducer
 });
 
 
