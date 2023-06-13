@@ -2,10 +2,42 @@ import { Box, Button, Grid } from "@mui/material";
 import React from "react";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
+import { useParams } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Link } from "react-router-dom";
+import classApi from "../../api/classApi";
+import { fetchClassDetail } from "../../actions/classAction";
+import { Class } from "../../models/classManagementModel";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../reduxs/Root";
 
 const ClassDetailCp: React.FC = () => {
+  const getClassDetail: Class = useSelector(
+    (state: RootState) => state.class.class
+  );
+  const dispatch = useDispatch();
+
+  const ClassId = useParams();
+  console.log("ClassID >>> ", ClassId.id);
+
+  const fetchClassDetailApi = React.useCallback(async () => {
+    try {
+      const param = {
+        // id: ClassId.id,
+      };
+      const response = await classApi.getbyId(param, ClassId.id);
+      console.log("Resp>>>> ", response.data);
+      const action = fetchClassDetail(response.data);
+      dispatch(action);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch, ClassId]);
+
+  React.useEffect(() => {
+    fetchClassDetailApi();
+  }, [fetchClassDetailApi]);
+
   return (
     <Box>
       <Header title="Class CCL21 details" imageUrl="" />
@@ -84,7 +116,7 @@ const ClassDetailCp: React.FC = () => {
                       textAlign: "center",
                     }}
                   >
-                    Code: {classDetail.course[0]}
+                    Code: {getClassDetail.code}
                   </Grid>
                 </Grid>
                 {/* <Grid item container direction="row">
@@ -166,7 +198,7 @@ const ClassDetailCp: React.FC = () => {
                       backgroundColor: "white",
                     }}
                   >
-                    {classDetail.startdate}
+                    {getClassDetail.startDate.toString()}
                   </Grid>
                   <Grid
                     item
@@ -185,7 +217,7 @@ const ClassDetailCp: React.FC = () => {
                       backgroundColor: "white",
                     }}
                   >
-                    {classDetail.endate}
+                    {getClassDetail.endDate.toString()}
                   </Grid>
                 </Grid>
 
@@ -236,7 +268,7 @@ const ClassDetailCp: React.FC = () => {
                       backgroundColor: "white",
                     }}
                   >
-                    {classDetail.status}
+                    {getClassDetail.status}
                   </Grid>
                   <Grid item xs={5}></Grid>
                 </Grid>
@@ -319,3 +351,6 @@ const classDetail = {
   status: "pending",
   classdate: ["Mo", "We"],
 };
+function dispatch(action: any) {
+  throw new Error("Function not implemented.");
+}
