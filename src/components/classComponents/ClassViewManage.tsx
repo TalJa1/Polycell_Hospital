@@ -2,12 +2,9 @@
 import "../../styles/Postdata.css";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import postApi from "../api/classApi";
-import { fetchClass, getTotalPage, paging } from "../../actions/classAction";
-// import { fetchUser } from "../actions/userAction";
-// import { Post } from "../models/postModel";
-// import { RootState } from "../reduxs/Root";
-// import { User } from "../models/userModel";
+
+import { fetchClass } from "../../actions/classAction";
+
 import classApi from "../../api/classApi";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
@@ -16,17 +13,18 @@ import Footer from "../layoutComponents/Footer";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Box, Tab, Tabs } from "@mui/material";
-// import { TimePicker } from "@mui/x-date-pickers";
+
 import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Link } from "react-router-dom";
+import { Class } from "../../models/classManagementModel";
+import { RootState } from "../../reduxs/Root";
 
 const Postdata: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [page, setPage] = React.useState<number>(1);
+  // const [page, setPage] = React.useState<number>(1);
   const [search, setSearch] = React.useState<string>("");
-  // const getPost: Post[] = useSelector((state: RootState) => state.post.list);
+  const getClass: Class[] = useSelector((state: RootState) => state.class.list);
   // const getUser: User[] = useSelector((state: any) => state.user.list);
   const dispatch = useDispatch();
   // const TotalPage: number = useSelector(
@@ -53,7 +51,7 @@ const Postdata: React.FC = () => {
         // _limit: 9,
       };
       const response = await classApi.getAll(param);
-      // const response1 = await userApi.getAll(null);
+      console.log("Resp>>>> ", response);
       const action = fetchClass(response.data);
       // const action1 = fetchUser(response1.data);
       // const actionPage = getTotalPage(
@@ -136,6 +134,7 @@ const Postdata: React.FC = () => {
                     onChange={handleChangeTabs}
                     aria-label="basic tabs example"
                   >
+                    {/* <Tab label="All" {...a11yProps(0)} /> */}
                     <Tab label="Pending" {...a11yProps(0)} />
                     <Tab label="Accepted" {...a11yProps(1)} />
                     <Tab label="Rejected" {...a11yProps(2)} />
@@ -152,17 +151,17 @@ const Postdata: React.FC = () => {
                   <span>Options</span>
                 </div>
                 <div className="class-info">
-                  {classDetail.map((item, index) => (
+                  {getClass.map((item, index) => (
                     <div key={index}>
                       <div
                         className={`class-item ${
                           index % 2 === 0 ? "even" : "odd"
                         }`}
                       >
-                        <span>{item.class}</span>
-                        <span>{item.course}</span>
+                        <span>{item.code}</span>
+                        <span>{item.programCode}</span>
                         <span>{item.status}</span>
-                        <span>{item.createddate}</span>
+                        <span>{item.createdDate.toString()}</span>
                         <span>
                           <Link to="/class-detail">
                             <VisibilityIcon />
