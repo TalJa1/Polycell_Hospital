@@ -1,6 +1,6 @@
 import React from "react";
-import "../styles/Header.css";
-import logo from "../assets/imgs/logo51.png";
+import "../../styles/Header.css";
+import logo from "../../assets/imgs/logo51.png";
 
 interface HeaderProps {
   title: string;

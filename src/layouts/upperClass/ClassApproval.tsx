@@ -1,6 +1,6 @@
 import React from "react";
-import Menubar from "../../components/Menubar";
-import ClassApprovalCp from "../../components/ClassApprovalCp";
+import Menubar from "../../components/layoutComponents/Menubar";
+import ClassApprovalCp from "../../components/upperclassComponents/ClassApprovalCp";
 
 const ClassApproval: React.FC = () => {
   return (

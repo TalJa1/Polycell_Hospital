@@ -6,13 +6,13 @@ import {
   sidebarClasses,
 } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-import "../styles/Menubar.css";
+import "../../styles/Menubar.css";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import MenuIcon from "@mui/icons-material/Menu";
 import SchoolIcon from "@mui/icons-material/School";
 import InfoIcon from "@mui/icons-material/Info";
 import ForumIcon from "@mui/icons-material/Forum";
-import logo from "../assets/imgs/logo51.png";
+import logo from "../../assets/imgs/logo51.png";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

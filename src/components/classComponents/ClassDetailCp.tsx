@@ -1,7 +1,7 @@
 import { Box, Button, Grid } from "@mui/material";
 import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../layoutComponents/Header";
+import Footer from "../layoutComponents/Footer";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Link } from "react-router-dom";
 

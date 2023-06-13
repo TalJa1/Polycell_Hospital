@@ -1,6 +1,6 @@
 import React from "react";
-import Menubar from "../components/Menubar";
-import ClassDetailCp from "../components/ClassDetailCp";
+import Menubar from "../components/layoutComponents/Menubar";
+import ClassDetailCp from "../components/classComponents/ClassDetailCp";
 
 const ClassDetail: React.FC = () => {
   return (

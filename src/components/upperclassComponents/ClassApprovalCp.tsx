@@ -8,8 +8,8 @@ import {
   Grid,
   Stack,
 } from "@mui/material";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../layoutComponents/Header";
+import Footer from "../layoutComponents/Footer";
 import Button from "@mui/material/Button";
 
 const ClassApprovalCp: React.FC = () => {
