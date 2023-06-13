@@ -1,14 +1,17 @@
 import React from "react";
 import Menubar from "../layoutComponents/Menubar";
 import {
+  Box,
   Button,
   Paper,
+  Tab,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Tabs,
 } from "@mui/material";
 import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -19,13 +22,66 @@ import Header from "../layoutComponents/Header";
 import { Link } from "react-router-dom";
 
 const ClassListTrainee: React.FC = () => {
+  const [tabsValue, setTabsValue] = React.useState(0);
+  const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
+    setTabsValue(newValue);
+  };
+
+  if (tabsValue === 0) {
+    console.log("pending");
+  } else if (tabsValue === 1) {
+    console.log("accepted");
+  } else {
+    console.log("rejected");
+  }
+
+  function a11yProps(index: number) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
+
   return (
     <div className="container">
       <Menubar />
       <main className="rightlayout">
         <div className="class-container">
           <Header title="Trainee List" imageUrl="" />
-          <div className="content-container">
+          <div
+            className="content-container"
+            style={{
+              padding: 10,
+              backgroundColor: "#e6e6e6",
+            }}
+          >
+            <div className="tabs-container">
+              {/* <div className="tabs-position"> */}
+              <strong
+                style={{
+                  color: "black",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Status:{" "}
+              </strong>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={tabsValue}
+                  onChange={handleChangeTabs}
+                  aria-label="basic tabs example"
+                >
+                  <Tab label="Pending" {...a11yProps(0)} />
+                  <Tab label="Studying" {...a11yProps(1)} />
+                  <Tab label="Graduated" {...a11yProps(2)} />
+                  <Tab label="Pause" {...a11yProps(3)} />
+
+                </Tabs>
+              </Box>
+              {/* </div> */}
+            </div>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead

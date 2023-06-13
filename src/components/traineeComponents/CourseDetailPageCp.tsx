@@ -65,7 +65,9 @@ const CourseDetailPageCp: React.FC = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">Learn More</Button>
+                  <Link to="/document-page">
+                    <Button size="small">Learn More</Button>
+                  </Link>
                 </CardActions>
               </Card>
             </Grid>
