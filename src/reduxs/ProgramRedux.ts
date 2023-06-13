@@ -1,11 +1,11 @@
 
 import { FETCH_PROGRAMS_FAILURE, FETCH_PROGRAMS_REQUEST, FETCH_PROGRAMS_SUCCESS } from "../utils/constant";
 import { ProgramAction } from "../actions/programAction";
-import { CustomHookAddProgram } from "../models/programAddModel";
+import { AddProgramType } from "../models/programAddModel";
 
   
   interface ProgramState {
-    programs: CustomHookAddProgram[];
+    programs: AddProgramType[];
     loading: boolean;
     error: string | null;
   }
