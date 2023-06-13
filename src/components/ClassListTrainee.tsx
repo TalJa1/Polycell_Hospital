@@ -16,6 +16,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import Footer from "./Footer";
 import Header from "./Header";
+import { Link } from "react-router-dom";
 
 const ClassListTrainee: React.FC = () => {
   return (
@@ -61,7 +62,9 @@ const ClassListTrainee: React.FC = () => {
                       <TableCell align="center">
                         <ModeIcon />
                         <DeleteIcon />
-                        <VisibilityIcon />
+                        <Link to="/trainee-detail">
+                          <VisibilityIcon />
+                        </Link>
                       </TableCell>
                       {/* <TableCell align="center">
                         <ControlPointIcon />
