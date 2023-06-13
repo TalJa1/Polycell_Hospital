@@ -39,6 +39,9 @@ const ClassReducer = (state = initialState, { type, payload }: Props) => {
     case "GETCLASS":
       return { ...state, list: payload };
 
+    case "CLASS_DETAIL":
+      return { ...state, class: payload };
+
     case "TOTAL_PAGE":
       if (payload % 2 !== 0) {
         payload = Math.floor(payload) + 1;

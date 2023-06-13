@@ -5,6 +5,11 @@ export const fetchClass = (payload: any) => ({
   payload: payload,
 });
 
+export const fetchClassDetail = (payload: any) => ({
+  type: "CLASS_DETAIL",
+  payload: payload,
+});
+
 //payload : total page number
 export const getTotalPage = (payload: number) => {
   return {

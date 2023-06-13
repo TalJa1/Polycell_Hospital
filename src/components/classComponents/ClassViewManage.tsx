@@ -36,22 +36,24 @@ const Postdata: React.FC = () => {
     setTabsValue(newValue);
   };
 
-  if (tabsValue === 0) {
-    console.log("pending");
-  } else if (tabsValue === 1) {
-    console.log("accepted");
-  } else {
-    console.log("rejected");
-  }
+  // if (tabsValue === 0) {
+  //   console.log("pending");
+  // } else if (tabsValue === 1) {
+  //   console.log("accepted");
+  // } else {
+  //   console.log("rejected");
+  // }
 
   const fetchClassApi = React.useCallback(async () => {
     try {
       const param = {
+        status:
+          tabsValue === 0 ? "PENDING" : tabsValue === 1 ? "APPROVE" : "REJECT",
         // _page: getPage,
         // _limit: 9,
       };
       const response = await classApi.getAll(param);
-      console.log("Resp>>>> ", response);
+      // console.log("Resp>>>> ", response);
       const action = fetchClass(response.data);
       // const action1 = fetchUser(response1.data);
       // const actionPage = getTotalPage(
@@ -65,7 +67,7 @@ const Postdata: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [dispatch]);
+  }, [dispatch, tabsValue]);
 
   React.useEffect(() => {
     fetchClassApi();
@@ -163,7 +165,7 @@ const Postdata: React.FC = () => {
                         <span>{item.status}</span>
                         <span>{item.createdDate.toString()}</span>
                         <span>
-                          <Link to="/class-detail">
+                          <Link to={`/class-detail/${item.id}`}>
                             <VisibilityIcon />
                           </Link>
                           <ModeIcon />
