@@ -1,18 +1,18 @@
 /* eslint-disable no-lone-blocks */
-import "../styles/Postdata.css";
+import "../../styles/Postdata.css";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import postApi from "../api/classApi";
-import { fetchClass, getTotalPage, paging } from "../actions/classAction";
-import { fetchUser } from "../actions/userAction";
-import { Post } from "../models/postModel";
-import { RootState } from "../reduxs/Root";
+// import postApi from "../api/classApi";
+import { fetchClass, getTotalPage, paging } from "../../actions/classAction";
+// import { fetchUser } from "../actions/userAction";
+// import { Post } from "../models/postModel";
+// import { RootState } from "../reduxs/Root";
 // import { User } from "../models/userModel";
-import userApi from "../api/userApi";
+import classApi from "../../api/classApi";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../layoutComponents/Header";
+import Footer from "../layoutComponents/Footer";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Box, Tab, Tabs } from "@mui/material";
@@ -51,14 +51,11 @@ const Postdata: React.FC = () => {
       const param = {
         // _page: getPage,
         // _limit: 9,
-        
       };
-      const response = await postApi.getAll(param);
-      const response1 = await userApi.getAll(null);
-      console.log("response user data >> " + response1.data);
+      const response = await classApi.getAll(param);
+      // const response1 = await userApi.getAll(null);
       const action = fetchClass(response.data);
       // const action1 = fetchUser(response1.data);
-      console.log(response1.data.map((a: any) => a));
       // const actionPage = getTotalPage(
       //   response.headers["x-total-count"] / param._limit
       // );

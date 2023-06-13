@@ -10,9 +10,9 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import TraineeHeader from "./TraineeHeader";
-import Footer from "./Footer";
-import GroundImg from "../assets/imgs/background.png";
+import TraineeHeader from "../layoutComponents/TraineeHeader";
+import Footer from "../layoutComponents/Footer";
+import GroundImg from "../../assets/imgs/background.png";
 
 const CoursePageCp: React.FC = () => {
   return (

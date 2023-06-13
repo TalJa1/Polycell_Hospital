@@ -11,9 +11,9 @@ import {
   TextField,
 } from "@mui/material";
 import React from "react";
-import Header from "./Header";
+import Header from "./layoutComponents/Header";
 import { Link } from "react-router-dom";
-import Footer from "./Footer";
+import Footer from "./layoutComponents/Footer";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";

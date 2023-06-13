@@ -1,6 +1,6 @@
 import React from "react";
-import Menubar from "../../components/Menubar";
-import ClassAcceptCp from "../../components/ClassAcceptCp";
+import Menubar from "../../components/layoutComponents/Menubar";
+import ClassAcceptCp from "../../components/upperclassComponents/ClassAcceptCp";
 
 
 const ClassAcceptance: React.FC = () => {

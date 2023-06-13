@@ -1,5 +1,5 @@
 import React from "react";
-import Menubar from "../components/Menubar";
+import Menubar from "../components/layoutComponents/Menubar";
 import TraineeManagementTable from "../components/StudentManagementTable";
 
 const TraineeManagement: React.FC = () => {
