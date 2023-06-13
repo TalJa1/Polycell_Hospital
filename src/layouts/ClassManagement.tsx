@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/Home.css";
-import Menubar from "../components/Menubar";
-import Postdata from "../components/ClassViewManage";
+import Menubar from "../components/layoutComponents/Menubar";
+import Postdata from "../components/classComponents/ClassViewManage";
 
 const ClassManagement: React.FC = () => {
   return (

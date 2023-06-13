@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../components/layoutComponents/Header";
+import Footer from "../components/layoutComponents/Footer";
 import { TimePicker } from "@mui/x-date-pickers";
-import Menubar from "../components/Menubar";
-import ClassAddForm from "../components/ClassAddForm";
+import Menubar from "../components/layoutComponents/Menubar";
+import ClassAddForm from "../components/classComponents/ClassAddForm";
 
 const AddClass: React.FC = () => {
   

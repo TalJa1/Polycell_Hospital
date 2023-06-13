@@ -1,5 +1,5 @@
 import React from "react";
-import Menubar from "./Menubar";
+import Menubar from "../layoutComponents/Menubar";
 import {
   Button,
   Paper,
@@ -14,8 +14,8 @@ import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import Footer from "./Footer";
-import Header from "./Header";
+import Footer from "../layoutComponents/Footer";
+import Header from "../layoutComponents/Header";
 
 const ClassListTrainee: React.FC = () => {
   return (
