@@ -14,6 +14,7 @@ import TraineeManagement from "./layouts/TraineeManagement";
 
 import TraineeDetail from "./layouts/TraineeDetail";
 import ClassListTrainee from "./components/classComponents/ClassListTrainee";
+import CourseDetailPage from "./layouts/trainee/CourseDetailPage";
 
 function App() {
   return (
@@ -31,8 +32,7 @@ function App() {
       <Route path="/add-class" Component={AddClass} />
       <Route path="/class-trainee" Component={ClassListTrainee} />
       <Route path="/trainee-detail" Component={TraineeDetail} />
-
-
+      <Route path={`/course-detail-page/:code`} Component={CourseDetailPage} />
 
     </Routes>
   );

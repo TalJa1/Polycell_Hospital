@@ -13,6 +13,7 @@ import React from "react";
 import TraineeHeader from "../layoutComponents/TraineeHeader";
 import Footer from "../layoutComponents/Footer";
 import GroundImg from "../../assets/imgs/background.png";
+import { Link } from "react-router-dom";
 
 const CoursePageCp: React.FC = () => {
   return (
@@ -54,9 +55,11 @@ const CoursePageCp: React.FC = () => {
                 </CardContent>
               </CardActionArea>
               <CardActions>
-                <Button size="small" color="primary">
-                  Go to
-                </Button>
+                <Link to={`/course-detail-page/${course.course}`}>
+                  <Button size="small" color="primary">
+                    Go to
+                  </Button>
+                </Link>
               </CardActions>
             </Card>
           </Grid>
