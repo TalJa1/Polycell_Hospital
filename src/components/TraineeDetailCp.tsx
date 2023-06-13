@@ -1,14 +1,15 @@
-import { Box, Button, Grid } from "@mui/material";
 import React from "react";
-import Header from "../layoutComponents/Header";
-import Footer from "../layoutComponents/Footer";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+
 import { Link } from "react-router-dom";
 
-const ClassDetailCp: React.FC = () => {
+import { Box, Button, Grid } from "@mui/material";
+import Header from "./layoutComponents/Header";
+import Footer from "./layoutComponents/Footer";
+
+const TraineeDetailCp: React.FC = () => {
   return (
     <Box>
-      <Header title="Class CCL21 details" imageUrl="" />
+      <Header title="Trainee Detail" imageUrl="" />
       <Box
         sx={{
           padding: "5px",
@@ -65,7 +66,7 @@ const ClassDetailCp: React.FC = () => {
               >
                 <Grid item container direction="row">
                   <Grid item xs={3}>
-                    <strong>Course:</strong>
+                    <strong>Full name:</strong>
                   </Grid>
                   <Grid
                     item
@@ -75,7 +76,7 @@ const ClassDetailCp: React.FC = () => {
                       backgroundColor: "white",
                     }}
                   >
-                    {classDetail.course[1]}
+                    {traineeDetail.fullname}
                   </Grid>
                   <Grid
                     item
@@ -84,7 +85,7 @@ const ClassDetailCp: React.FC = () => {
                       textAlign: "center",
                     }}
                   >
-                    Code: {classDetail.course[0]}
+                    Code: {traineeDetail.code}
                   </Grid>
                 </Grid>
                 {/* <Grid item container direction="row">
@@ -99,7 +100,7 @@ const ClassDetailCp: React.FC = () => {
                       backgroundColor: "white",
                     }}
                   >
-                    {classDetail.trainer[1]}
+                    {traineeDetail.trainer[1]}
                   </Grid>
                   <Grid
                     item
@@ -108,120 +109,74 @@ const ClassDetailCp: React.FC = () => {
                       textAlign: "center",
                     }}
                   >
-                    Code: {classDetail.trainer[0]}
+                    Code: {traineeDetail.trainer[0]}
                   </Grid>
                 </Grid> */}
                 <Grid item container direction="row">
                   <Grid item xs={3}>
-                    <strong>Location:</strong>
+                    <strong>Phone:</strong>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={5}
+                    sx={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                    }}
+                  >
+                                        {traineeDetail.phone}
+
+                  </Grid>
+                  
+                </Grid>
+
+                <Grid item container direction="row">
+                  <Grid item xs={3}>
+                    <strong>Birthday:</strong>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={5}
+                    sx={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    {traineeDetail.birthday}
+                  </Grid>
+                </Grid>
+
+                <Grid item container direction="row">
+                  <Grid item xs={3}>
+                    <strong>Email:</strong>
                   </Grid>
                   <Grid
                     item
                     xs={9}
                     sx={{
                       textAlign: "center",
+                      backgroundColor: "white",
                     }}
                   >
-                    {classDetail.department}
+                    {traineeDetail.email}
                   </Grid>
+                  <Grid item xs={5}></Grid>
                 </Grid>
                 <Grid item container direction="row">
                   <Grid item xs={3}>
-                    <strong>Quantity:</strong>
+                    <strong>Address:</strong>
                   </Grid>
                   <Grid
                     item
-                    xs={3}
+                    xs={9}
                     sx={{
                       textAlign: "center",
                       backgroundColor: "white",
                     }}
                   >
-                    {classDetail.quantity}/
-                    <strong>{classDetail.quantityMax}</strong>
+                    {traineeDetail.address}
                   </Grid>
-                  <Grid item xs={6}>
-                    <Link to="/class-trainee">
-                      <VisibilityIcon
-                        sx={{
-                          paddingLeft: "5px",
-                          display: "flex",
-                          justifyContent: "start",
-                          alignItems: "center",
-                          height: "100%",
-                        }}
-                      />
-                    </Link>
-                  </Grid>
-                </Grid>
-                <Grid item container direction="row">
-                  <Grid item xs={3}>
-                    <strong>Start Date:</strong>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    sx={{
-                      textAlign: "center",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    {classDetail.startdate}
-                  </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    sx={{
-                      textAlign: "center",
-                    }}
-                  >
-                    <strong>End at</strong>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    sx={{
-                      textAlign: "center",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    {classDetail.endate}
-                  </Grid>
-                </Grid>
-
-                <Grid item container direction="row">
-                  <Grid item xs={3}>
-                    <strong>Begin at:</strong>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    sx={{
-                      textAlign: "center",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    {classDetail.duetimefrom}
-                  </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    sx={{
-                      textAlign: "center",
-                    }}
-                  >
-                    <strong>End at</strong>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    sx={{
-                      textAlign: "center",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    {classDetail.duetimeto}
-                  </Grid>
+                  <Grid item xs={5}></Grid>
                 </Grid>
 
                 <Grid item container direction="row">
@@ -230,43 +185,29 @@ const ClassDetailCp: React.FC = () => {
                   </Grid>
                   <Grid
                     item
-                    xs={4}
+                    xs={5}
                     sx={{
                       textAlign: "center",
                       backgroundColor: "white",
                     }}
                   >
-                    {classDetail.status}
+                    {traineeDetail.status}
                   </Grid>
                   <Grid item xs={5}></Grid>
                 </Grid>
-                <Grid item container direction="row">
-                  <Grid item xs={3}>
-                    <strong>Slots:</strong>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={4}
-                    sx={{
-                      textAlign: "center",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    {classDetail.classdate.join(", ")}
-                  </Grid>
-                  <Grid item xs={5}></Grid>
-                </Grid>
+
                 <Grid
                   item
                   container
                   direction="row"
                   sx={{
                     display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    justifyContent: "space-evenly",
                   }}
                 >
-                  <Button variant="contained">Edit</Button>
+                  <Button variant="contained">Import</Button>
+                  <Button variant="contained">Export</Button>
+
                 </Grid>
               </Grid>
             </Grid>
@@ -291,9 +232,9 @@ const ClassDetailCp: React.FC = () => {
                   maxHeight: "fit-content",
                 }}
               >
-                <strong style={{ padding: "5px", fontSize: "24px" }}>
+                {/* <strong style={{ padding: "5px", fontSize: "24px" }}>
                   PPG201
-                </strong>
+                </strong> */}
               </Box>
             </Box>
           </Grid>
@@ -304,18 +245,14 @@ const ClassDetailCp: React.FC = () => {
   );
 };
 
-export default ClassDetailCp;
+export default TraineeDetailCp;
 
-const classDetail = {
-  course: ["PPG201", "Medical Terminology"],
-  trainer: ["NVT1", "Nguyen Van Thanh"],
-  department: "Department A",
-  quantity: 30,
-  quantityMax: 35,
-  startdate: "01/01/2023",
-  endate: "01/06/2023",
-  duetimefrom: "07:00AM",
-  duetimeto: "09:00AM",
+const traineeDetail = {
+  fullname: "Pham Van A",
+  code: "SE1615",
+  phone: "0908775112",
+  birthday: "09/04/2002",
+  email: "phamhuy09042002@gmail.com",
+  address: "20 Pham Van Dong, TP. Thu Duc",
   status: "pending",
-  classdate: ["Mo", "We"],
 };

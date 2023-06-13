@@ -12,6 +12,9 @@ import ClassDetail from "./layouts/ClassDetail";
 import CoursePage from "./layouts/trainee/CoursePage";
 import TraineeManagement from "./layouts/TraineeManagement";
 
+import TraineeDetail from "./layouts/TraineeDetail";
+import ClassListTrainee from "./components/classComponents/ClassListTrainee";
+
 function App() {
   return (
     <Routes>
@@ -26,7 +29,9 @@ function App() {
       <Route path="/trainee-course-page" Component={CoursePage} />
       <Route path="/login" Component={Loginpage} />
       <Route path="/add-class" Component={AddClass} />
-      <Route path="/trainee-management" Component={TraineeManagement} />
+      <Route path="/class-trainee" Component={ClassListTrainee} />
+      <Route path="/trainee-detail" Component={TraineeDetail} />
+
 
 
     </Routes>
