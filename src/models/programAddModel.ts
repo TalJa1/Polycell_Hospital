@@ -1,4 +1,4 @@
-export interface Welcome8 {
+export interface CustomHookAddProgram {
     programs: Program[];
     cycles:   Cycle[];
 }
