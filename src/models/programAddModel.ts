@@ -1,4 +1,4 @@
-export interface CustomHookAddProgram {
+export interface AddProgramType {
     programs: Program[];
     cycles:   Cycle[];
 }
