@@ -141,7 +141,7 @@ const ClassDetailCp: React.FC = () => {
                     <strong>{classDetail.quantityMax}</strong>
                   </Grid>
                   <Grid item xs={6}>
-                    <Link to="">
+                    <Link to="/class-trainee">
                       <VisibilityIcon
                         sx={{
                           paddingLeft: "5px",

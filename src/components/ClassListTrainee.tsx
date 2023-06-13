@@ -33,12 +33,14 @@ const ClassListTrainee: React.FC = () => {
                   }}
                 >
                   <TableRow>
-                    <TableCell>ID</TableCell>
+                    <TableCell>Code</TableCell>
                     <TableCell align="center">Name</TableCell>
                     <TableCell align="center">Phone</TableCell>
                     <TableCell align="center">Title</TableCell>
+                    <TableCell align="center">Status</TableCell>
+
                     <TableCell align="center">Action</TableCell>
-                    <TableCell align="center">Result</TableCell>
+                    {/* <TableCell align="center">Result</TableCell> */}
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>
@@ -54,14 +56,16 @@ const ClassListTrainee: React.FC = () => {
                       <TableCell align="center">{row.name}</TableCell>
                       <TableCell align="center">{row.phone}</TableCell>
                       <TableCell align="center">{row.title}</TableCell>
+                      <TableCell align="center">{row.status}</TableCell>
+
                       <TableCell align="center">
                         <ModeIcon />
                         <DeleteIcon />
                         <VisibilityIcon />
                       </TableCell>
-                      <TableCell align="center">
+                      {/* <TableCell align="center">
                         <ControlPointIcon />
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell align="center">
                         <Button
                           variant="contained"
@@ -90,18 +94,19 @@ function Student(
   name: string,
   phone: string,
   title: string,
-  currentSpecialization: string
+  currentSpecialization: string,
+  status: string
 ) {
-  return { id, name, phone, title, currentSpecialization };
+  return { id, name, phone, title, currentSpecialization, status };
 }
 
 const rows = [
-  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1"),
-  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1"),
-  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1"),
-  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1"),
-  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1"),
-  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1"),
+  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1", "pending"),
+  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1", "pending"),
+  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1", "pending"),
+  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1", "pending"),
+  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1", "pending"),
+  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1", "pending"),
 ];
 
 export default ClassListTrainee;

@@ -110,6 +110,57 @@ const ClassAddForm: React.FC = () => {
               />
             </Grid>
 
+            {/* Department */}
+            <Grid item xs={12} sm={2}>
+              <InputLabel
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  fontWeight: 700,
+                }}
+              >
+                Class name
+              </InputLabel>
+            </Grid>
+            <Grid item xs={12} sm={9}>
+              {/* <Autocomplete
+                        readOnly={true}
+                      options={top100Films}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Department" fullWidth />
+                      )}
+                      fullWidth
+                    /> */}
+              <TextField
+                // id="filled-read-only-input"
+
+                fullWidth
+              />
+            </Grid>
+
+            {/* Cycle */}
+            <Grid item xs={12} sm={2}>
+              <InputLabel
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  fontWeight: 700,
+                }}
+              >
+                Cycle
+              </InputLabel>
+            </Grid>
+            <Grid item xs={12} sm={9}>
+              <Autocomplete
+                      options={top100Films}
+                      renderInput={(params) => (
+                        <TextField {...params} fullWidth />
+                      )}
+                      fullWidth
+                    />
+
+            </Grid>
+
             {/* QUANTITY */}
             <Grid item xs={12} sm={2}>
               <InputLabel
@@ -434,19 +485,19 @@ const courses: Course[] = [
 //   { label: "Tran Thi C" },
 // ];
 
-// const top100Films = [
-//   { label: "The Shawshank Redemption", year: 1994 },
-//   { label: "The Godfather", year: 1972 },
-//   { label: "The Godfather: Part II", year: 1974 },
-//   { label: "The Dark Knight", year: 2008 },
-//   { label: "12 Angry Men", year: 1957 },
-//   { label: "Schindler's List", year: 1993 },
-//   { label: "Pulp Fiction", year: 1994 },
-//   {
-//     label: "The Lord of the Rings: The Return of the King",
-//     year: 2003,
-//   },
+const top100Films = [
+  { label: "The Shawshank Redemption", year: 1994 },
+  { label: "The Godfather", year: 1972 },
+  { label: "The Godfather: Part II", year: 1974 },
+  { label: "The Dark Knight", year: 2008 },
+  { label: "12 Angry Men", year: 1957 },
+  { label: "Schindler's List", year: 1993 },
+  { label: "Pulp Fiction", year: 1994 },
+  {
+    label: "The Lord of the Rings: The Return of the King",
+    year: 2003,
+  },
 
-// ];
+];
 
 export default ClassAddForm;
