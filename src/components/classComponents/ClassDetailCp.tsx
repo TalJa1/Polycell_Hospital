@@ -236,9 +236,9 @@ const ClassDetailCp: React.FC = () => {
                         </Toolbar>
                       </AppBar>
                       <Box
-                        // sx={{
-                        //   width: "50%",
-                        // }}
+                      // sx={{
+                      //   width: "50%",
+                      // }}
                       >
                         <DataGrid
                           rows={rows}
@@ -249,6 +249,7 @@ const ClassDetailCp: React.FC = () => {
                             },
                           }}
                           pageSizeOptions={[5, 10]}
+                          disableRowSelectionOnClick
                           // checkboxSelection
                         />
                       </Box>
