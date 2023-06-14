@@ -1,15 +1,41 @@
-import { Box, Button, Grid } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  Dialog,
+  Divider,
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Slide,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
 import { useParams } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import classApi from "../../api/classApi";
 import { fetchClassDetail } from "../../actions/classAction";
 import { Class } from "../../models/classManagementModel";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reduxs/Root";
+import CloseIcon from "@mui/icons-material/Close";
+import { TransitionProps } from "@mui/material/transitions";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const ClassDetailCp: React.FC = () => {
   const getClassDetail: Class = useSelector(
@@ -37,6 +63,16 @@ const ClassDetailCp: React.FC = () => {
   React.useEffect(() => {
     fetchClassDetailApi();
   }, [fetchClassDetailApi]);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Box>
@@ -119,30 +155,7 @@ const ClassDetailCp: React.FC = () => {
                     Code: {getClassDetail.code}
                   </Grid>
                 </Grid>
-                {/* <Grid item container direction="row">
-                  <Grid item xs={3}>
-                    <strong>Trainer:</strong>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={5}
-                    sx={{
-                      textAlign: "center",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    {classDetail.trainer[1]}
-                  </Grid>
-                  <Grid
-                    item
-                    xs={4}
-                    sx={{
-                      textAlign: "center",
-                    }}
-                  >
-                    Code: {classDetail.trainer[0]}
-                  </Grid>
-                </Grid> */}
+
                 <Grid item container direction="row">
                   <Grid item xs={3}>
                     <strong>Location:</strong>
@@ -173,7 +186,11 @@ const ClassDetailCp: React.FC = () => {
                     <strong>{classDetail.quantityMax}</strong>
                   </Grid>
                   <Grid item xs={6}>
-                    <Link to="/class-trainee">
+                    <IconButton
+                      color="secondary"
+                      aria-label="add an alarm"
+                      onClick={handleClickOpen}
+                    >
                       <VisibilityIcon
                         sx={{
                           paddingLeft: "5px",
@@ -183,8 +200,61 @@ const ClassDetailCp: React.FC = () => {
                           height: "100%",
                         }}
                       />
-                    </Link>
+                    </IconButton>
                   </Grid>
+                  <Box>
+                    <Dialog
+                      fullScreen
+                      open={open}
+                      onClose={handleClose}
+                      TransitionComponent={Transition}
+                    >
+                      <AppBar sx={{ position: "relative" }}>
+                        <Toolbar>
+                          <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={handleClose}
+                            aria-label="close"
+                          >
+                            <CloseIcon />
+                          </IconButton>
+                          <Typography
+                            sx={{ ml: 2, flex: 1 }}
+                            variant="h6"
+                            component="div"
+                          >
+                            List Trainee
+                          </Typography>
+                          {/* <Button
+                            autoFocus
+                            color="inherit"
+                            onClick={handleClose}
+                          >
+                            save
+                          </Button> */}
+                        </Toolbar>
+                      </AppBar>
+                      <Box
+                      // sx={{
+                      //   width: "50%",
+                      // }}
+                      >
+                        <DataGrid
+                          rows={rows}
+                          columns={columns}
+                          initialState={{
+                            pagination: {
+                              paginationModel: { page: 0, pageSize: 10 },
+                            },
+                          }}
+                          pageSizeOptions={[5, 10]}
+                          disableRowSelectionOnClick
+                          // checkboxSelection
+                        />
+                      </Box>
+                    </Dialog>
+                  </Box>
                 </Grid>
                 <Grid item container direction="row">
                   <Grid item xs={3}>
@@ -351,6 +421,36 @@ const classDetail = {
   status: "pending",
   classdate: ["Mo", "We"],
 };
-function dispatch(action: any) {
-  throw new Error("Function not implemented.");
-}
+
+const columns: GridColDef[] = [
+  { field: "id", headerName: "ID", width: 70 },
+  { field: "firstName", headerName: "First name", width: 130 },
+  { field: "lastName", headerName: "Last name", width: 130 },
+  {
+    field: "age",
+    headerName: "Age",
+    type: "number",
+    width: 90,
+  },
+  {
+    field: "fullName",
+    headerName: "Full name",
+    description: "This column has a value getter and is not sortable.",
+    sortable: false,
+    width: 160,
+    valueGetter: (params: GridValueGetterParams) =>
+      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+  },
+];
+
+const rows = [
+  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
+  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
+  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
+  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
+  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
+  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
+  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
+  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
+  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+];
