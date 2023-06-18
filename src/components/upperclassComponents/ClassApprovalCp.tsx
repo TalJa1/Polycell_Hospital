@@ -78,7 +78,7 @@ const ClassApprovalCp: React.FC = () => {
                   sx={{
                     width: "50%",
                     paddingRight: "5px",
-                    fontSize: "20px"
+                    fontSize: "20px",
                   }}
                 >
                   <Grid container spacing={2}>
@@ -136,9 +136,7 @@ const ClassApprovalCp: React.FC = () => {
               </Stack>
               <Dialog open={acceptOpen} onClose={handleAcceptClose}>
                 <DialogTitle>Accept</DialogTitle>
-                <DialogContent>
-                  <p>Accept Dialog Content</p>
-                </DialogContent>
+                <DialogContent>Accept Dialog Content</DialogContent>
                 <DialogActions>
                   <Button
                     variant="contained"
@@ -152,9 +150,7 @@ const ClassApprovalCp: React.FC = () => {
               </Dialog>
               <Dialog open={rejectOpen} onClose={handleRejectClose}>
                 <DialogTitle>Reject</DialogTitle>
-                <DialogContent>
-                  <p>Reject Dialog Content</p>
-                </DialogContent>
+                <DialogContent>Reject Dialog Content</DialogContent>
                 <DialogActions>
                   <Button
                     variant="contained"

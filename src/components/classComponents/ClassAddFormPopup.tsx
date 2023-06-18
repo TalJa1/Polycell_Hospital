@@ -86,7 +86,6 @@ const ClassAddFormPopup: React.FC = () => {
             </IconButton>
             <Typography
               variant="h6"
-              component="div"
               sx={{ flexGrow: 1, color: "white", textAlign: "center" }}
             >
               Add Trainee

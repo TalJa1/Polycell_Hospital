@@ -4,7 +4,8 @@ import AddIcon from "@mui/icons-material/Add";
 import styled from "@emotion/styled";
 
 interface CourseButtonAddActivityProps {
-  handleAddActivity: () => void;
+  // handleAddActivity: () => void;
+  handleShowDialog: () => void;
 }
 
 const CourseButtonAddActivityBox = styled(Box)({
@@ -20,11 +21,12 @@ const CourseButtonAddActivityBox = styled(Box)({
 });
 
 const CourseButtonAddActivityCp: React.FC<CourseButtonAddActivityProps> = ({
-  handleAddActivity,
+  // handleAddActivity,
+  handleShowDialog
 }) => {
   return (
     <CourseButtonAddActivityBox
-      onClick={handleAddActivity}
+      onClick={handleShowDialog}
       sx={{
         border: "1px solid #1976d2",
         boxShadow: "none",

@@ -70,7 +70,7 @@ const ClassAddForm: React.FC = () => {
                 {selectedCourse && <p>Code name: {selectedCourse.code}</p>}
               </Grid>
             ) : (
-              <p></p>
+              <div></div>
             )}
 
             {/* Department */}
@@ -113,6 +113,18 @@ const ClassAddForm: React.FC = () => {
               <TextField
                 // id="filled-read-only-input"
 
+                fullWidth
+              />
+            </Grid>
+
+            {/* Trainer */}
+            <Grid item xs={12} sm={2}>
+              <InputLabel>Trainer</InputLabel>
+            </Grid>
+            <Grid item xs={12} sm={9}>
+              <Autocomplete
+                options={top100Films}
+                renderInput={(params) => <TextField {...params} fullWidth />}
                 fullWidth
               />
             </Grid>

@@ -20,6 +20,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CourseEditActivityCp from "./CourseEditActivityCp";
 import CourseButtonAddActivityCp from "./CourseButtonAddActivityCp";
+import CouseChooseActivityCp from "./CouseChooseActivityCp";
 
 const CourseEditTopicAccordionCp: React.FC = () => {
   const [accordionCount, setAccordionCount] = useState(3);
@@ -27,6 +28,8 @@ const CourseEditTopicAccordionCp: React.FC = () => {
   const [activities, setActivities] = useState<Array<Array<JSX.Element>>>(
     Array.from({ length: accordionCount }, () => [])
   );
+  const [open, setOpen] = React.useState(false);
+  const [selectedAccordion, setSelectedAccordion] = useState<number>(0);
 
   const handleAddAccordion = () => {
     setAccordionCount((prevCount) => prevCount + 1);
@@ -36,9 +39,7 @@ const CourseEditTopicAccordionCp: React.FC = () => {
   const handleMoreVertClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
-    console.log(
-      activities
-    );
+    console.log(activities);
   };
 
   const handleMoreVertClose = (event: React.MouseEvent<HTMLElement>) => {
@@ -47,6 +48,8 @@ const CourseEditTopicAccordionCp: React.FC = () => {
   };
 
   const handleAddActivity = (accordionIndex: number) => {
+    console.log(accordionIndex);
+
     setActivities((prevActivities) => {
       const updatedActivities = [...prevActivities];
       updatedActivities[accordionIndex] = [
@@ -55,6 +58,17 @@ const CourseEditTopicAccordionCp: React.FC = () => {
       ];
       return updatedActivities;
     });
+    setOpen(false);
+
+  };
+
+  const handleClickOpen = (accordionIndex: number) => {
+    setSelectedAccordion(accordionIndex);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const renderAccordions = () => {
@@ -69,7 +83,7 @@ const CourseEditTopicAccordionCp: React.FC = () => {
             id={`panel${accordionIndex}-header`}
             sx={{ display: "flex", alignItems: "center" }}
           >
-            <Typography fontSize="30px" >Accordion {accordionIndex}</Typography>
+            <Typography fontSize="30px">Accordion {accordionIndex}</Typography>
             <IconButton
               aria-label="more"
               onClick={handleMoreVertClick}
@@ -92,11 +106,14 @@ const CourseEditTopicAccordionCp: React.FC = () => {
               <div key={index}>{activity}</div>
             ))}
             <CourseButtonAddActivityCp
-              handleAddActivity={() => handleAddActivity(i)}
+              // handleAddActivity={() => handleAddActivity(i)}
+              handleShowDialog={() => handleClickOpen(i)}
             />
-            {/* <Button onClick={() => handleAddActivity(i)}>
-                Add activity
-              </Button> */}
+            <CouseChooseActivityCp
+              open={open}
+              handleClose={() => handleClose()}
+              handleAddActivity={() => handleAddActivity(selectedAccordion)}
+            />
           </AccordionDetails>
           <Divider sx={{ bgcolor: "#1976d2" }} />
 
