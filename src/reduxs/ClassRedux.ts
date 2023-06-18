@@ -23,6 +23,8 @@ const initialState: initState = {
     minQuantity: 0,
     maxQuantity: 0,
     programId: "",
+    departmentId: "",
+    trainerId: "",
     cycleId: "",
     startDate: new Date(),
     endDate: new Date(),

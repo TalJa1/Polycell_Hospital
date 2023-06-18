@@ -12,7 +12,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import React, { useState } from "react";
 
-const CourseActivityCp: React.FC = () => {
+const CourseEditActivityCp: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMoreVertClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -115,4 +115,4 @@ const CourseActivityCp: React.FC = () => {
   );
 };
 
-export default CourseActivityCp;
+export default CourseEditActivityCp;

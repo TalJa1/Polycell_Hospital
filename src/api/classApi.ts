@@ -11,6 +11,10 @@ const classApi = {
     console.log("URL >>>>> ", url);
     return axiosClient.get(url, { params });
   },
+  create: (params: any) => {
+    const url = `/posts`;
+    return axiosClient.post(url, params);
+  },
   // deleteBy: (param: any) => {
   //   const url = `/posts/${param}`;
   //   return axiosClient.delete(url);

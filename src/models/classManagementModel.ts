@@ -10,6 +10,8 @@ export interface Class {
   minQuantity: number;
   maxQuantity: number;
   programId: string;
+  departmentId: string;
+  trainerId: string;
   cycleId: string;
   startDate: Date;
   endDate: Date;
