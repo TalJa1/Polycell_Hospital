@@ -1,8 +1,20 @@
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Box,
+  FormControlLabel,
+  Switch,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import React from "react";
-import CourseTopicAccordionCp from "./CourseTopicAccordionCp";
+import CourseEditTopicAccordionCp from "./CourseEditTopicAccordionCp";
+import CourseViewTopicAccordionCp from "./CourseViewTopicAccordionCp";
 
-const CourseTabBarCp: React.FC = () => {
+interface CourseTabBarProps {
+  editMode: boolean;
+}
+
+const CourseTabBarCp: React.FC<CourseTabBarProps> = ({ editMode }) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -10,7 +22,7 @@ const CourseTabBarCp: React.FC = () => {
   };
 
   return (
-    <Box sx={{ width: "50%" }}>
+    <Box sx={{ width: "70%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           textColor="inherit"
@@ -24,8 +36,13 @@ const CourseTabBarCp: React.FC = () => {
           <Tab label="Item Three" {...a11yProps(2)} />
         </Tabs>
       </Box>
+
       <TabPanel value={value} index={0}>
-        <CourseTopicAccordionCp/>
+        {editMode ? (
+          <CourseEditTopicAccordionCp />
+        ) : (
+          <CourseViewTopicAccordionCp />
+        )}
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two
