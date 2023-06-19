@@ -1,10 +1,13 @@
 import { Class } from "../models/classManagementModel";
+import { Cycle, Program } from "../models/programAddModel";
+import { CREATE_CLASS_REQUEST, CREATE_CLASS_SUCCESS } from "../utils/constant";
 
 interface initState {
   class: Class;
   list: Array<Class>;
   page: number;
   totalpage: number;
+  loading: boolean;
 }
 
 const initialState: initState = {
@@ -28,7 +31,10 @@ const initialState: initState = {
     cycleId: "",
     startDate: new Date(),
     endDate: new Date(),
+    program: {} as Program,
+    cycle: {} as Cycle,
   },
+  loading: false,
 };
 
 interface Props {
@@ -57,6 +63,18 @@ const ClassReducer = (state = initialState, { type, payload }: Props) => {
       return {
         ...state,
         page: payload,
+      };
+    //
+    case CREATE_CLASS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case CREATE_CLASS_SUCCESS:
+      return {
+        ...state,
+        class: payload
       };
 
     default:

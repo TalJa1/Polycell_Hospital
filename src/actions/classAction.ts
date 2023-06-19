@@ -1,6 +1,7 @@
 import { Dispatch } from "react";
 import classApi from "../api/classApi";
 import { CREATE_CLASS_REQUEST } from "../utils/constant";
+import { Class } from "../models/classManagementModel";
 
 //payload : list post
 export const fetchClass = (payload: any) => ({

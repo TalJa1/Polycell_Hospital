@@ -1,11 +1,11 @@
 
 import { FETCH_PROGRAMS_FAILURE, FETCH_PROGRAMS_REQUEST, FETCH_PROGRAMS_SUCCESS } from "../utils/constant";
 import { ProgramAction } from "../actions/programAction";
-import { AddProgramType } from "../models/programAddModel";
+import { CreateClassFormData } from "../models/programAddModel";
 
   
   interface ProgramState {
-    programs: AddProgramType[];
+    programs: CreateClassFormData[];
     loading: boolean;
     error: string | null;
   }

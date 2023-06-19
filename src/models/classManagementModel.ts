@@ -1,3 +1,5 @@
+import { Cycle, Program } from "./programAddModel";
+
 export interface Class {
   id: string;
   name: string;
@@ -15,4 +17,6 @@ export interface Class {
   cycleId: string;
   startDate: Date;
   endDate: Date;
+  program: Program
+  cycle: Cycle
 }
