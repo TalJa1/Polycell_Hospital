@@ -4,7 +4,10 @@ import {
   Button,
   Card,
   CardContent,
+  Checkbox,
+  FormControlLabel,
   Grid,
+  IconButton,
   InputLabel,
   TextField,
   Typography,
@@ -14,6 +17,7 @@ import dayjs from "dayjs";
 import React, { useState } from "react";
 import ClassAddFormPopup from "./ClassAddFormPopup";
 import TodoGeneralTimeList from "./ClassAddTodoGeneralTimeList";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const ClassAddForm: React.FC = () => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -34,7 +38,6 @@ const ClassAddForm: React.FC = () => {
     }));
   };
 
-
   return (
     <Box sx={{ padding: 5 }}>
       <Grid container columnSpacing={2}>
@@ -51,15 +54,7 @@ const ClassAddForm: React.FC = () => {
             }}
           >
             <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                Program*
-              </InputLabel>
+              <InputLabel>Program*</InputLabel>
             </Grid>
             <Grid item xs={12} sm={selectedCourse != null ? 5 : 9}>
               <Autocomplete
@@ -75,20 +70,12 @@ const ClassAddForm: React.FC = () => {
                 {selectedCourse && <p>Code name: {selectedCourse.code}</p>}
               </Grid>
             ) : (
-              <p></p>
+              <div></div>
             )}
 
             {/* Department */}
             <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                Department
-              </InputLabel>
+              <InputLabel>Department</InputLabel>
             </Grid>
             <Grid item xs={12} sm={9}>
               {/* <Autocomplete
@@ -112,15 +99,7 @@ const ClassAddForm: React.FC = () => {
 
             {/* Department */}
             <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                Class name
-              </InputLabel>
+              <InputLabel>Class name</InputLabel>
             </Grid>
             <Grid item xs={12} sm={9}>
               {/* <Autocomplete
@@ -138,62 +117,43 @@ const ClassAddForm: React.FC = () => {
               />
             </Grid>
 
-            {/* Cycle */}
+            {/* Trainer */}
             <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                Cycle
-              </InputLabel>
+              <InputLabel>Trainer</InputLabel>
             </Grid>
             <Grid item xs={12} sm={9}>
               <Autocomplete
-                      options={top100Films}
-                      renderInput={(params) => (
-                        <TextField {...params} fullWidth />
-                      )}
-                      fullWidth
-                    />
+                options={top100Films}
+                renderInput={(params) => <TextField {...params} fullWidth />}
+                fullWidth
+              />
+            </Grid>
 
+            {/* Cycle */}
+            <Grid item xs={12} sm={2}>
+              <InputLabel>Cycle</InputLabel>
+            </Grid>
+            <Grid item xs={12} sm={9}>
+              <Autocomplete
+                options={top100Films}
+                renderInput={(params) => <TextField {...params} fullWidth />}
+                fullWidth
+              />
             </Grid>
 
             {/* QUANTITY */}
             <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                Quantity
-              </InputLabel>
+              <InputLabel>Quantity</InputLabel>
             </Grid>
             <Grid item xs={12} sm={10}>
               <Grid container>
-                <Grid item sm={5}>
+                <Grid item sm={12}>
                   <Grid container>
-                    <Grid item xs={12} sm={2}>
-                      <InputLabel
-                        sx={{
-                          display: "flex",
-                          // justifyContent: "center",
-                          fontWeight: 700,
-                          //   float: "right",
-                        }}
-                      >
-                        Min
-                      </InputLabel>
-                    </Grid>
-                    <Grid item sm={4}>
+                    <Grid item sm={3}>
                       <TextField
                         id="quantity"
                         name="quantity"
-                        // label="Quantity"
+                        label="Min"
                         // fullWidth
                         size="medium"
                         autoComplete="off"
@@ -205,32 +165,13 @@ const ClassAddForm: React.FC = () => {
                         defaultValue="4"
                       />
                     </Grid>
-                  </Grid>
-                </Grid>
 
-                <Grid item sm={2}>
-                  {/* to */}
-                </Grid>
-
-                <Grid item sm={5}>
-                  <Grid container>
-                    <Grid item xs={12} sm={2}>
-                      <InputLabel
-                        sx={{
-                          display: "flex",
-                          // justifyContent: "center",
-                          fontWeight: 700,
-                          //   float: "right",
-                        }}
-                      >
-                        Max
-                      </InputLabel>
-                    </Grid>
-                    <Grid item sm={4}>
+                    <Grid item xs={12} sm={2}></Grid>
+                    <Grid item sm={3}>
                       <TextField
                         id="quantity"
                         name="quantity"
-                        // label="Quantity"
+                        label="Max"
                         // fullWidth
                         size="medium"
                         autoComplete="off"
@@ -242,22 +183,61 @@ const ClassAddForm: React.FC = () => {
                         defaultValue="35"
                       />
                     </Grid>
+
+                    <Grid item sm={4}>
+                     
+
+                      {/* <IconButton
+                      color="secondary"
+                      aria-label="add an alarm"
+                      onClick={handleClickOpen}
+                    >
+                      <VisibilityIcon
+                        sx={{
+                          paddingLeft: "5px",
+                          display: "flex",
+                          justifyContent: "start",
+                          alignItems: "center",
+                          height: "100%",
+                        }}
+                      />
+                    </IconButton> */}
+                    </Grid>
                   </Grid>
                 </Grid>
+
+                {/* <Grid item sm={1}>
+                  to
+                </Grid> */}
+
+                {/* <Grid item sm={4}>
+                  <Grid container>
+                    
+                  </Grid>
+                </Grid> */}
               </Grid>
+            </Grid>
+
+            {/* Due time */}
+            <Grid item xs={12} sm={2}>
+              <InputLabel
+
+              // sx={{
+              //   display: "flex",
+              //   justifyContent: "center",
+              //   fontWeight: 700,
+              // }}
+              >
+                Enrol method
+              </InputLabel>
+            </Grid>
+            <Grid item xs={12} sm={10}>
+            <ClassAddFormPopup />
             </Grid>
 
             {/* Start date */}
             <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                Start date
-              </InputLabel>
+              <InputLabel>Start date</InputLabel>
             </Grid>
             <Grid item xs={12} sm={10}>
               <Grid container>
@@ -295,85 +275,10 @@ const ClassAddForm: React.FC = () => {
 
             {/* Due time */}
             <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                General time
-              </InputLabel>
+              <InputLabel>General time</InputLabel>
             </Grid>
             <Grid item xs={12} sm={10}>
               <TodoGeneralTimeList />
-              {/* {items.map((item: number) => (
-                <Grid container>
-                  <Grid item sm={5}>
-                    <TimePicker.RangePicker
-                      style={{
-                        width: "100%",
-                        backgroundColor: "transparent",
-                      }}
-                    />
-                  </Grid>
-                  <Grid item sm={1}>
-                    <InputLabel
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        fontWeight: 700,
-                      }}
-                    ></InputLabel>
-                  </Grid>
-                  <Grid item sm={5}>
-                    <Autocomplete
-                      options={daysOfWeek}
-                      renderInput={(params) => <TextField {...params} />}
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item sm={1}>
-                    <InputLabel
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        fontWeight: 700,
-                        cursor: "pointer",
-                      }}
-                    >
-                      <ControlPointIcon />
-                    </InputLabel>
-                  </Grid>
-                  <Grid item sm={1}>
-                    {items[items.length - 1] === item ? (
-                      <InputLabel
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          fontWeight: 700,
-                          cursor: "pointer",
-                        }}
-                        onClick={handleControlPointClick}
-                      >
-                        <ControlPointIcon />
-                      </InputLabel>
-                    ) : (
-                      <InputLabel
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          fontWeight: 700,
-                          cursor: "pointer",
-                        }}
-                        onClick={() => handleRemoveCircleClick(item)}
-                      >
-                        <RemoveCircleOutlineIcon />
-                      </InputLabel>
-                    )}
-                  </Grid>
-                </Grid>
-              ))} */}
             </Grid>
 
             {/* Button */}
@@ -382,68 +287,78 @@ const ClassAddForm: React.FC = () => {
               xs={12}
               sx={{ display: "flex", justifyContent: "center" }}
             >
-              <ClassAddFormPopup />
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#000",
+                }}
+              >
+                Create
+              </Button>
+              {/* <ClassAddFormPopup /> */}
             </Grid>
           </Grid>
         </Grid>
         {selectedCourse && (
-  <Grid item xs={3}>
-    <Card
-      sx={{
-        height: "100%",
-        maxHeight: 500,
-      }}
-    >
-      <CardContent>
-        <Typography variant="h6">{selectedCourse.label}</Typography>
-        <TextField
-          name="code"
-          label="Code"
-          value={selectedCourse.code}
-          onChange={handleInputChange}
-          fullWidth
-          multiline
-
-          sx={{ marginBottom: "1rem" }}
-        />
-        <TextField
-          name="syllabus"
-          label="Syllabus"
-          value={selectedCourse.syllabus}
-          onChange={handleInputChange}
-          fullWidth
-          multiline
-
-          sx={{ marginBottom: "1rem" }}
-        />
-        <TextField
-          name="department"
-          label="Department"
-          value={selectedCourse.department}
-          onChange={handleInputChange}
-          fullWidth
-          multiline
-
-          sx={{ marginBottom: "1rem" }}
-        />
-        <TextField
-          name="description"
-          label="Description"
-          value={selectedCourse.description}
-          onChange={handleInputChange}
-          fullWidth
-          multiline
-          rows={4}
-          sx={{ marginBottom: "1rem" }}
-        />
-        <Button variant="contained">
-          Modify
-        </Button>
-      </CardContent>
-    </Card>
-  </Grid>
-)}
-
+          <Grid item xs={3}>
+            <Card
+              sx={{
+                height: "100%",
+                maxHeight: 500,
+              }}
+            >
+              <CardContent>
+                <Typography variant="h6">{selectedCourse.label}</Typography>
+                <TextField
+                  name="code"
+                  label="Code"
+                  value={selectedCourse.code}
+                  onChange={handleInputChange}
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  sx={{ marginBottom: "1rem" }}
+                />
+                <TextField
+                  name="syllabus"
+                  label="Syllabus"
+                  value={selectedCourse.syllabus}
+                  onChange={handleInputChange}
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  sx={{ marginBottom: "1rem" }}
+                />
+                <TextField
+                  name="department"
+                  label="Department"
+                  value={selectedCourse.department}
+                  onChange={handleInputChange}
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  sx={{ marginBottom: "1rem" }}
+                />
+                <TextField
+                  name="description"
+                  label="Description"
+                  value={selectedCourse.description}
+                  onChange={handleInputChange}
+                  fullWidth
+                  multiline
+                  rows={4}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  sx={{ marginBottom: "1rem" }}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
+        )}
       </Grid>
     </Box>
   );
@@ -497,7 +412,6 @@ const top100Films = [
     label: "The Lord of the Rings: The Return of the King",
     year: 2003,
   },
-
 ];
 
 export default ClassAddForm;

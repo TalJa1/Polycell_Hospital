@@ -17,6 +17,7 @@ import ClassListTrainee from "./components/classComponents/ClassListTrainee";
 import CourseDetailPage from "./layouts/trainee/CourseDetailPage";
 import DocumentPage from "./layouts/trainee/DocumentPage";
 import SyllabusPage from "./layouts/trainee/SyllabusPage";
+import CoursesPage from "./layouts/trainer/CoursesPage";
 
 function App() {
   return (
@@ -38,6 +39,8 @@ function App() {
       <Route path={`/document-page`} Component={DocumentPage} />
       <Route path={`/document-page`} Component={DocumentPage} />
       <Route path={`/syllabus-page`} Component={SyllabusPage} />
+      <Route path={`/course-view`} Component={CoursesPage} />
+
 
 
     </Routes>

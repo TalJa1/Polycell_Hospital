@@ -2,7 +2,7 @@
 import { Dispatch } from 'redux';
 import { FETCH_PROGRAMS_FAILURE, FETCH_PROGRAMS_REQUEST, FETCH_PROGRAMS_SUCCESS } from '../utils/constant';
 import programApi from '../api/programApi';
-import { AddProgramType } from '../models/programAddModel';
+import { CreateClassFormData } from '../models/programAddModel';
 
 
 interface FetchProgramsRequestAction {
@@ -11,7 +11,7 @@ interface FetchProgramsRequestAction {
 
 interface FetchProgramsSuccessAction {
   type: typeof FETCH_PROGRAMS_SUCCESS;
-  payload: AddProgramType[];
+  payload: CreateClassFormData[];
 }
 
 interface FetchProgramsFailureAction {
@@ -28,7 +28,7 @@ export const fetchProgramsRequest = (): FetchProgramsRequestAction => ({
   type: FETCH_PROGRAMS_REQUEST,
 });
 
-export const fetchProgramsSuccess = (programs: AddProgramType[]): FetchProgramsSuccessAction => ({
+export const fetchProgramsSuccess = (programs: CreateClassFormData[]): FetchProgramsSuccessAction => ({
   type: FETCH_PROGRAMS_SUCCESS,
   payload: programs,
 });
@@ -44,7 +44,7 @@ export const fetchPrograms = (param: any) => {
       programApi
         .getAll(param)
         .then((response) => {
-          const programs = response.data.programs as AddProgramType[];
+          const programs = response.data;
           dispatch(fetchProgramsSuccess(programs));
         })
         .catch((error) => {

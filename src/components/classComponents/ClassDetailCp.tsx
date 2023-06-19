@@ -222,7 +222,6 @@ const ClassDetailCp: React.FC = () => {
                           <Typography
                             sx={{ ml: 2, flex: 1 }}
                             variant="h6"
-                            component="div"
                           >
                             List Trainee
                           </Typography>
