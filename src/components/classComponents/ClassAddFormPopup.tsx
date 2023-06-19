@@ -1,4 +1,5 @@
 import {
+  AppBar,
   Box,
   Button,
   Checkbox,
@@ -8,8 +9,10 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
+  IconButton,
   InputLabel,
   Paper,
+  Slide,
   Table,
   TableBody,
   TableCell,
@@ -17,10 +20,16 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Toolbar,
+  Typography
 } from "@mui/material";
 import { ArrowDropDownIcon } from "@mui/x-date-pickers";
 
 import React, { useMemo, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { TransitionProps } from "@mui/material/transitions";
+
+
 
 const ClassAddFormPopup: React.FC = () => {
   const [open, setOpen] = React.useState(false);
@@ -35,24 +44,59 @@ const ClassAddFormPopup: React.FC = () => {
 
   return (
     <div>
+      {/* <IconButton
+        color="secondary"
+        aria-label="add an alarm"
+      >
+        <VisibilityIcon
+          sx={{
+            paddingLeft: "5px",
+            display: "flex",
+            justifyContent: "start",
+            alignItems: "center",
+            height: "100%",
+          }}
+        />
+      </IconButton> */}
       <Button
-        onClick={handleClickOpen}
         variant="contained"
         sx={{
           backgroundColor: "#000",
         }}
+        onClick={handleClickOpen}
       >
-        Check
+        Add automatic
       </Button>
       <Dialog
         open={open}
-        fullWidth
-        maxWidth="md"
+        fullScreen
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Add Trainee"}</DialogTitle>
+        <AppBar sx={{ position: "relative" }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              sx={{ flexGrow: 1, color: "white", textAlign: "center" }}
+            >
+              Add Trainee
+            </Typography>
+            <Box sx={{ marginLeft: "auto" }}>
+              <Button autoFocus color="inherit" onClick={handleClose}>
+                Save
+              </Button>
+            </Box>
+          </Toolbar>
+        </AppBar>
         <DialogContent dividers>
           <DialogContentText>Amount: </DialogContentText>
           <DialogContentText>Status: pending</DialogContentText>

@@ -1,3 +1,7 @@
+import { Dispatch } from "react";
+import classApi from "../api/classApi";
+import { CREATE_CLASS_REQUEST } from "../utils/constant";
+import { Class } from "../models/classManagementModel";
 
 //payload : list post
 export const fetchClass = (payload: any) => ({
@@ -24,3 +28,42 @@ export const paging = (payload: number) => {
     payload: payload,
   };
 };
+
+// -----------
+export const createClassRequest = (): CreateClassRequestAction => ({
+  type: CREATE_CLASS_REQUEST,
+});
+
+export const createClassSuccess = (response: any): CreateClassSuccessAction => ({
+  type: CREATE_CLASS_REQUEST,
+  payload: response
+});
+
+export const createClass = (
+  param: any
+) => {
+  return (dispatch: Dispatch<ClassAction>) => {
+    dispatch(createClassRequest());
+    classApi.create(param)
+      .then((response) => {
+        // Handle success if needed
+        dispatch(createClassSuccess(response.data));
+      })
+      .catch((error) => {
+        // Handle error if needed
+      });
+  };
+};
+
+
+interface CreateClassRequestAction {
+  type: string;
+}
+
+interface CreateClassSuccessAction {
+  type: string;
+  payload: any;
+}
+
+export type ClassAction =
+  | CreateClassRequestAction;
