@@ -12,7 +12,9 @@ export interface CreateClassFormData {
     minQuantity: number
     maxQuantity: number
     isActive: boolean
-    department: Department
+    department: Department | null
+    trainer: Trainer | null
+    topics: Topic[]
   }
   
   export interface Department {
@@ -42,3 +44,26 @@ export interface CreateClassFormData {
     duration: number
   }
   
+
+  export interface Topic {
+    id: string
+    name: string
+    description: string
+    activities: Activity[]
+  }
+  
+  export interface Activity {
+    id: string
+    name: string
+    description: string
+    materialLink: string
+    assignments: Assignment[]
+  }
+  
+  export interface Assignment {
+    id: string
+    name: string
+    startDate: string
+    dueDate: string
+    status: string
+  }

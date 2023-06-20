@@ -18,6 +18,7 @@ import CourseDetailPage from "./layouts/trainee/CourseDetailPage";
 import DocumentPage from "./layouts/trainee/DocumentPage";
 import SyllabusPage from "./layouts/trainee/SyllabusPage";
 import CoursesPage from "./layouts/trainer/CoursesPage";
+import CourseViewTopicAccordionCp from "./components/courseComponents/CourseViewTopicAccordionCp";
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
       <Route path="/add-class" Component={AddClass} />
       <Route path="/class-trainee" Component={ClassListTrainee} />
       <Route path="/trainee-detail" Component={TraineeDetail} />
-      <Route path={`/course-detail-page/:code`} Component={CourseDetailPage} />
+      <Route path={`/course-detail-page/:programId/:trainerId`} Component={CoursesPage} />
       <Route path={`/document-page`} Component={DocumentPage} />
       <Route path={`/document-page`} Component={DocumentPage} />
       <Route path={`/syllabus-page`} Component={SyllabusPage} />
