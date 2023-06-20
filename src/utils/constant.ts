@@ -1,17 +1,36 @@
 import { RangeValue } from "rc-picker/lib/interface";
 import { Dayjs } from "dayjs";
-
-export const FETCH_PROGRAMS_REQUEST = 'FETCH_PROGRAMS_REQUEST';
-export const FETCH_PROGRAMS_SUCCESS = 'FETCH_PROGRAMS_SUCCESS';
-export const FETCH_PROGRAMS_FAILURE = 'FETCH_PROGRAMS_FAILURE';
-// 
-export const CREATE_CLASS_REQUEST = 'FETCH_CLASS_REQUEST';
-export const CREATE_CLASS_SUCCESS = 'FETCH_CLASS_SUCCESS';
+import { Program } from "../models/programAddModel";
 
 
+//
+//CREATE_CLASS_DATA_ACTION_TYPE
+export const FETCH_CREATE_CLASS_DATA_REQUEST =
+  "FETCH_CREATE_CLASS_DATA_REQUEST";
+export const FETCH_CREATE_CLASS_DATA_SUCCESS =
+  "FETCH_CREATE_CLASS_DATA_SUCCESS";
+export const FETCH_CREATE_CLASS_DATA_FAILURE =
+  "FETCH_CREATE_CLASS_DATA_FAILURE";
+//
+// CREATE_CLASS_ACTION_TYPE
+export const CREATE_CLASS_REQUEST = "CREATE_CLASS_REQUEST";
+export const CREATE_CLASS_SUCCESS = "CREATE_CLASS_SUCCESS";
+//
+// PROGRAM_ACTION_TYPE
+export const FETCH_PROGRAMS_REQUEST = "FETCH_PROGRAMS_REQUEST";
+export const FETCH_PROGRAMS_SUCCESS = "FETCH_PROGRAMS_SUCCESS";
+export const FETCH_PROGRAMS_ERROR = "FETCH_PROGRAMS_ERROR";
+//
+//PROGRAM_TOPIC_ACTION_TYPE
+export const FETCH_PROGRAM_CONTENT_REQUEST = "FETCH_PROGRAM_CONTENT_REQUEST";
+export const FETCH_PROGRAM_CONTENT_SUCCESS = "FETCH_PROGRAM_CONTENT_SUCCESS";
+export const FETCH_PROGRAM_CONTENT_ERROR = "FETCH_PROGRAM_CONTENT_ERROR";
+
+
+
+//
 export interface GeneralSchedule {
-    id: number;
-    time: RangeValue<Dayjs>;
-    dayOfWeek: string | null;
-  }
-
+  id: number;
+  time: RangeValue<Dayjs>;
+  dayOfWeek: string | null;
+}
