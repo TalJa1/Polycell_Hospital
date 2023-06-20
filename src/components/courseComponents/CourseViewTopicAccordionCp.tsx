@@ -15,18 +15,65 @@ import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CourseEditActivityCp from "./CourseEditActivityCp";
+import {
+  fetchProgramContent,
+  fetchProgramContentSuccess,
+  fetchPrograms,
+  fetchProgramsError,
+  fetchProgramsSuccess,
+} from "../../actions/programAction";
+import programApi from "../../api/programApi";
+import { useDispatch, useSelector } from "react-redux";
+import { Program, Topic } from "../../models/programAddModel";
+import { RootState } from "../../reduxs/Root";
+import { useParams } from "react-router-dom";
+import CourseViewActivityCp from "./CourseViewActivityCp";
 
 const CourseViewTopicAccordionCp: React.FC = () => {
-  const [accordionCount, setAccordionCount] = useState(3);
-  const [activities, setActivities] = useState<Array<Array<JSX.Element>>>(
-    Array.from({ length: accordionCount }, () => [])
+
+  const topics: Topic[] = useSelector(
+    (state: RootState) => state.program.topics
   );
 
+  const [activities, setActivities] = useState<Array<Array<JSX.Element>>>(
+    Array.from({ length: topics.length }, () => [])
+  );
+
+  const dispatch = useDispatch();
+
+  const { programId, trainerId } = useParams();
+
+
+  const fetchTopics = useCallback(async () => {
+    try {
+      dispatch(fetchProgramContent());
+      programApi
+        // .getProgramContent(programId!, trainerId!)
+        .getProgramContent("73574861-62eb-4965-9ebc-cecbb50ea11f", "3ae6a7fb-87a4-423e-8f38-d1313e710a00")
+        .then((response) => {
+          const program = response.data.topics;
+          dispatch(fetchProgramContentSuccess(program))
+          console.log(program);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log("Hello");
+    fetchTopics();
+  }, [fetchTopics]);
+
   const renderAccordions = () => {
-    return Array.from({ length: accordionCount }, (_, i) => {
+    return topics.map((topic, i) => {
       const accordionIndex = i + 1;
       const accordionActivities = activities[i] || [];
       return (
@@ -37,18 +84,15 @@ const CourseViewTopicAccordionCp: React.FC = () => {
             id={`panel${accordionIndex}-header`}
             sx={{ display: "flex", alignItems: "center" }}
           >
-            <Typography fontSize="30px">Accordion {accordionIndex}</Typography>
+            <Typography fontSize="30px">{topic.name}</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {
-              accordionIndex === 1 
-              ? <CourseEditActivityCp />
-              : <></>
-            }
-            
+            {/* {accordionIndex === 1 ? <CourseEditActivityCp /> : <></>} */}
 
-            {accordionActivities.map((activity, index) => (
-              <div key={index}>{activity}</div>
+            {topic.activities.map((activity, index) => (
+              <div key={index}>
+                <CourseViewActivityCp activity={activity} />
+              </div>
             ))}
           </AccordionDetails>
         </Accordion>
@@ -56,7 +100,9 @@ const CourseViewTopicAccordionCp: React.FC = () => {
     });
   };
 
-  return <div>{renderAccordions()}</div>;
+  return <div>
+    {renderAccordions()}
+    </div>;
 };
 
 export default CourseViewTopicAccordionCp;
@@ -65,7 +111,7 @@ const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
-  
+
   "&:not(:last-child)": {
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
