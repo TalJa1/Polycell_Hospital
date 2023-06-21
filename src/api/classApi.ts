@@ -12,7 +12,7 @@ const classApi = {
     return axiosClient.get(url, { params });
   },
   create: (params: any) => {
-    const url = `/class`;
+    const url = `/v1/class`;
     return axiosClient.post(url, params);
   },
   

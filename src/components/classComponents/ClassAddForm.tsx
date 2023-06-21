@@ -14,7 +14,13 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  ChangeEventHandler,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import ClassAddFormPopup from "./ClassAddFormPopup";
 import TodoGeneralTimeList from "./ClassAddTodoGeneralTimeList";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -31,6 +37,8 @@ import {
   fetchCreateClassDataSuccess,
 } from "../../actions/programAction";
 import programApi from "../../api/programApi";
+import { GeneralSchedule } from "../../utils/constant";
+import { formatGeneralSchedule } from "../../utils/formatDay";
 
 const ClassAddForm: React.FC = () => {
   const createClassData: CreateClassFormData = useSelector(
@@ -42,8 +50,17 @@ const ClassAddForm: React.FC = () => {
   const [selectedTrainer, setselectedTrainer] = useState<Trainer | null>(null);
   const [selectedCycle, setSelectedCyle] = useState<Cycle | null>(null);
   const [selectCard, setSelectedCard] = useState<any | null>(null);
-  const [selectStartDate, setSelectedStartDate] = useState<Dayjs | null>(null);
+  const [selectStartDate, setSelectedStartDate] = useState<Dayjs | null>();
   const [selectEndDate, setSelectedEndDate] = useState<Dayjs>();
+  const [selectQuantity, setSelectedQuantity] = useState<string>("");
+  const [generalSchedules, setGeneralSchedules] = useState<GeneralSchedule[]>(
+    []
+  );
+  const [selectClassName, setSelectClassName] = useState<string>('');
+
+  const handleClassName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectClassName(event.target.value)
+  };
 
   const handleCourseChange = (
     event: React.ChangeEvent<{}>,
@@ -51,6 +68,11 @@ const ClassAddForm: React.FC = () => {
   ) => {
     setSelectedCourse(value);
     setSelectedCard(value);
+    setSelectedQuantity(value?.maxQuantity.toString() || "");
+  };
+
+  const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedQuantity(event.target.value);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,6 +124,39 @@ const ClassAddForm: React.FC = () => {
       console.log(error);
     }
   }, [dispatch]);
+
+  //
+  const handlePostData = useCallback(async () => {
+    const data = {
+      name: selectClassName,
+      generalSchedule: formatGeneralSchedule(generalSchedules),
+      departmentId: selectedCourse?.department?.id,
+      trainerId: selectedTrainer?.id,
+      programId: selectedCourse?.id,
+      cycleId: selectedCycle?.id,
+      quantity: selectQuantity,
+      startDate: selectStartDate?.format("YYYY-MM-DD"),
+      endDate: selectEndDate?.format("YYYY-MM-DD"),
+      traineeIds: [],
+    };
+
+    try {
+      console.log(data);
+      // const response = await axios.post("/api/endpoint", data);
+      // console.log("Post request successful:", response.data);
+    } catch (error) {
+      console.error("Error posting data:", error);
+    }
+  }, [
+    generalSchedules,
+    selectEndDate,
+    selectQuantity,
+    selectStartDate,
+    selectedCourse?.department?.id,
+    selectedCourse?.id,
+    selectedCycle?.id,
+    selectedTrainer?.id,
+  ]);
 
   useEffect(() => {
     fetchCreateClassDataForm();
@@ -217,7 +272,9 @@ const ClassAddForm: React.FC = () => {
                   <TextField
                     name="birthdate"
                     label="BirthDate"
-                    value={selectedTrainer?.birthdate}
+                    value={dayjs(selectedTrainer?.birthdate).format(
+                      "DD-MM-YYYY"
+                    )}
                     fullWidth
                     InputProps={{
                       readOnly: true,
@@ -354,7 +411,9 @@ const ClassAddForm: React.FC = () => {
             </Grid>
             {selectedCourse != null ? (
               <Grid item xs={12} sm={5}>
-                {selectedCourse && <p>Code name: {selectedCourse.department?.code}</p>}
+                {selectedCourse && (
+                  <p>Code name: {selectedCourse.department?.code}</p>
+                )}
               </Grid>
             ) : (
               <div></div>
@@ -376,6 +435,8 @@ const ClassAddForm: React.FC = () => {
               <TextField
                 // id="filled-read-only-input"
 
+                value={selectClassName}
+                onChange={handleClassName}
                 fullWidth
               />
             </Grid>
@@ -469,11 +530,8 @@ const ClassAddForm: React.FC = () => {
                         inputProps={{
                           style: { textAlign: "right" },
                         }}
-                        value={
-                          selectedCourse != null
-                            ? selectedCourse.maxQuantity
-                            : ""
-                        }
+                        value={selectedCourse != null ? selectQuantity : ""}
+                        onChange={handleQuantityChange}
                       />
                     </Grid>
 
@@ -537,7 +595,8 @@ const ClassAddForm: React.FC = () => {
                     sx={{
                       width: "100%",
                     }}
-                    value={selectStartDate || null}
+                    format="DD-MM-YYYY"
+                    value={selectStartDate}
                     onChange={handleStartDateChange}
                   />
                 </Grid>
@@ -559,6 +618,7 @@ const ClassAddForm: React.FC = () => {
                     sx={{
                       width: "100%",
                     }}
+                    format="DD-MM-YYYY"
                     value={selectEndDate}
                     readOnly
                   />
@@ -571,7 +631,10 @@ const ClassAddForm: React.FC = () => {
               <InputLabel>General time</InputLabel>
             </Grid>
             <Grid item xs={12} sm={10}>
-              <TodoGeneralTimeList />
+              <TodoGeneralTimeList
+                generalSchedules={generalSchedules}
+                setGeneralSchedules={setGeneralSchedules}
+              />
             </Grid>
 
             {/* Button */}
@@ -585,6 +648,7 @@ const ClassAddForm: React.FC = () => {
                 sx={{
                   backgroundColor: "#000",
                 }}
+                onClick={handlePostData}
               >
                 Create
               </Button>
@@ -593,68 +657,6 @@ const ClassAddForm: React.FC = () => {
           </Grid>
         </Grid>
         <CardInformation />
-        {/* {
-        selectedCourse && (
-          <Grid item xs={3}>
-            <Card
-              sx={{
-                height: "100%",
-                maxHeight: 500,
-              }}
-            >
-              <CardContent>
-                <Typography variant="h6">{selectedCourse.name}</Typography>
-                <TextField
-                  name="code"
-                  label="Code"
-                  value={selectedCourse.code}
-                  onChange={handleInputChange}
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  sx={{ marginBottom: "1rem" }}
-                />
-                <TextField
-                  name="Department Code"
-                  label="Department Code"
-                  value={selectedCourse.department?.code}
-                  onChange={handleInputChange}
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  sx={{ marginBottom: "1rem" }}
-                />
-                <TextField
-                  name="department"
-                  label="Department"
-                  value={selectedCourse.department?.name}
-                  onChange={handleInputChange}
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  sx={{ marginBottom: "1rem" }}
-                />
-                <TextField
-                  name="description"
-                  label="Description"
-                  value={selectedCourse.description}
-                  onChange={handleInputChange}
-                  fullWidth
-                  multiline
-                  rows={4}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  sx={{ marginBottom: "1rem" }}
-                />
-              </CardContent>
-            </Card>
-          </Grid>
-        )
-        } */}
       </Grid>
     </Box>
   );
@@ -669,19 +671,5 @@ const ClassAddForm: React.FC = () => {
 //   { label: "Nguyen Van B" },
 //   { label: "Tran Thi C" },
 // ];
-
-const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
-  { label: "The Dark Knight", year: 2008 },
-  { label: "12 Angry Men", year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: "Pulp Fiction", year: 1994 },
-  {
-    label: "The Lord of the Rings: The Return of the King",
-    year: 2003,
-  },
-];
 
 export default ClassAddForm;
