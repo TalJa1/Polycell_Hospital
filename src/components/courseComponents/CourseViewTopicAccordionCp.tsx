@@ -68,7 +68,6 @@ const CourseViewTopicAccordionCp: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("Hello");
     fetchTopics();
   }, [fetchTopics]);
 

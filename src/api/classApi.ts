@@ -15,6 +15,7 @@ const classApi = {
     const url = `/class`;
     return axiosClient.post(url, params);
   },
+  
   // deleteBy: (param: any) => {
   //   const url = `/posts/${param}`;
   //   return axiosClient.delete(url);

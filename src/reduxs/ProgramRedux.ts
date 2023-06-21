@@ -12,7 +12,7 @@ import { ProgramAction } from "../actions/programAction";
 import { CreateClassFormData, Program, Topic } from "../models/programAddModel";
 
 interface initState {
-  createClassData: CreateClassFormData[];
+  createClassData: CreateClassFormData;
   loading: boolean;
   error: string | null;
   totalPage: number;
@@ -23,7 +23,11 @@ interface initState {
 }
 
 const initialState: initState = {
-  createClassData: [],
+  createClassData: {
+    programs: [],
+    cycles: [],
+    trainers: []
+  },
   loading: false,
   error: null,
   totalPage: 0,
