@@ -1,4 +1,4 @@
-export interface Trainee {
+export interface Trainees {
   id: string
   name: string
   code: string

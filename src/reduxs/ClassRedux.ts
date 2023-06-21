@@ -1,6 +1,6 @@
 import { Class } from "../models/classManagementModel";
 import { Cycle, Program } from "../models/programAddModel";
-import { Trainee } from "../models/traineeModel";
+import { Trainees } from "../models/traineeModel";
 import { CREATE_CLASS_REQUEST, CREATE_CLASS_SUCCESS } from "../utils/constant";
 
 interface initState {
@@ -34,7 +34,7 @@ const initialState: initState = {
     endDate: new Date(),
     program: {} as Program,
     cycle: {} as Cycle,
-    traineeList: [] as Trainee[],
+    trainees: [] as Trainees[],
   },
   loading: false,
 };

@@ -11,10 +11,14 @@ import {
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
 import Button from "@mui/material/Button";
+import { useParams } from "react-router-dom";
 
 const ClassApprovalCp: React.FC = () => {
   const [acceptOpen, setAcceptOpen] = useState(false);
   const [rejectOpen, setRejectOpen] = useState(false);
+  const { classid } = useParams();  
+
+
 
   const handleAcceptOpen = () => {
     setAcceptOpen(true);
@@ -30,6 +34,15 @@ const ClassApprovalCp: React.FC = () => {
 
   const handleRejectClose = () => {
     setRejectOpen(false);
+  };
+
+  const classManagement = {
+    Class: "PPG001",
+    Duetime: "7am-9am (t4,t7)",
+    Department: "Department A",
+    Cycle: "Summer 2023",
+    Program: "DS201",
+    Student: 30,
   };
 
   return (
@@ -202,11 +215,4 @@ const ClassApprovalCp: React.FC = () => {
 
 export default ClassApprovalCp;
 
-const classManagement = {
-  Class: "PPG001",
-  Duetime: "7am-9am (t4,t7)",
-  Department: "Department A",
-  Cycle: "Summer 2023",
-  Program: "DS201",
-  Student: 30,
-};
+
