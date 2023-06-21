@@ -3,12 +3,8 @@ import {
   Box,
   Button,
   Dialog,
-  Divider,
   Grid,
   IconButton,
-  List,
-  ListItem,
-  ListItemText,
   Slide,
   Toolbar,
   Typography,
@@ -27,6 +23,7 @@ import { RootState } from "../../reduxs/Root";
 import CloseIcon from "@mui/icons-material/Close";
 import { TransitionProps } from "@mui/material/transitions";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { Trainee } from "../../models/traineeModel";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -41,6 +38,9 @@ const ClassDetailCp: React.FC = () => {
   const getClassDetail: Class = useSelector(
     (state: RootState) => state.class.class
   );
+  // const getListTrainee: Array<Trainee> = useSelector(
+  //   (state: RootState) => state.class
+  // );
   const dispatch = useDispatch();
 
   const ClassId = useParams();
@@ -73,6 +73,40 @@ const ClassDetailCp: React.FC = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  function parseScheduleString(scheduleString: string) {
+    const scheduleArray = scheduleString.split(";"); // Split the string by ";"
+    const schedule = [];
+
+    for (let i = 0; i < scheduleArray.length; i++) {
+      const entry = scheduleArray[i].trim(); // Remove leading/trailing spaces
+
+      if (entry.startsWith("Start")) {
+        const [, startTime, startDay] =
+          entry.match(/Start{([^,]+),([^}]+)}/) || []; // Extract startTime and startDay using regex
+        if (startTime && startDay) {
+          const stopEntry = scheduleArray[i + 1]?.trim(); // Get the next entry (Stop)
+          if (stopEntry && stopEntry.startsWith("Stop")) {
+            const [, stopTime, endDay] =
+              stopEntry.match(/Stop{([^,]+),([^}]+)}/) || []; // Extract stopTime and endDay using regex
+            if (stopTime && endDay) {
+              schedule.push({
+                startTime,
+                endTime: stopTime,
+                endDay,
+              });
+            }
+          }
+        }
+      }
+    }
+
+    return schedule;
+  }
+
+  const scheduleString = getClassDetail.generalSchedule;
+  const schedule = parseScheduleString(scheduleString);
+
 
   return (
     <Box>
@@ -143,7 +177,7 @@ const ClassDetailCp: React.FC = () => {
                       backgroundColor: "white",
                     }}
                   >
-                    {classDetail.course[1]}
+                    {getClassDetail.name}
                   </Grid>
                   <Grid
                     item
@@ -167,11 +201,17 @@ const ClassDetailCp: React.FC = () => {
                       textAlign: "center",
                     }}
                   >
-                    {classDetail.department}
+                    {getClassDetail.program.department?.name}
                   </Grid>
                 </Grid>
                 <Grid item container direction="row">
-                  <Grid item xs={3}>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      alignItems: "center",
+                    }}
+                  >
                     <strong>Quantity:</strong>
                   </Grid>
                   <Grid
@@ -182,25 +222,44 @@ const ClassDetailCp: React.FC = () => {
                       backgroundColor: "white",
                     }}
                   >
-                    {classDetail.quantity}/
-                    <strong>{classDetail.quantityMax}</strong>
+                    {getClassDetail.traineeList.length}/
+                    <strong>{getClassDetail.program.maxQuantity}</strong>
                   </Grid>
                   <Grid item xs={6}>
-                    <IconButton
-                      color="secondary"
-                      aria-label="add an alarm"
-                      onClick={handleClickOpen}
-                    >
-                      <VisibilityIcon
-                        sx={{
-                          paddingLeft: "5px",
-                          display: "flex",
-                          justifyContent: "start",
-                          alignItems: "center",
-                          height: "100%",
-                        }}
-                      />
-                    </IconButton>
+                    {getClassDetail.traineeList.length === 0 ? (
+                      <IconButton
+                        disabled
+                        color="secondary"
+                        aria-label="add an alarm"
+                        onClick={handleClickOpen}
+                      >
+                        <VisibilityIcon
+                          sx={{
+                            paddingLeft: "5px",
+                            display: "flex",
+                            justifyContent: "start",
+                            alignItems: "center",
+                            height: "100%",
+                          }}
+                        />
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        color="secondary"
+                        aria-label="add an alarm"
+                        onClick={handleClickOpen}
+                      >
+                        <VisibilityIcon
+                          sx={{
+                            paddingLeft: "5px",
+                            display: "flex",
+                            justifyContent: "start",
+                            alignItems: "center",
+                            height: "100%",
+                          }}
+                        />
+                      </IconButton>
+                    )}
                   </Grid>
                   <Box>
                     <Dialog
@@ -219,10 +278,7 @@ const ClassDetailCp: React.FC = () => {
                           >
                             <CloseIcon />
                           </IconButton>
-                          <Typography
-                            sx={{ ml: 2, flex: 1 }}
-                            variant="h6"
-                          >
+                          <Typography sx={{ ml: 2, flex: 1 }} variant="h6">
                             List Trainee
                           </Typography>
                           {/* <Button
@@ -255,74 +311,40 @@ const ClassDetailCp: React.FC = () => {
                     </Dialog>
                   </Box>
                 </Grid>
-                <Grid item container direction="row">
-                  <Grid item xs={3}>
-                    <strong>Start Date:</strong>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    sx={{
-                      textAlign: "center",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    {getClassDetail.startDate.toString()}
-                  </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    sx={{
-                      textAlign: "center",
-                    }}
-                  >
-                    <strong>End at</strong>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    sx={{
-                      textAlign: "center",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    {getClassDetail.endDate.toString()}
-                  </Grid>
-                </Grid>
-
-                <Grid item container direction="row">
-                  <Grid item xs={3}>
-                    <strong>Begin at:</strong>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    sx={{
-                      textAlign: "center",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    {classDetail.duetimefrom}
-                  </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    sx={{
-                      textAlign: "center",
-                    }}
-                  >
-                    <strong>End at</strong>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={3}
-                    sx={{
-                      textAlign: "center",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    {classDetail.duetimeto}
-                  </Grid>
+                <Grid container direction="row">
+                  {schedule.map((item, index) => (
+                    <React.Fragment key={index}>
+                      {index !== 0 && (
+                        <Grid
+                          item
+                          xs={12}
+                          sx={{
+                            height: "2px",
+                          }}
+                        ></Grid>
+                      )}
+                      <Grid item xs={3}>
+                        {index === 0 && <strong>Begin at:</strong>}
+                      </Grid>
+                      <Grid
+                        item
+                        xs={3}
+                        sx={{ textAlign: "center", backgroundColor: "white" }}
+                      >
+                        {item.startTime}-{item.endDay}
+                      </Grid>
+                      <Grid item xs={3}>
+                        {index === 0 && <strong>End at:</strong>}
+                      </Grid>
+                      <Grid
+                        item
+                        xs={3}
+                        sx={{ textAlign: "center", backgroundColor: "white" }}
+                      >
+                        {item.endTime}-{item.endDay}
+                      </Grid>
+                    </React.Fragment>
+                  ))}
                 </Grid>
 
                 <Grid item container direction="row">
@@ -343,7 +365,7 @@ const ClassDetailCp: React.FC = () => {
                 </Grid>
                 <Grid item container direction="row">
                   <Grid item xs={3}>
-                    <strong>Slots:</strong>
+                    <strong>Cycle:</strong>
                   </Grid>
                   <Grid
                     item
@@ -353,7 +375,7 @@ const ClassDetailCp: React.FC = () => {
                       backgroundColor: "white",
                     }}
                   >
-                    {classDetail.classdate.join(", ")}
+                    {getClassDetail.cycle.name}
                   </Grid>
                   <Grid item xs={5}></Grid>
                 </Grid>
@@ -393,8 +415,16 @@ const ClassDetailCp: React.FC = () => {
                 }}
               >
                 <strong style={{ padding: "5px", fontSize: "24px" }}>
-                  PPG201
+                  {getClassDetail.code}
                 </strong>
+                <Box
+                  sx={{
+                    padding: "5px",
+                    fontSize: "15px",
+                  }}
+                >
+                  {getClassDetail.program.description}
+                </Box>
               </Box>
             </Box>
           </Grid>
@@ -406,20 +436,6 @@ const ClassDetailCp: React.FC = () => {
 };
 
 export default ClassDetailCp;
-
-const classDetail = {
-  course: ["PPG201", "Medical Terminology"],
-  trainer: ["NVT1", "Nguyen Van Thanh"],
-  department: "Department A",
-  quantity: 30,
-  quantityMax: 35,
-  startdate: "01/01/2023",
-  endate: "01/06/2023",
-  duetimefrom: "07:00AM",
-  duetimeto: "09:00AM",
-  status: "pending",
-  classdate: ["Mo", "We"],
-};
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 70 },

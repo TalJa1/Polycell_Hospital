@@ -20,5 +20,5 @@ export interface Class {
   endDate: Date;
   program: Program
   cycle: Cycle
-  trainee: Trainee
+  traineeList: Trainee[]
 }

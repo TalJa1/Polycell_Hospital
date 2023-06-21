@@ -34,7 +34,7 @@ const initialState: initState = {
     endDate: new Date(),
     program: {} as Program,
     cycle: {} as Cycle,
-    trainee: {} as Trainee,
+    traineeList: [] as Trainee[],
   },
   loading: false,
 };
