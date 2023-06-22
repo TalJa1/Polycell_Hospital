@@ -125,7 +125,3 @@ const top100Films = [
 ];
 
 
-function dispatch(action: { type: string; payload: any; }) {
-  throw new Error("Function not implemented.");
-}
-

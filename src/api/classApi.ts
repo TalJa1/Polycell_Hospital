@@ -8,13 +8,16 @@ const classApi = {
   },
   getbyId: (params: any, id: any) => {
     const url: string = `/v1/class/${id}`;
-    // console.log("URL >>>>> ", url);
     return axiosClient.get(url, { params });
   },
   create: (params: any) => {
     const url = `/class`;
     return axiosClient.post(url, params);
   },
+  aprroval: (params: any) => {
+    const url = "/class/approve"
+    return axiosClient.post(url, params);
+  }
   // deleteBy: (param: any) => {
   //   const url = `/posts/${param}`;
   //   return axiosClient.delete(url);

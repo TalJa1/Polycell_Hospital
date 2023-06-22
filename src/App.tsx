@@ -25,7 +25,7 @@ function App() {
       <Route path="/" Component={Home} />
       <Route path="/class-management" Component={ClassManagement} />
       <Route path="/class-acceptance" Component={ClassAcceptance} />
-      <Route path="/class-approval/:classid" Component={ClassApproval} />
+      <Route path="/class-approval/:id" Component={ClassApproval} />
       <Route path="/class-detail/:id" Component={ClassDetail} />
       <Route path="/trainee-management" Component={TraineeManagement} />
       <Route path="/communty" />

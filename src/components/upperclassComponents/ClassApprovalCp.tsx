@@ -1,13 +1,6 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  Stack,
-} from "@mui/material";
+import React, { useRef, useState } from "react";
+import { Box, Grid, Stack } from "@mui/material";
+import Textarea from "@mui/joy/Textarea";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
 import Button from "@mui/material/Button";
@@ -22,51 +15,83 @@ const ClassApprovalCp: React.FC = () => {
   const getClassDetail: Class = useSelector(
     (state: RootState) => state.class.class
   );
-  const [acceptOpen, setAcceptOpen] = useState(false);
-  const [rejectOpen, setRejectOpen] = useState(false);
-  const classid = useParams();
+  const getID = useParams();
   const dispatch = useDispatch();
+  const [comment, setComment] = useState<string>("");
 
   const fetchClassDetailApi = React.useCallback(async () => {
     try {
-      const param = {
-      };
-      const response = await classApi.getbyId(param, classid.id);
-      console.log("Resp>>>> ", response.data);
+      const param = {};
+      const response = await classApi.getbyId(param, getID.id);
+      // console.log("Resp>>>> ", response.data);
       const action = fetchClassDetail(response.data);
       dispatch(action);
     } catch (error) {
       console.log(error);
     }
-  }, [dispatch, classid]);
+  }, [dispatch, getID.id]);
 
   React.useEffect(() => {
     fetchClassDetailApi();
   }, [fetchClassDetailApi]);
 
-  const handleAcceptOpen = () => {
-    setAcceptOpen(true);
+  const handleCommentChange = (e: any) => {
+    setComment(e.target.value);
   };
 
-  const handleRejectOpen = () => {
-    setRejectOpen(true);
+  // console.log(comment !== "");
+
+  const handleAccept = async () => {
+    if (comment !== "") {
+      try {
+        const params = {
+          comment: comment,
+          createdDate: new Date().toLocaleString("en-GB", { timeZone: "UTC" }),
+          status: "APPROVE",
+          classId: `${getID.id}`,
+        };
+        const response = await classApi.aprroval(params);
+        console.log("Approval Status accept >> ", response.status);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("Fill comment first");
+    }
   };
 
-  const handleAcceptClose = () => {
-    setAcceptOpen(false);
+  const handleReject = async () => {
+    if (comment !== "") {
+      try {
+        const params = {
+          comment: comment,
+          createdDate: new Date().toLocaleString("en-GB", { timeZone: "UTC" }),
+          status: "REJECT",
+          classId: `${getID.id}`,
+        };
+        const response = await classApi.aprroval(params);
+        console.log("Approval Status reject >> ", response.status);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("Fill comment first");
+    }
   };
 
-  const handleRejectClose = () => {
-    setRejectOpen(false);
-  };
+  // const handleAcceptClose = () => {
+  // };
+
+  // const handleRejectClose = () => {
+  // };
 
   const classManagement = {
-    Class: getClassDetail.name,
+    Class: `${getClassDetail.name}`,
     Duetime: "7am-9am (t4,t7)",
-    Department: <>{getClassDetail.program.department ?? ""}</>,
-    Cycle: getClassDetail.cycle.duration,
-    Program: getClassDetail.program.name,
-    Student: getClassDetail.trainees.length,
+    Department: `${getClassDetail.program.department?.name}`,
+    Cycle: `${getClassDetail.cycle.name}`,
+    Program: `${getClassDetail.program.code}`,
+    Student: `${getClassDetail.trainees.length}`,
   };
 
   return (
@@ -137,7 +162,7 @@ const ClassApprovalCp: React.FC = () => {
                     ))}
                   </Grid>
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={5} className="comment-box">
                   <Box
                     sx={{
                       backgroundColor: "#E6E6E6",
@@ -145,7 +170,14 @@ const ClassApprovalCp: React.FC = () => {
                       height: "100%",
                       borderRadius: "5px",
                     }}
-                  ></Box>
+                  >
+                    <Textarea
+                      onChange={handleCommentChange}
+                      name="Soft"
+                      placeholder="Comment in here…"
+                      variant="soft"
+                    />
+                  </Box>
                 </Grid>
               </Grid>
             </Grid>
@@ -159,19 +191,15 @@ const ClassApprovalCp: React.FC = () => {
                 <Button
                   variant="contained"
                   color="success"
-                  onClick={handleAcceptOpen}
+                  onClick={handleAccept}
                 >
                   Accept
                 </Button>
-                <Button
-                  variant="outlined"
-                  color="error"
-                  onClick={handleRejectOpen}
-                >
-                  Cancel
+                <Button variant="outlined" color="error" onClick={handleReject}>
+                  Reject
                 </Button>
               </Stack>
-              <Dialog open={acceptOpen} onClose={handleAcceptClose}>
+              {/* <Dialog open={acceptOpen} onClose={handleAcceptClose}>
                 <DialogTitle>Accept</DialogTitle>
                 <DialogContent>Accept Dialog Content</DialogContent>
                 <DialogActions>
@@ -184,8 +212,8 @@ const ClassApprovalCp: React.FC = () => {
                   </Button>
                   <Button onClick={handleAcceptClose}>No</Button>
                 </DialogActions>
-              </Dialog>
-              <Dialog open={rejectOpen} onClose={handleRejectClose}>
+              </Dialog> */}
+              {/* <Dialog open={rejectOpen} onClose={handleRejectClose}>
                 <DialogTitle>Reject</DialogTitle>
                 <DialogContent>Reject Dialog Content</DialogContent>
                 <DialogActions>
@@ -198,7 +226,7 @@ const ClassApprovalCp: React.FC = () => {
                   </Button>
                   <Button onClick={handleRejectClose}>No</Button>
                 </DialogActions>
-              </Dialog>
+              </Dialog> */}
             </div>
           </Grid>
         </Grid>
@@ -227,6 +255,7 @@ const ClassApprovalCp: React.FC = () => {
           >
             <Grid item>
               <strong style={{ fontSize: "20px" }}>Program</strong>
+              <Box>{getClassDetail.program.description}</Box>
             </Grid>
           </Grid>
         </Grid>
@@ -238,7 +267,3 @@ const ClassApprovalCp: React.FC = () => {
 };
 
 export default ClassApprovalCp;
-
-function dispatch(action: { type: string; payload: any }) {
-  throw new Error("Function not implemented.");
-}
