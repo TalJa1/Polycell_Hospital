@@ -48,12 +48,15 @@ import { formatGeneralSchedule } from "../../utils/formatDay";
 import { GridRowSelectionModel } from "@mui/x-data-grid";
 import { useForm, SubmitHandler } from "react-hook-form";
 import classApi from "../../api/classApi";
+import { useNavigate } from "react-router-dom";
 
 const ClassAddForm: React.FC = () => {
   const createClassData: CreateClassFormData = useSelector(
     (state: RootState) => state.program.createClassData
   );
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -161,7 +164,7 @@ const ClassAddForm: React.FC = () => {
   }
 
   //
-  const handlePostData = useCallback(async () => {
+  const handlePostData = async () => {
     const params = {
       name: selectClassName,
       generalSchedule: formatGeneralSchedule(generalSchedules),
@@ -169,34 +172,24 @@ const ClassAddForm: React.FC = () => {
       trainerId: selectedTrainer?.id,
       programId: selectedCourse?.id,
       cycleId: selectedCycle?.id,
-      quantity: selectQuantity,
+      quantity: selectTraineeList.length,
       startDate: selectStartDate?.format("YYYY-MM-DD"),
       endDate: selectEndDate?.format("YYYY-MM-DD"),
       traineeIds: selectTraineeList,
     };
-
     try {
       console.log(params);
       const response = await classApi.create(params);
-      if(response.status === 200) {
-        console.log("SUCCESS")
-      }
+      console.log(response.status);
+      // if(response.status === 200) {
+      //   console.log("SUCCESS")
+      //   navigate("/class-acceptance");
+      // }
       // console.log("Post request successful:", response.data);
     } catch (error) {
       console.error("Error posting data:", error);
     }
-  }, [
-    generalSchedules,
-    selectClassName,
-    selectEndDate,
-    selectQuantity,
-    selectStartDate,
-    selectTraineeList,
-    selectedCourse?.department?.id,
-    selectedCourse?.id,
-    selectedCycle?.id,
-    selectedTrainer?.id,
-  ]);
+  }
 
   useEffect(() => {
     fetchCreateClassDataForm();
@@ -674,8 +667,8 @@ const ClassAddForm: React.FC = () => {
                         width: "100%",
                       }}
                       format="DD-MM-YYYY"
-                      value={selectStartDate}
-                      onChange={handleStartDateChange}
+                      // value={selectStartDate}
+                      // onChange={handleStartDateChange}
                     />
                   </Grid>
                   <Grid item sm={1}>
@@ -692,14 +685,14 @@ const ClassAddForm: React.FC = () => {
                   </Grid>
 
                   <Grid item sm={5}>
-                    <DatePicker
+                    {/* <DatePicker
                       sx={{
                         width: "100%",
                       }}
                       format="DD-MM-YYYY"
                       value={selectEndDate}
                       readOnly
-                    />
+                    /> */}
                   </Grid>
                 </Grid>
               </Grid>

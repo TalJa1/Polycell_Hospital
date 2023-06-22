@@ -116,12 +116,13 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
           </Toolbar>
         </AppBar>
         <DialogContent dividers>
-          <DialogContentText id="alert-dialog-description">
-            <TableStudent
+          <Box>
+          <TableStudent
               rowSelectionModel={rowSelectionModel}
               setRowSelectionModel={setRowSelectionModel}
             />
-          </DialogContentText>
+          </Box>
+          
           <Box
             sx={{
               paddingTop: "10px",
