@@ -5,6 +5,12 @@ import {
   Card,
   CardContent,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
   FormControlLabel,
   Grid,
   IconButton,
@@ -40,12 +46,20 @@ import programApi from "../../api/programApi";
 import { GeneralSchedule } from "../../utils/constant";
 import { formatGeneralSchedule } from "../../utils/formatDay";
 import { GridRowSelectionModel } from "@mui/x-data-grid";
+import { useForm, SubmitHandler } from "react-hook-form";
+import classApi from "../../api/classApi";
 
 const ClassAddForm: React.FC = () => {
   const createClassData: CreateClassFormData = useSelector(
     (state: RootState) => state.program.createClassData
   );
   const dispatch = useDispatch();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const [selectedCourse, setSelectedCourse] = useState<Program | null>(null);
   const [selectedTrainer, setselectedTrainer] = useState<Trainer | null>(null);
@@ -57,11 +71,19 @@ const ClassAddForm: React.FC = () => {
   const [generalSchedules, setGeneralSchedules] = useState<GeneralSchedule[]>(
     []
   );
-  const [selectClassName, setSelectClassName] = useState<string>('');
-  const [selectTraineeList, setSelectTraineeList] = useState<GridRowSelectionModel>([]);
+  const [selectClassName, setSelectClassName] = useState<string>("");
+  const [selectTraineeList, setSelectTraineeList] =
+    useState<GridRowSelectionModel>([]);
 
   const handleClassName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectClassName(event.target.value)
+    setSelectClassName(event.target.value);
+  };
+
+  const [warning, setWarning] = useState<string>("");
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleCourseChange = (
@@ -127,9 +149,20 @@ const ClassAddForm: React.FC = () => {
     }
   }, [dispatch]);
 
+  const handleCheckForm = () => {
+    if(selectTraineeList.length.toString() >= selectQuantity) {
+      setWarning("The number of students exceeds the allowable limit")
+    } else if(selectTraineeList.length < selectedCourse?.minQuantity!) {
+      setWarning("The number of students is not enough")
+    }else {
+      setWarning("");
+    }
+    setOpen(true);
+  }
+
   //
   const handlePostData = useCallback(async () => {
-    const data = {
+    const params = {
       name: selectClassName,
       generalSchedule: formatGeneralSchedule(generalSchedules),
       departmentId: selectedCourse?.department?.id,
@@ -143,13 +176,27 @@ const ClassAddForm: React.FC = () => {
     };
 
     try {
-      console.log(data);
-      // const response = await axios.post("/api/endpoint", data);
+      console.log(params);
+      const response = await classApi.create(params);
+      if(response.status === 200) {
+        console.log("SUCCESS")
+      }
       // console.log("Post request successful:", response.data);
     } catch (error) {
       console.error("Error posting data:", error);
     }
-  }, [generalSchedules, selectClassName, selectEndDate, selectQuantity, selectStartDate, selectTraineeList, selectedCourse?.department?.id, selectedCourse?.id, selectedCycle?.id, selectedTrainer?.id]);
+  }, [
+    generalSchedules,
+    selectClassName,
+    selectEndDate,
+    selectQuantity,
+    selectStartDate,
+    selectTraineeList,
+    selectedCourse?.department?.id,
+    selectedCourse?.id,
+    selectedCycle?.id,
+    selectedTrainer?.id,
+  ]);
 
   useEffect(() => {
     fetchCreateClassDataForm();
@@ -351,185 +398,129 @@ const ClassAddForm: React.FC = () => {
 
   return (
     <Box sx={{ padding: 5 }}>
-      <Grid container columnSpacing={2}>
-        <Grid
-          item
-          xs={9}
-          sx={{ backgroundColor: "white", borderRadius: "5px" }}
-        >
+      <form>
+        <Grid container columnSpacing={2}>
           <Grid
-            container
-            spacing={3}
-            sx={{
-              padding: "32px",
-            }}
+            item
+            xs={9}
+            sx={{ backgroundColor: "white", borderRadius: "5px" }}
           >
-            <Grid item xs={12} sm={2}>
-              <InputLabel>Program*</InputLabel>
-            </Grid>
-            <Grid item xs={12} sm={selectedCourse != null ? 5 : 9}>
-              <Autocomplete
-                options={createClassData.programs}
-                getOptionLabel={(option) => option.name}
-                renderInput={(params) => <TextField {...params} />}
-                value={selectedCourse}
-                onChange={handleCourseChange}
-                fullWidth
-              />
-            </Grid>
-            {selectedCourse != null ? (
-              <Grid item xs={12} sm={5}>
-                {selectedCourse && <p>Code name: {selectedCourse.code}</p>}
+            <Grid
+              container
+              spacing={3}
+              sx={{
+                padding: "32px",
+              }}
+            >
+              <Grid item xs={12} sm={2}>
+                <InputLabel>Program*</InputLabel>
               </Grid>
-            ) : (
-              <div></div>
-            )}
-
-            {/* Department */}
-            <Grid item xs={12} sm={2}>
-              <InputLabel>Department</InputLabel>
-            </Grid>
-
-            <Grid item xs={12} sm={selectedCourse != null ? 5 : 9}>
-              <TextField
-                // id="filled-read-only-input"
-                value={
-                  selectedCourse != null ? selectedCourse.department?.name : ""
-                }
-                InputProps={{
-                  readOnly: true,
-                }}
-                fullWidth
-              />
-            </Grid>
-            {selectedCourse != null ? (
-              <Grid item xs={12} sm={5}>
-                {selectedCourse && (
-                  <p>Code name: {selectedCourse.department?.code}</p>
-                )}
+              <Grid item xs={12} sm={selectedCourse != null ? 5 : 9}>
+                <Autocomplete
+                  options={createClassData.programs}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => (
+                    <TextField
+                      {...register("program", { required: true })}
+                      error={errors.program ? true : false}
+                      helperText={errors.program && "This field is required"}
+                      {...params}
+                    />
+                  )}
+                  value={selectedCourse}
+                  onChange={handleCourseChange}
+                  fullWidth
+                />
               </Grid>
-            ) : (
-              <div></div>
-            )}
+              {selectedCourse != null ? (
+                <Grid item xs={12} sm={5}>
+                  {selectedCourse && <p>Code name: {selectedCourse.code}</p>}
+                </Grid>
+              ) : (
+                <div></div>
+              )}
 
-            {/* Department */}
-            <Grid item xs={12} sm={2}>
-              <InputLabel>Class name*</InputLabel>
-            </Grid>
-            <Grid item xs={12} sm={9}>
-              {/* <Autocomplete
-                        readOnly={true}
-                      options={top100Films}
-                      renderInput={(params) => (
-                        <TextField {...params} label="Department" fullWidth />
-                      )}
-                      fullWidth
-                    /> */}
-              <TextField
-                // id="filled-read-only-input"
+              
 
-                value={selectClassName}
-                onChange={handleClassName}
-                fullWidth
-              />
-            </Grid>
-
-            {/* Trainer */}
-            <Grid item xs={12} sm={2}>
-              <InputLabel>Trainer*</InputLabel>
-            </Grid>
-            <Grid item xs={12} sm={selectedTrainer != null ? 5 : 9}>
-              <Autocomplete
-                options={createClassData.trainers}
-                getOptionLabel={(option) => option.name}
-                renderInput={(params) => <TextField {...params} />}
-                value={selectedTrainer}
-                onChange={handleTrainerChange}
-                fullWidth
-              />
-            </Grid>
-            {selectedTrainer != null ? (
-              <Grid item xs={12} sm={5}>
-                {selectedTrainer && <p>Code name: {selectedTrainer.code}</p>}
+              {/* Department */}
+              <Grid item xs={12} sm={2}>
+                <InputLabel>Department</InputLabel>
               </Grid>
-            ) : (
-              <div></div>
-            )}
 
-            {/* Cycle */}
-            <Grid item xs={12} sm={2}>
-              <InputLabel>Cycle*</InputLabel>
-            </Grid>
-            <Grid item xs={12} sm={selectedCycle != null ? 5 : 9}>
-              <Autocomplete
-                options={createClassData.cycles}
-                getOptionLabel={(option) => option.name}
-                renderInput={(params) => <TextField {...params} />}
-                value={selectedCycle}
-                onChange={handleCycleChange}
-                fullWidth
-              />
-            </Grid>
-            {selectedCycle != null ? (
-              <Grid item xs={12} sm={5}>
-                {selectedCycle && (
-                  <p>Duration: {selectedCycle.duration} tháng</p>
-                )}
+              <Grid item xs={12} sm={selectedCourse != null ? 5 : 9}>
+                <TextField
+                  // id="filled-read-only-input"
+                  value={
+                    selectedCourse != null
+                      ? selectedCourse.department?.name
+                      : ""
+                  }
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  fullWidth
+                />
               </Grid>
-            ) : (
-              <div></div>
-            )}
+              {selectedCourse != null ? (
+                <Grid item xs={12} sm={5}>
+                  {selectedCourse && (
+                    <p>Code name: {selectedCourse.department?.code}</p>
+                  )}
+                </Grid>
+              ) : (
+                <div></div>
+              )}
 
-            {/* QUANTITY */}
-            <Grid item xs={12} sm={2}>
-              <InputLabel>Quantity</InputLabel>
-            </Grid>
-            <Grid item xs={12} sm={10}>
-              <Grid container>
-                <Grid item sm={12}>
-                  <Grid container>
-                    <Grid item sm={3}>
-                      <TextField
-                        id="quantity"
-                        name="quantity"
-                        label="Min"
-                        // fullWidth
-                        size="medium"
-                        autoComplete="off"
-                        variant="outlined"
-                        sx={{ float: "right" }}
-                        inputProps={{
-                          style: { textAlign: "right" },
-                        }}
-                        value={
-                          selectedCourse != null
-                            ? selectedCourse.minQuantity
-                            : ""
-                        }
-                      />
-                    </Grid>
+              {/* QUANTITY */}
+              <Grid item xs={12} sm={2}>
+                <InputLabel>Quantity</InputLabel>
+              </Grid>
+              <Grid item xs={12} sm={10}>
+                <Grid container>
+                  <Grid item sm={12}>
+                    <Grid container>
+                      <Grid item sm={3}>
+                        <TextField
+                          id="quantity"
+                          name="quantity"
+                          label="Min"
+                          // fullWidth
+                          size="medium"
+                          autoComplete="off"
+                          variant="outlined"
+                          sx={{ float: "right" }}
+                          inputProps={{
+                            style: { textAlign: "right" },
+                          }}
+                          value={
+                            selectedCourse != null
+                              ? selectedCourse.minQuantity
+                              : ""
+                          }
+                        />
+                      </Grid>
 
-                    <Grid item xs={12} sm={2}></Grid>
-                    <Grid item sm={3}>
-                      <TextField
-                        id="quantity"
-                        name="quantity"
-                        label="Max"
-                        // fullWidth
-                        size="medium"
-                        autoComplete="off"
-                        variant="outlined"
-                        sx={{ float: "right" }}
-                        inputProps={{
-                          style: { textAlign: "right" },
-                        }}
-                        value={selectedCourse != null ? selectQuantity : ""}
-                        onChange={handleQuantityChange}
-                      />
-                    </Grid>
+                      <Grid item xs={12} sm={2}></Grid>
+                      <Grid item sm={3}>
+                        <TextField
+                          id="quantity"
+                          name="quantity"
+                          label="Max"
+                          // fullWidth
+                          size="medium"
+                          autoComplete="off"
+                          variant="outlined"
+                          sx={{ float: "right" }}
+                          inputProps={{
+                            style: { textAlign: "right" },
+                          }}
+                          value={selectedCourse != null ? selectQuantity : ""}
+                          onChange={handleQuantityChange}
+                        />
+                      </Grid>
 
-                    <Grid item sm={4}>
-                      {/* <IconButton
+                      <Grid item sm={4}>
+                        {/* <IconButton
                       color="secondary"
                       aria-label="add an alarm"
                       onClick={handleClickOpen}
@@ -544,137 +535,240 @@ const ClassAddForm: React.FC = () => {
                         }}
                       />
                     </IconButton> */}
+                      </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
 
-                {/* <Grid item sm={1}>
+                  {/* <Grid item sm={1}>
                   to
                 </Grid> */}
 
-                {/* <Grid item sm={4}>
+                  {/* <Grid item sm={4}>
                   <Grid container>
                     
                   </Grid>
                 </Grid> */}
-              </Grid>
-            </Grid>
-
-            {/* Due time */}
-            <Grid item xs={12} sm={2}>
-              <InputLabel
-
-              // sx={{
-              //   display: "flex",
-              //   justifyContent: "center",
-              //   fontWeight: 700,
-              // }}
-              >
-                Enroll trainee
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} sm={5}>
-              <ClassAddFormPopup setSelectTraineeList={setSelectTraineeList} selectTraineeList={selectTraineeList}/>
-            </Grid>
-            <Grid item xs={12} sm={5}>
-               Trainee quantity: {selectTraineeList.length > 0 ? selectTraineeList.length : 0} / {selectQuantity}
-            </Grid>
-
-            {/* Start date */}
-            <Grid item xs={12} sm={2}>
-              <InputLabel>Start date</InputLabel>
-            </Grid>
-            <Grid item xs={12} sm={10}>
-              <Grid container>
-                <Grid item sm={5}>
-                  <DatePicker
-                    sx={{
-                      width: "100%",
-                    }}
-                    format="DD-MM-YYYY"
-                    value={selectStartDate}
-                    onChange={handleStartDateChange}
-                  />
-                </Grid>
-                <Grid item sm={1}>
-                  <InputLabel
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      fontWeight: 700,
-                      //   float: "right",
-                    }}
-                  >
-                    to
-                  </InputLabel>
-                </Grid>
-
-                <Grid item sm={5}>
-                  <DatePicker
-                    sx={{
-                      width: "100%",
-                    }}
-                    format="DD-MM-YYYY"
-                    value={selectEndDate}
-                    readOnly
-                  />
                 </Grid>
               </Grid>
-            </Grid>
 
-            {/* Due time */}
-            <Grid item xs={12} sm={2}>
-              <InputLabel>General time</InputLabel>
-            </Grid>
-            <Grid item xs={12} sm={10}>
-              <TodoGeneralTimeList
-                generalSchedules={generalSchedules}
-                setGeneralSchedules={setGeneralSchedules}
-              />
-            </Grid>
+              {/* Department */}
+              <Grid item xs={12} sm={2}>
+                <InputLabel>Class name*</InputLabel>
+              </Grid>
+              <Grid item xs={12} sm={9}>
+                {/* <Autocomplete
+                        readOnly={true}
+                      options={top100Films}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Department" fullWidth />
+                      )}
+                      fullWidth
+                    /> */}
+                <TextField
+                  // id="filled-read-only-input"
+                  {...register("className", { required: true })}
+                  error={errors.className ? true : false}
+                  helperText={errors.className && "This field is required"}
+                  value={selectClassName}
+                  onChange={handleClassName}
+                  fullWidth
+                />
+              </Grid>
 
-            {/* Button */}
-            <Grid
-              item
-              xs={12}
-              sx={{ display: "flex", justifyContent: "space-evenly" }}
-            >
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "#000",
-                }}
-                // onClick={handlePostData}
+              {/* Trainer */}
+              <Grid item xs={12} sm={2}>
+                <InputLabel>Trainer*</InputLabel>
+              </Grid>
+              <Grid item xs={12} sm={selectedTrainer != null ? 5 : 9}>
+                <Autocomplete
+                  options={createClassData.trainers}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => (
+                    <TextField
+                      {...register("trainer", { required: true })}
+                      error={errors.trainer ? true : false}
+                      helperText={errors.trainer && "This field is required"}
+                      {...params}
+                    />
+                  )}
+                  value={selectedTrainer}
+                  onChange={handleTrainerChange}
+                  fullWidth
+                />
+              </Grid>
+              {selectedTrainer != null ? (
+                <Grid item xs={12} sm={5}>
+                  {selectedTrainer && <p>Code name: {selectedTrainer.code}</p>}
+                </Grid>
+              ) : (
+                <div></div>
+              )}
+
+              {/* Cycle */}
+              <Grid item xs={12} sm={2}>
+                <InputLabel>Cycle*</InputLabel>
+              </Grid>
+              <Grid item xs={12} sm={selectedCycle != null ? 5 : 9}>
+                <Autocomplete
+                  options={createClassData.cycles}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => (
+                    <TextField
+                      {...register("cycle", { required: true })}
+                      error={errors.cycle ? true : false}
+                      helperText={errors.cycle && "This field is required"}
+                      {...params}
+                    />
+                  )}
+                  value={selectedCycle}
+                  onChange={handleCycleChange}
+                  fullWidth
+                />
+              </Grid>
+              {selectedCycle != null ? (
+                <Grid item xs={12} sm={5}>
+                  {selectedCycle && (
+                    <p>Duration: {selectedCycle.duration} tháng</p>
+                  )}
+                </Grid>
+              ) : (
+                <div></div>
+              )}
+
+              
+
+              {/* Due time */}
+              <Grid item xs={12} sm={2}>
+                <InputLabel
+
+                // sx={{
+                //   display: "flex",
+                //   justifyContent: "center",
+                //   fontWeight: 700,
+                // }}
+                >
+                  Enroll trainee
+                </InputLabel>
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <ClassAddFormPopup
+                  setSelectTraineeList={setSelectTraineeList}
+                  selectTraineeList={selectTraineeList}
+                />
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                Trainee quantity:{" "}
+                {selectTraineeList.length > 0 ? selectTraineeList.length : 0} /{" "}
+                {selectQuantity}
+              </Grid>
+
+              {/* Start date */}
+              <Grid item xs={12} sm={2}>
+                <InputLabel>Start date</InputLabel>
+              </Grid>
+              <Grid item xs={12} sm={10}>
+                <Grid container>
+                  <Grid item sm={5}>
+                    <DatePicker
+                      sx={{
+                        width: "100%",
+                      }}
+                      format="DD-MM-YYYY"
+                      value={selectStartDate}
+                      onChange={handleStartDateChange}
+                    />
+                  </Grid>
+                  <Grid item sm={1}>
+                    <InputLabel
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        fontWeight: 700,
+                        //   float: "right",
+                      }}
+                    >
+                      to
+                    </InputLabel>
+                  </Grid>
+
+                  <Grid item sm={5}>
+                    <DatePicker
+                      sx={{
+                        width: "100%",
+                      }}
+                      format="DD-MM-YYYY"
+                      value={selectEndDate}
+                      readOnly
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              {/* Due time */}
+              <Grid item xs={12} sm={2}>
+                <InputLabel>General time*</InputLabel>
+              </Grid>
+              <Grid item xs={12} sm={10}>
+                <TodoGeneralTimeList
+                  generalSchedules={generalSchedules}
+                  setGeneralSchedules={setGeneralSchedules}
+                />
+              </Grid>
+
+              {/* Button */}
+              <Grid
+                item
+                xs={12}
+                sx={{ display: "flex", justifyContent: "space-evenly" }}
               >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "#000",
-                }}
-                onClick={handlePostData}
-              >
-                Create
-              </Button>
-              {/* <ClassAddFormPopup /> */}
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#000",
+                  }}
+                  // onClick={handlePostData}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#000",
+                  }}
+                  onClick={handleSubmit(handleCheckForm)}
+                >
+                  Create
+                </Button>
+                {/* <ClassAddFormPopup /> */}
+              </Grid>
             </Grid>
           </Grid>
+          <CardInformation />
         </Grid>
-        <CardInformation />
-      </Grid>
+      </form>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {warning !==  "" ? "Warning" : "Do you want to create?"}
+        </DialogTitle>
+        <DialogContent>
+           {warning.toUpperCase()}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Disagree</Button>
+          <Button onClick={handlePostData} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
 
-// interface Trainer {
-//   label: string;
-// }
-
-// const trainer: Trainer[] = [
-//   { label: "Pham Van A" },
-//   { label: "Nguyen Van B" },
-//   { label: "Tran Thi C" },
-// ];
-
 export default ClassAddForm;
+
+

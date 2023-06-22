@@ -83,7 +83,7 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
         }}
         onClick={handleClickOpen}
       >
-        Add automatic
+        List student
       </Button>
       <Dialog
         open={open}
