@@ -1,19 +1,46 @@
 import React from "react";
 import { Button, Autocomplete, TextField } from "@mui/material";
-// import { TimePicker } from "@mui/x-date-pickers";
 import SendIcon from "@mui/icons-material/Send";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../reduxs/Root";
+import { Class } from "../../models/classManagementModel";
+import classApi from "../../api/classApi";
+import { fetchClass } from "../../actions/classAction";
 
 const ClassAcceptCp: React.FC = () => {
+  const getClassRequestAccept : Class[] = useSelector(
+    (state: RootState) => state.class.list
+  );
+  const dispatch = useDispatch();
   const [search, setSearch] = React.useState<string>("");
 
   const handleSearch = (input: string) => {
     setSearch(input);
     console.log(input);
   };
+
+  const fetchClassApi = React.useCallback(async () => {
+    try {
+      const param = {
+        status: "PENDING"
+      };
+      const response = await classApi.getAll(param);
+      console.log("response AC>>>>", response.data)
+      const action = fetchClass(response.data);
+      dispatch(action);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    fetchClassApi();
+  }, [fetchClassApi]);
+
   return (
     <div className="class-container">
       <Header title="Class Acceptance" imageUrl="" />
@@ -34,26 +61,26 @@ const ClassAcceptCp: React.FC = () => {
               <div className="lable-div">
                 <span>Courses</span>
                 <span>Classes</span>
-                <span>Quantities</span>
+                {/* <span>Quantities</span> */}
                 <span>Statuses</span>
                 <span>Created Date</span>
                 <span>Options</span>
               </div>
               <div className="class-info">
-                {classDetail.map((item, index) => (
+                {getClassRequestAccept.map((item, index) => (
                   <div key={index}>
                     <div
                       className={`class-item ${
                         index % 2 === 0 ? "even" : "odd"
                       }`}
                     >
-                      <span>{item.course}</span>
-                      <span>{item.class}</span>
-                      <span>{item.quantity}</span>
+                      <span>{item.programCode}</span>
+                      <span>{item.code}</span>
+                      {/* <span>{item.trainees.length}</span> */}
                       <span>{item.status}</span>
-                      <span>{item.createdDate}</span>
+                      <span>{item.createdDate.toString()}</span>
                       <span>
-                        <Link to="/class-approval">
+                        <Link to={`/class-approval/${item.id}`}>
                           <VisibilityIcon sx={{ color: "blue" }} />
                         </Link>
                       </span>
@@ -97,25 +124,4 @@ const top100Films = [
   "Most recently","Old news"
 ];
 
-const classDetail = [
-  {
-    course: "PPG201",
-    class: "SS011",
-    quantity: "30",
-    status: "pending",
-    trainer: "Pham Van A",
-    duetime: "7am-9am (t4,t7)",
-    deparment: "A",
-    createdDate: '20/10/2023'
-  },
-  {
-    course: "PPG202",
-    class: "SS021",
-    quantity: "25",
-    status: "pending",
-    trainer: "Pham Van B",
-    duetime: "7am-9am (t2,t6)",
-    deparment: "A",
-    createdDate: '20/10/2023'
-  },
-];
+

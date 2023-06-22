@@ -1,4 +1,5 @@
 import { Cycle, Program } from "./programAddModel";
+import { Trainees } from "./traineeModel";
 
 export interface Class {
   id: string;
@@ -19,4 +20,5 @@ export interface Class {
   endDate: Date;
   program: Program
   cycle: Cycle
+  trainees: Trainees[]
 }

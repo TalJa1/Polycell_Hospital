@@ -1,5 +1,6 @@
 import { Class } from "../models/classManagementModel";
 import { Cycle, Program } from "../models/programAddModel";
+import { Trainees } from "../models/traineeModel";
 import { CREATE_CLASS_REQUEST, CREATE_CLASS_SUCCESS } from "../utils/constant";
 
 interface initState {
@@ -33,6 +34,7 @@ const initialState: initState = {
     endDate: new Date(),
     program: {} as Program,
     cycle: {} as Cycle,
+    trainees: [] as Trainees[],
   },
   loading: false,
 };
@@ -74,7 +76,7 @@ const ClassReducer = (state = initialState, { type, payload }: Props) => {
     case CREATE_CLASS_SUCCESS:
       return {
         ...state,
-        class: payload
+        class: payload,
       };
 
     default:
