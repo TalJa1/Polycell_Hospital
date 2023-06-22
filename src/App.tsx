@@ -14,11 +14,9 @@ import TraineeManagement from "./layouts/TraineeManagement";
 
 import TraineeDetail from "./layouts/TraineeDetail";
 import ClassListTrainee from "./components/classComponents/ClassListTrainee";
-import CourseDetailPage from "./layouts/trainee/CourseDetailPage";
 import DocumentPage from "./layouts/trainee/DocumentPage";
 import SyllabusPage from "./layouts/trainee/SyllabusPage";
 import CoursesPage from "./layouts/trainer/CoursesPage";
-import CourseViewTopicAccordionCp from "./components/courseComponents/CourseViewTopicAccordionCp";
 
 function App() {
   return (
@@ -27,7 +25,7 @@ function App() {
       <Route path="/" Component={Home} />
       <Route path="/class-management" Component={ClassManagement} />
       <Route path="/class-acceptance" Component={ClassAcceptance} />
-      <Route path="/class-approval" Component={ClassApproval} />
+      <Route path="/class-approval/:id" Component={ClassApproval} />
       <Route path="/class-detail/:id" Component={ClassDetail} />
       <Route path="/trainee-management" Component={TraineeManagement} />
       <Route path="/communty" />
