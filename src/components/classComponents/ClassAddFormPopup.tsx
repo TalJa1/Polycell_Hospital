@@ -11,6 +11,7 @@ import {
   Grid,
   IconButton,
   InputLabel,
+  Pagination,
   Paper,
   Slide,
   Table,
@@ -21,43 +22,60 @@ import {
   TableRow,
   TextField,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
 import { ArrowDropDownIcon } from "@mui/x-date-pickers";
 
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { TransitionProps } from "@mui/material/transitions";
+import { RootState } from "../../reduxs/Root";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchTraineeTotalSuccess,
+  fetchTraineesRequest,
+  fetchTraineesSuccess,
+} from "../../actions/traineeAction";
+import traineeApi from "../../api/traineeApi";
+import {
+  DataGrid,
+  GridColDef,
+  GridRowId,
+  GridRowSelectionModel,
+  GridValueGetterParams,
+} from "@mui/x-data-grid";
 
+interface ClassAddFormProps {
+  selectTraineeList: GridRowSelectionModel;
+  setSelectTraineeList: React.Dispatch<React.SetStateAction<GridRowSelectionModel>>;
+}
 
-
-const ClassAddFormPopup: React.FC = () => {
+const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
+  selectTraineeList,
+  setSelectTraineeList,
+}) => {
   const [open, setOpen] = React.useState(false);
+  const [rowSelectionModel, setRowSelectionModel] =
+    React.useState<GridRowSelectionModel>([]);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
+    setRowSelectionModel([
+      ...selectTraineeList
+    ])
+    setOpen(false);
+  };
+
+  const handleSave = () => {
+    setSelectTraineeList(rowSelectionModel);
     setOpen(false);
   };
 
   return (
     <div>
-      {/* <IconButton
-        color="secondary"
-        aria-label="add an alarm"
-      >
-        <VisibilityIcon
-          sx={{
-            paddingLeft: "5px",
-            display: "flex",
-            justifyContent: "start",
-            alignItems: "center",
-            height: "100%",
-          }}
-        />
-      </IconButton> */}
       <Button
         variant="contained"
         sx={{
@@ -91,215 +109,120 @@ const ClassAddFormPopup: React.FC = () => {
               Add Trainee
             </Typography>
             <Box sx={{ marginLeft: "auto" }}>
-              <Button autoFocus color="inherit" onClick={handleClose}>
+              <Button autoFocus color="inherit" onClick={handleSave}>
                 Save
               </Button>
             </Box>
           </Toolbar>
         </AppBar>
         <DialogContent dividers>
-          <DialogContentText>Amount: </DialogContentText>
-          <DialogContentText>Status: pending</DialogContentText>
-
           <DialogContentText id="alert-dialog-description">
-            <TableStudent />
+            <TableStudent
+              rowSelectionModel={rowSelectionModel}
+              setRowSelectionModel={setRowSelectionModel}
+            />
           </DialogContentText>
+          <Box
+            sx={{
+              paddingTop: "10px",
+              float: "right",
+            }}
+          ></Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose} autoFocus>
-            Add
-          </Button>
-        </DialogActions>
       </Dialog>
     </div>
   );
 };
 
-function Student(
-  id: string,
-  name: string,
-  phone: string,
-  title: string,
-  currentSpecialization: string
-) {
-  return { id, name, phone, title, currentSpecialization, selected: false };
+interface TableStudentProps {
+  rowSelectionModel: GridRowSelectionModel;
+  setRowSelectionModel: (selectionModel: GridRowSelectionModel) => void;
 }
 
-const rows = [
-  Student("SE1615", "Pham Van A", "0908775112", "BS", "Surgery 1"),
-  Student("SE1616", "Nguyen Thi B", "0908775113", "BS", "Surgery 2"),
-  Student("SE1617", "Le Van C", "0908775114", "BS", "Surgery 3"),
-  Student("SE1618", "Le Van D", "0908775115", "BS", "Surgery 4"),
+function TableStudent({
+  rowSelectionModel,
+  setRowSelectionModel,
+}: TableStudentProps) {
+  const dispatch = useDispatch();
+  const { trainees, total } = useSelector((state: RootState) => state.trainee);
 
-  // Add more students here...
-];
+  const [paginationModel, setPaginationModel] = React.useState({
+    pageSize: 10,
+    page: 0,
+  });
 
-function TableStudent() {
-  const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-  const [sortBy, setSortBy] = useState<"id" | "name">("id");
+  const fetchTrainees = useCallback(async () => {
+    try {
+      const param = {
+        page: paginationModel.page + 1,
+        size: "10",
+      };
 
-  // handle select
-  const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
-    const selectedIndex = selectedRows.indexOf(id);
-    let newSelected: string[] = [];
+      const response = await traineeApi.getTraineeList(param);
+      const { data } = response;
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selectedRows, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selectedRows.slice(1));
-    } else if (selectedIndex === selectedRows.length - 1) {
-      newSelected = newSelected.concat(selectedRows.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selectedRows.slice(0, selectedIndex),
-        selectedRows.slice(selectedIndex + 1)
-      );
+      dispatch(fetchTraineesSuccess(data.items));
+      dispatch(fetchTraineeTotalSuccess(data.totalItems));
+    } catch (error) {
+      console.error("Error fetching trainees:", error);
     }
+  }, [dispatch, paginationModel.page]);
 
-    setSelectedRows(newSelected);
-  };
-
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelectedRows = rows.map((row) => row.id);
-      setSelectedRows(newSelectedRows);
-    } else {
-      setSelectedRows([]);
-    }
-  };
-
-  const isSelected = (id: string) => selectedRows.indexOf(id) !== -1;
-
-  // hande Sort
-  const handleSortBy = (column: "id" | "name") => {
-    if (sortBy === column) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    } else {
-      setSortBy(column);
-      setSortDirection("asc");
-    }
-  };
-
-  const sortedRows = useMemo(() => {
-    const sorted = [...rows];
-
-    sorted.sort((a, b) => {
-      const aValue = sortBy === "id" ? a.id : a.name;
-      const bValue = sortBy === "id" ? b.id : b.name;
-
-      if (aValue < bValue) {
-        return sortDirection === "asc" ? -1 : 1;
-      }
-      if (aValue > bValue) {
-        return sortDirection === "asc" ? 1 : -1;
-      }
-      return 0;
-    });
-
-    return sorted;
-  }, [rows, sortBy, sortDirection]);
+  useEffect(() => {
+    fetchTrainees();
+    console.log("Hello");
+  }, [fetchTrainees]);
 
   return (
-    <div>
-      <TableContainer
-        component={Paper}
-        sx={{
-          height: 300,
+    <>
+      <DataGrid
+        rows={trainees}
+        rowCount={total}
+        columns={columns}
+        pagination
+        paginationMode="server"
+        checkboxSelection
+        paginationModel={paginationModel}
+        onPaginationModelChange={setPaginationModel}
+        onRowSelectionModelChange={(newRowSelectionModel) => {
+          setRowSelectionModel(newRowSelectionModel);
         }}
-      >
-        <Table sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  indeterminate={
-                    selectedRows.length > 0 && selectedRows.length < rows.length
-                  }
-                  checked={
-                    rows.length > 0 && selectedRows.length === rows.length
-                  }
-                  onChange={handleSelectAllClick}
-                  inputProps={{
-                    "aria-label": "select all students",
-                  }}
-                />
-              </TableCell>
-              <TableCell
-                onClick={() => handleSortBy("id")}
-                sx={{ cursor: "pointer" }}
-              >
-                ID{" "}
-                {sortBy === "id" && (
-                  <ArrowDropDownIcon
-                    sx={{ verticalAlign: "middle", fontSize: "small" }}
-                    color={sortDirection === "asc" ? "primary" : "disabled"}
-                  />
-                )}
-              </TableCell>
-              <TableCell
-                align="center"
-                onClick={() => handleSortBy("name")}
-                sx={{ cursor: "pointer" }}
-              >
-                Name{" "}
-                {sortBy === "name" && (
-                  <ArrowDropDownIcon
-                    sx={{ verticalAlign: "middle", fontSize: "small" }}
-                    color={sortDirection === "asc" ? "primary" : "disabled"}
-                  />
-                )}
-              </TableCell>
-              <TableCell align="center">Phone</TableCell>
-              <TableCell align="center">Title</TableCell>
-              <TableCell align="center">Current Specialization</TableCell>
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {sortedRows.map((row) => {
-              const isItemSelected = isSelected(row.id);
-              const labelId = `student-checkbox-${row.id}`;
-
-              return (
-                <TableRow
-                  key={row.id}
-                  hover
-                  onClick={(event) => handleClick(event, row.id)}
-                  role="checkbox"
-                  aria-checked={isItemSelected}
-                  tabIndex={-1}
-                  selected={isItemSelected}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      checked={isItemSelected}
-                      inputProps={{
-                        "aria-labelledby": labelId,
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell component="th" scope="row" id={labelId}>
-                    {row.id}
-                  </TableCell>
-                  <TableCell align="center">{row.name}</TableCell>
-                  <TableCell align="center">{row.phone}</TableCell>
-                  <TableCell align="center">{row.title}</TableCell>
-                  <TableCell align="center">
-                    {row.currentSpecialization}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </div>
+        rowSelectionModel={rowSelectionModel}
+        keepNonExistentRowsSelected
+      />
+    </>
   );
 }
 
 export default ClassAddFormPopup;
+
+const columns: GridColDef[] = [
+  { field: "code", headerName: "Code", width: 90 },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "email",
+    headerName: "Email",
+    width: 150,
+    editable: true,
+    sortable: false,
+  },
+  {
+    field: "birthdate",
+    headerName: "Birhdate",
+    width: 110,
+    sortable: false,
+  },
+  {
+    field: "title",
+    headerName: "Tilte",
+    sortable: false,
+    width: 160,
+    // valueGetter: (params: GridValueGetterParams) =>
+    //   `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+  },
+];

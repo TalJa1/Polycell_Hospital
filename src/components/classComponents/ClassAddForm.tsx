@@ -39,6 +39,7 @@ import {
 import programApi from "../../api/programApi";
 import { GeneralSchedule } from "../../utils/constant";
 import { formatGeneralSchedule } from "../../utils/formatDay";
+import { GridRowSelectionModel } from "@mui/x-data-grid";
 
 const ClassAddForm: React.FC = () => {
   const createClassData: CreateClassFormData = useSelector(
@@ -57,6 +58,7 @@ const ClassAddForm: React.FC = () => {
     []
   );
   const [selectClassName, setSelectClassName] = useState<string>('');
+  const [selectTraineeList, setSelectTraineeList] = useState<GridRowSelectionModel>([]);
 
   const handleClassName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectClassName(event.target.value)
@@ -137,7 +139,7 @@ const ClassAddForm: React.FC = () => {
       quantity: selectQuantity,
       startDate: selectStartDate?.format("YYYY-MM-DD"),
       endDate: selectEndDate?.format("YYYY-MM-DD"),
-      traineeIds: [],
+      traineeIds: selectTraineeList,
     };
 
     try {
@@ -147,16 +149,7 @@ const ClassAddForm: React.FC = () => {
     } catch (error) {
       console.error("Error posting data:", error);
     }
-  }, [
-    generalSchedules,
-    selectEndDate,
-    selectQuantity,
-    selectStartDate,
-    selectedCourse?.department?.id,
-    selectedCourse?.id,
-    selectedCycle?.id,
-    selectedTrainer?.id,
-  ]);
+  }, [generalSchedules, selectClassName, selectEndDate, selectQuantity, selectStartDate, selectTraineeList, selectedCourse?.department?.id, selectedCourse?.id, selectedCycle?.id, selectedTrainer?.id]);
 
   useEffect(() => {
     fetchCreateClassDataForm();
@@ -421,7 +414,7 @@ const ClassAddForm: React.FC = () => {
 
             {/* Department */}
             <Grid item xs={12} sm={2}>
-              <InputLabel>Class name</InputLabel>
+              <InputLabel>Class name*</InputLabel>
             </Grid>
             <Grid item xs={12} sm={9}>
               {/* <Autocomplete
@@ -443,7 +436,7 @@ const ClassAddForm: React.FC = () => {
 
             {/* Trainer */}
             <Grid item xs={12} sm={2}>
-              <InputLabel>Trainer</InputLabel>
+              <InputLabel>Trainer*</InputLabel>
             </Grid>
             <Grid item xs={12} sm={selectedTrainer != null ? 5 : 9}>
               <Autocomplete
@@ -465,7 +458,7 @@ const ClassAddForm: React.FC = () => {
 
             {/* Cycle */}
             <Grid item xs={12} sm={2}>
-              <InputLabel>Cycle</InputLabel>
+              <InputLabel>Cycle*</InputLabel>
             </Grid>
             <Grid item xs={12} sm={selectedCycle != null ? 5 : 9}>
               <Autocomplete
@@ -577,11 +570,14 @@ const ClassAddForm: React.FC = () => {
               //   fontWeight: 700,
               // }}
               >
-                Enrol method
+                Enroll trainee
               </InputLabel>
             </Grid>
-            <Grid item xs={12} sm={10}>
-              <ClassAddFormPopup />
+            <Grid item xs={12} sm={5}>
+              <ClassAddFormPopup setSelectTraineeList={setSelectTraineeList} selectTraineeList={selectTraineeList}/>
+            </Grid>
+            <Grid item xs={12} sm={5}>
+               Trainee quantity: {selectTraineeList.length > 0 ? selectTraineeList.length : 0} / {selectQuantity}
             </Grid>
 
             {/* Start date */}
@@ -641,8 +637,17 @@ const ClassAddForm: React.FC = () => {
             <Grid
               item
               xs={12}
-              sx={{ display: "flex", justifyContent: "center" }}
+              sx={{ display: "flex", justifyContent: "space-evenly" }}
             >
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#000",
+                }}
+                // onClick={handlePostData}
+              >
+                Cancel
+              </Button>
               <Button
                 variant="contained"
                 sx={{
