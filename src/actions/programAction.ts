@@ -30,8 +30,8 @@ export const fetchCreateClassDataRequest =
     type: FETCH_CREATE_CLASS_DATA_REQUEST,
   });
 
-export const fetchCreatClassDataSuccess = (
-  createClassData: CreateClassFormData[]
+export const fetchCreateClassDataSuccess = (
+  createClassData: CreateClassFormData
 ): FetchCreateClassDataSuccessAction => ({
   type: FETCH_CREATE_CLASS_DATA_SUCCESS,
   payload: createClassData,
@@ -89,7 +89,7 @@ interface FetchCreateClassDataRequestAction {
 
 interface FetchCreateClassDataSuccessAction {
   type: typeof FETCH_CREATE_CLASS_DATA_SUCCESS;
-  payload: CreateClassFormData[];
+  payload: CreateClassFormData;
 }
 
 interface FetchCreateClassDataFailureAction {

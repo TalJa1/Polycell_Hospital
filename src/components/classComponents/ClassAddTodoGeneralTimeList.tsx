@@ -5,10 +5,16 @@ import { TimePicker } from "antd";
 import { RangeValue } from "rc-picker/lib/interface";
 import { Dayjs } from "dayjs";
 import { GeneralSchedule } from "../../utils/constant";
+import { formatGeneralSchedule } from "../../utils/formatDay";
 
-const GeneralScheduleGeneralTimeList: React.FC = () => {
+interface GeneralScheduleGeneralTimeListProps {
+  generalSchedules: GeneralSchedule[];
+  setGeneralSchedules: React.Dispatch<React.SetStateAction<GeneralSchedule[]>>;
+}
+
+const GeneralScheduleGeneralTimeList: React.FC<GeneralScheduleGeneralTimeListProps> = ({generalSchedules, setGeneralSchedules}) => {
   const daysOfWeek: string[] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  const [generalSchedules, setGeneralSchedules] = useState<GeneralSchedule[]>([]);
+  // const [generalSchedules, setGeneralSchedules] = useState<GeneralSchedule[]>([]);
   const [nextId, setNextId] = useState(1);
 
   const handleAddGeneralSchedule = () => {
@@ -40,6 +46,8 @@ const GeneralScheduleGeneralTimeList: React.FC = () => {
       )
     );
   };
+
+
 
   return (
     <>

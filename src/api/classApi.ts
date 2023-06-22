@@ -11,9 +11,11 @@ const classApi = {
     return axiosClient.get(url, { params });
   },
   create: (params: any) => {
-    const url = `/class`;
-    return axiosClient.post(url, params);
+    const url = "/v1/class";
+    console.log("URL >>>>> ", url);
+    return axiosClient.post(url, { params });
   },
+
   aprroval: (params: any) => {
     const url = "/class/approve"
     return axiosClient.post(url, params);

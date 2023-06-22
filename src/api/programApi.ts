@@ -10,6 +10,10 @@ const programApi = {
     const url: string = `/v1/program/content?programId=${programId}&trainerId=${trainerId}`;
     return axiosClient.get(url);
   },
+  getCreateClassForm: () => {
+    const url = `v1/class/form`;
+    return axiosClient.get(url);
+  },
 };
 
 export default programApi;
