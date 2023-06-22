@@ -15,9 +15,14 @@ const classApi = {
     return axiosClient.post(url, params);
   },
   aprroval: (params: any) => {
-    const url = "/class/approve"
+    const url = "/v1/class/approve";
     return axiosClient.post(url, params);
-  }
+  },
+  reject: (params: any) => {
+    const url = "/v1/class/reject";
+    console.log("URL >> ", url);
+    return axiosClient.post(url, params);
+  },
   // deleteBy: (param: any) => {
   //   const url = `/posts/${param}`;
   //   return axiosClient.delete(url);

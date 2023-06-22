@@ -1,5 +1,13 @@
 import React, { useRef, useState } from "react";
-import { Box, Grid, Stack } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Stack,
+} from "@mui/material";
 import Textarea from "@mui/joy/Textarea";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
@@ -18,6 +26,9 @@ const ClassApprovalCp: React.FC = () => {
   const getID = useParams();
   const dispatch = useDispatch();
   const [comment, setComment] = useState<string>("");
+  const [acceptOpen, setAcceptOpen] = React.useState(false);
+  const [rejectOpen, setRejectOpen] = React.useState(false);
+  const [mess, setMess] = useState<string>("");
 
   const fetchClassDetailApi = React.useCallback(async () => {
     try {
@@ -47,15 +58,20 @@ const ClassApprovalCp: React.FC = () => {
         const params = {
           comment: comment,
           createdDate: new Date().toLocaleString("en-GB", { timeZone: "UTC" }),
-          status: "APPROVE",
+          status: "REJECT",
           classId: `${getID.id}`,
         };
+        console.log(params);
         const response = await classApi.aprroval(params);
         console.log("Approval Status accept >> ", response.status);
+        setAcceptOpen(true);
+        setMess("Accept successfully");
       } catch (error) {
         console.log(error);
       }
     } else {
+      setAcceptOpen(true);
+      setMess("Accept failed");
       console.log("Fill comment first");
     }
   };
@@ -65,25 +81,29 @@ const ClassApprovalCp: React.FC = () => {
       try {
         const params = {
           comment: comment,
-          createdDate: new Date().toLocaleString("en-GB", { timeZone: "UTC" }),
-          status: "REJECT",
           classId: `${getID.id}`,
         };
-        const response = await classApi.aprroval(params);
+        const response = await classApi.reject(params);
         console.log("Approval Status reject >> ", response.status);
+        setRejectOpen(true);
+        setMess("Reject successfully");
       } catch (error) {
         console.log(error);
       }
     } else {
+      setRejectOpen(true);
+      setMess("Reject failed");
       console.log("Fill comment first");
     }
   };
 
-  // const handleAcceptClose = () => {
-  // };
+  const handleAcceptClose = () => {
+    setAcceptOpen(false);
+  };
 
-  // const handleRejectClose = () => {
-  // };
+  const handleRejectClose = () => {
+    setRejectOpen(false);
+  };
 
   const classManagement = {
     Class: `${getClassDetail.name}`,
@@ -199,34 +219,20 @@ const ClassApprovalCp: React.FC = () => {
                   Reject
                 </Button>
               </Stack>
-              {/* <Dialog open={acceptOpen} onClose={handleAcceptClose}>
+              <Dialog open={acceptOpen} onClose={handleAcceptClose}>
                 <DialogTitle>Accept</DialogTitle>
-                <DialogContent>Accept Dialog Content</DialogContent>
+                <DialogContent>{mess}</DialogContent>
                 <DialogActions>
-                  <Button
-                    variant="contained"
-                    onClick={handleAcceptClose}
-                    autoFocus
-                  >
-                    Yes
-                  </Button>
-                  <Button onClick={handleAcceptClose}>No</Button>
+                  <Button onClick={handleAcceptClose}>Close</Button>
                 </DialogActions>
-              </Dialog> */}
-              {/* <Dialog open={rejectOpen} onClose={handleRejectClose}>
+              </Dialog>
+              <Dialog open={rejectOpen} onClose={handleRejectClose}>
                 <DialogTitle>Reject</DialogTitle>
-                <DialogContent>Reject Dialog Content</DialogContent>
+                <DialogContent>{mess}</DialogContent>
                 <DialogActions>
-                  <Button
-                    variant="contained"
-                    onClick={handleRejectClose}
-                    autoFocus
-                  >
-                    Yes
-                  </Button>
-                  <Button onClick={handleRejectClose}>No</Button>
+                  <Button onClick={handleRejectClose}>Close</Button>
                 </DialogActions>
-              </Dialog> */}
+              </Dialog>
             </div>
           </Grid>
         </Grid>
