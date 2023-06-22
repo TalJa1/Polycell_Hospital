@@ -12,13 +12,37 @@ import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
 import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
+import classApi from "../../api/classApi";
+import { fetchClassDetail } from "../../actions/classAction";
+import { useDispatch, useSelector } from "react-redux";
+import { Class } from "../../models/classManagementModel";
+import { RootState } from "../../reduxs/Root";
 
 const ClassApprovalCp: React.FC = () => {
+  const getClassDetail: Class = useSelector(
+    (state: RootState) => state.class.class
+  );
   const [acceptOpen, setAcceptOpen] = useState(false);
   const [rejectOpen, setRejectOpen] = useState(false);
-  const { classid } = useParams();  
+  const classid = useParams();
+  const dispatch = useDispatch();
 
+  const fetchClassDetailApi = React.useCallback(async () => {
+    try {
+      const param = {
+      };
+      const response = await classApi.getbyId(param, classid.id);
+      console.log("Resp>>>> ", response.data);
+      const action = fetchClassDetail(response.data);
+      dispatch(action);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch, classid]);
 
+  React.useEffect(() => {
+    fetchClassDetailApi();
+  }, [fetchClassDetailApi]);
 
   const handleAcceptOpen = () => {
     setAcceptOpen(true);
@@ -37,12 +61,12 @@ const ClassApprovalCp: React.FC = () => {
   };
 
   const classManagement = {
-    Class: "PPG001",
+    Class: getClassDetail.name,
     Duetime: "7am-9am (t4,t7)",
-    Department: "Department A",
-    Cycle: "Summer 2023",
-    Program: "DS201",
-    Student: 30,
+    Department: <>{getClassDetail.program.department ?? ""}</>,
+    Cycle: getClassDetail.cycle.duration,
+    Program: getClassDetail.program.name,
+    Student: getClassDetail.trainees.length,
   };
 
   return (
@@ -215,4 +239,6 @@ const ClassApprovalCp: React.FC = () => {
 
 export default ClassApprovalCp;
 
-
+function dispatch(action: { type: string; payload: any }) {
+  throw new Error("Function not implemented.");
+}
