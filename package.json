@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@devexpress/dx-react-core": "^4.0.4",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.16",
@@ -23,6 +24,7 @@
     "dayjs": "^1.11.8",
     "query-string": "^8.1.0",
     "react": "^18.2.0",
+    "react-big-calendar": "^1.8.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.0",
     "react-pro-sidebar": "^1.0.0",

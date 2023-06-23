@@ -202,27 +202,27 @@ const columns: GridColDef[] = [
   {
     field: "name",
     headerName: "Name",
-    width: 150,
+    width: 200,
     editable: true,
   },
   {
     field: "email",
     headerName: "Email",
-    width: 150,
+    width: 200,
     editable: true,
     sortable: false,
   },
   {
     field: "birthdate",
     headerName: "Birhdate",
-    width: 110,
+    width: 200,
     sortable: false,
   },
   {
     field: "title",
     headerName: "Tilte",
     sortable: false,
-    width: 160,
+    width: 200,
     // valueGetter: (params: GridValueGetterParams) =>
     //   `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   },

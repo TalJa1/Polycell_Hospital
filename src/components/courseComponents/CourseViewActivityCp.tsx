@@ -1,8 +1,10 @@
-import { Box, Typography } from '@mui/material'
-import React from 'react'
-import { Activity } from '../../models/programAddModel'
+import { Box, Typography } from "@mui/material";
+import React from "react";
+import { Activity } from "../../models/programAddModel";
 
-const CourseViewActivityCp : React.FC<{ activity: Activity }> = ({ activity }) => {
+const CourseViewActivityCp: React.FC<{ activity: Activity }> = ({
+  activity,
+}) => {
   return (
     <Box
       sx={{
@@ -15,13 +17,13 @@ const CourseViewActivityCp : React.FC<{ activity: Activity }> = ({ activity }) =
     >
       <Box
         sx={{
-            padding: "20px",
+          padding: "20px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <div
+        <Box
           style={{
             display: "flex",
           }}
@@ -31,7 +33,6 @@ const CourseViewActivityCp : React.FC<{ activity: Activity }> = ({ activity }) =
               width: "50px",
               height: "50px",
 
-
               border: "1px solid #E6E6E6",
               backgroundColor: "#fff",
               marginRight: "10px",
@@ -39,13 +40,11 @@ const CourseViewActivityCp : React.FC<{ activity: Activity }> = ({ activity }) =
             }}
           />
 
-          <div>
-            <Typography variant="subtitle1" component="div">
-              {activity.name}
-            </Typography>
-          </div>
-        </div>
-        <div
+          <Box>
+            <Typography variant="subtitle1">{activity.name}</Typography>
+          </Box>
+        </Box>
+        <Box
           style={{
             display: "flex",
           }}
@@ -66,12 +65,10 @@ const CourseViewActivityCp : React.FC<{ activity: Activity }> = ({ activity }) =
               Mask as done
             </Typography>
           </Box>
-
-          
-        </div>
+        </Box>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default CourseViewActivityCp
+export default CourseViewActivityCp;

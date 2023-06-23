@@ -9,7 +9,9 @@ import Badge from "@mui/material/Badge";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { Menu, MenuItem, Paper } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -77,7 +79,9 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
           <Box>
             {props.title !== "" ? (
               <Box>
-                <strong className="header-title" style={{color: "black"}}>{props.title}</strong>
+                <strong className="header-title" style={{ color: "black" }}>
+                  {props.title}
+                </strong>
               </Box>
             ) : null}
           </Box>
@@ -103,6 +107,14 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { md: "flex" }, color: "#1B5461" }}>
+            <Link to="/schedule-page">
+              <IconButton size="large">
+                <CalendarMonthIcon sx={{
+                  color: "#1B5461"
+                }} />
+              </IconButton>
+            </Link>
+
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
