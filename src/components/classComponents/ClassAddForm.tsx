@@ -153,7 +153,7 @@ const ClassAddForm: React.FC = () => {
   }, [dispatch]);
 
   const handleCheckForm = () => {
-    if(selectTraineeList.length.toString() >= selectQuantity) {
+    if(selectTraineeList.length >= parseInt(selectQuantity)) {
       setWarning("The number of students exceeds the allowable limit")
     } else if(selectTraineeList.length < selectedCourse?.minQuantity!) {
       setWarning("The number of students is not enough")
@@ -181,7 +181,7 @@ const ClassAddForm: React.FC = () => {
       console.log(params);
       const response = await classApi.create(params);
       console.log(response.status);
-      if(response.status === 201) {
+      if(response.status === 200) {
         console.log("SUCCESS")
         navigate("/class-acceptance");
       }

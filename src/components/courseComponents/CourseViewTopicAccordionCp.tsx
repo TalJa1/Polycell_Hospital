@@ -33,7 +33,6 @@ import { useParams } from "react-router-dom";
 import CourseViewActivityCp from "./CourseViewActivityCp";
 
 const CourseViewTopicAccordionCp: React.FC = () => {
-
   const topics: Topic[] = useSelector(
     (state: RootState) => state.program.topics
   );
@@ -46,22 +45,23 @@ const CourseViewTopicAccordionCp: React.FC = () => {
 
   const { programId, trainerId } = useParams();
 
-
   const fetchTopics = useCallback(async () => {
     try {
       dispatch(fetchProgramContent());
       programApi
         // .getProgramContent(programId!, trainerId!)
-        .getProgramContent("73574861-62eb-4965-9ebc-cecbb50ea11f", "3ae6a7fb-87a4-423e-8f38-d1313e710a00")
+        .getProgramContent(
+          "73574861-62eb-4965-9ebc-cecbb50ea11f",
+          "3ae6a7fb-87a4-423e-8f38-d1313e710a00"
+        )
         .then((response) => {
           const program = response.data.topics;
-          dispatch(fetchProgramContentSuccess(program))
+          dispatch(fetchProgramContentSuccess(program));
           console.log(program);
         })
         .catch((error) => {
           console.log(error);
         });
-        
     } catch (error) {
       console.log(error);
     }
@@ -81,27 +81,23 @@ const CourseViewTopicAccordionCp: React.FC = () => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls={`panel${accordionIndex}-content`}
             id={`panel${accordionIndex}-header`}
-            sx={{ display: "flex", alignItems: "center" }}
+            sx={{ display: "flex", alignItems: "center", fontSize: "30px" }}
           >
-            <Typography fontSize="30px">{topic.name}</Typography>
+            {topic.name}
+            {/* <Typography fontSize="30px"></Typography> */}
           </AccordionSummary>
-          <AccordionDetails>
-            {/* {accordionIndex === 1 ? <CourseEditActivityCp /> : <></>} */}
+          {topic.activities.map((activity, index) => (
+            <div key={index}>
+              <CourseViewActivityCp activity={activity} />
+            </div>
+          ))}
 
-            {topic.activities.map((activity, index) => (
-              <div key={index}>
-                <CourseViewActivityCp activity={activity} />
-              </div>
-            ))}
-          </AccordionDetails>
         </Accordion>
       );
     });
   };
 
-  return <div>
-    {renderAccordions()}
-    </div>;
+  return <div>{renderAccordions()}</div>;
 };
 
 export default CourseViewTopicAccordionCp;

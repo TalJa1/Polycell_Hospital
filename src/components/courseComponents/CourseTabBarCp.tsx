@@ -32,8 +32,8 @@ const CourseTabBarCp: React.FC<CourseTabBarProps> = ({ editMode }) => {
           aria-label="basic tabs example"
         >
           <Tab label="Course" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Participants" {...a11yProps(1)} />
+          <Tab label="Grades" {...a11yProps(2)} />
         </Tabs>
       </Box>
 
@@ -45,10 +45,10 @@ const CourseTabBarCp: React.FC<CourseTabBarProps> = ({ editMode }) => {
         )}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        Participants
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        Grades
       </TabPanel>
     </Box>
   );
