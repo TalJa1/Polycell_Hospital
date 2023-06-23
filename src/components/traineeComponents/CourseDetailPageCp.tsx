@@ -149,7 +149,7 @@ const CourseDetailPageCp: React.FC = () => {
               <Grid item>Trainer: {courseDetail.trainer}</Grid>
               <Grid item>Last: {courseDetail.last}</Grid>
               <Grid item>
-                <Link to={`/syllabus-page`}>Sylumbus</Link>
+                <Link to={`/syllabus-page`}>Syllabus</Link>
               </Grid>
             </Grid>
           </Grid>
