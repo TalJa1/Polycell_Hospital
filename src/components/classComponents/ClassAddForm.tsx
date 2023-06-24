@@ -158,6 +158,7 @@ const ClassAddForm: React.FC = () => {
     } else if(selectTraineeList.length < selectedCourse?.minQuantity!) {
       setWarning("The number of students is not enough")
     }else {
+
       setWarning("");
     }
     setOpen(true);

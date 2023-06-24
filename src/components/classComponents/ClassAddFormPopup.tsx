@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Drawer,
   Grid,
   IconButton,
   InputLabel,
@@ -39,40 +40,76 @@ import {
 import traineeApi from "../../api/traineeApi";
 import {
   DataGrid,
+  GridCallbackDetails,
   GridColDef,
   GridRowId,
   GridRowSelectionModel,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
+import ClassAddDrawer from "./ClassAddDrawer";
+import { Trainee } from "../../models/traineeModel";
 
 interface ClassAddFormProps {
   selectTraineeList: GridRowSelectionModel;
-  setSelectTraineeList: React.Dispatch<React.SetStateAction<GridRowSelectionModel>>;
+  setSelectTraineeList: React.Dispatch<
+    React.SetStateAction<GridRowSelectionModel>
+  >;
 }
 
 const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
   selectTraineeList,
   setSelectTraineeList,
 }) => {
+  const { trainees, allTrainees } = useSelector(
+    (state: RootState) => state.trainee
+  );
   const [open, setOpen] = React.useState(false);
   const [rowSelectionModel, setRowSelectionModel] =
     React.useState<GridRowSelectionModel>([]);
+  const [rowSelectedModel, setRowSelectedModel] =
+    React.useState<GridRowSelectionModel>([]);
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const [selectedTrainees, setSelectedTrainees] = useState<
+    (Trainee | undefined)[]
+  >([]);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
-    setRowSelectionModel([
-      ...selectTraineeList
-    ])
+    // setRowSelectionModel([...selectTraineeList]);
     setOpen(false);
   };
 
-  const handleSave = () => {
+  // const handleSave = () => {
+  //   setSelectTraineeList(rowSelectionModel);
+  //   setOpen(false);
+  // };
+
+  const handleAddToSelectTrainee = () => {
+    var item = rowSelectionModel.map((e) =>
+      allTrainees.find((i) => i.id === e)
+    );
+    console.log(item);
+    setSelectedTrainees(item);
     setSelectTraineeList(rowSelectionModel);
-    setOpen(false);
+    setRowSelectedModel(rowSelectionModel);
+    setIsOpenDrawer(false);
   };
+
+  const handleDrawerOpen = () => {
+    console.log("OPEN");
+    setIsOpenDrawer(true);
+  };
+
+  const handleDrawerClose = () => {
+    var list = selectedTrainees.map((e) => e?.id) as string[];
+    setRowSelectionModel([...list]);
+    setIsOpenDrawer(false);
+  };
+
+  console.log(allTrainees);
 
   return (
     <div>
@@ -109,26 +146,98 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
               Add Trainee
             </Typography>
             <Box sx={{ marginLeft: "auto" }}>
-              <Button autoFocus color="inherit" onClick={handleSave}>
-                Save
+              <Button onClick={handleDrawerOpen} color="inherit">
+                Enroll student
               </Button>
+
+              <Button color="inherit">Import</Button>
+              {/* <Button autoFocus color="inherit" onClick={handleSave}>
+                Save
+              </Button> */}
             </Box>
           </Toolbar>
         </AppBar>
         <DialogContent dividers>
           <Box>
-          <TableStudent
+            {/* <TableStudent
               rowSelectionModel={rowSelectionModel}
               setRowSelectionModel={setRowSelectionModel}
+            /> */}
+            <DataGrid
+              rows={selectedTrainees}
+              // rowCount={selectedTrainees.length}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 10,
+                  },
+                },
+              }}
+              pageSizeOptions={[5]}
+              pagination
+              // onRowSelectionModelChange={(newRowSelectionModel) => {
+              //   setRowSelectedModel(newRowSelectionModel);
+              //   setRowSelectionModel(newRowSelectionModel)
+              //   // console.log(detail)
+              //   // setSelectedTrainees([...]);
+              // }}
+              // rowSelectionModel={rowSelectedModel}
+              // checkboxSelection
+              // keepNonExistentRowsSelected
             />
           </Box>
-          
+
           <Box
             sx={{
               paddingTop: "10px",
               float: "right",
             }}
           ></Box>
+          <Dialog
+            fullWidth
+            maxWidth={"lg"}
+            open={isOpenDrawer}
+            onClose={handleDrawerClose}
+            // Add 'DrawerProps' type here
+            // Example: type DrawerProps = import("@mui/material/Drawer").DrawerProps;
+            // ...other props if needed
+          >
+            {/* Drawer content goes here */}
+            <AppBar position="static">
+              <Toolbar>
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  onClick={handleDrawerClose}
+                  aria-label="close"
+                >
+                  <CloseIcon />
+                </IconButton>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                  List student
+                </Typography>
+                <Button color="inherit" onClick={handleAddToSelectTrainee}>
+                  Add
+                </Button>
+              </Toolbar>
+            </AppBar>
+            <DialogContent dividers>
+              <Box>
+                <TableStudent
+                  rowSelectionModel={rowSelectionModel}
+                  setRowSelectionModel={setRowSelectionModel}
+                />
+              </Box>
+
+              <Box
+                sx={{
+                  paddingTop: "10px",
+                  float: "right",
+                }}
+              ></Box>
+            </DialogContent>
+          </Dialog>
         </DialogContent>
       </Dialog>
     </div>
@@ -174,6 +283,15 @@ function TableStudent({
     console.log("Hello");
   }, [fetchTrainees]);
 
+  const setRowSelectModels = (
+    newRowSelectionModel: GridRowSelectionModel,
+    detail: GridCallbackDetails<any>
+  ) => {
+    setRowSelectionModel(newRowSelectionModel);
+    console.log(detail.reason);
+    // setSelectedTrainees([...]);
+  };
+
   return (
     <>
       <DataGrid
@@ -182,13 +300,15 @@ function TableStudent({
         columns={columns}
         pagination
         paginationMode="server"
-        checkboxSelection
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}
         onRowSelectionModelChange={(newRowSelectionModel) => {
           setRowSelectionModel(newRowSelectionModel);
+          // console.log(detail)
+          // setSelectedTrainees([...]);
         }}
         rowSelectionModel={rowSelectionModel}
+        checkboxSelection
         keepNonExistentRowsSelected
       />
     </>
