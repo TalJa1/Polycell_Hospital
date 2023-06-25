@@ -44,6 +44,9 @@ import {
   GridColDef,
   GridRowId,
   GridRowSelectionModel,
+  GridToolbar,
+  GridToolbarContainer,
+  GridToolbarFilterButton,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
 import ClassAddDrawer from "./ClassAddDrawer";
@@ -109,8 +112,6 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
     setIsOpenDrawer(false);
   };
 
-  console.log(allTrainees);
-
   return (
     <div>
       <Button
@@ -146,11 +147,24 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
               Add Trainee
             </Typography>
             <Box sx={{ marginLeft: "auto" }}>
-              <Button onClick={handleDrawerOpen} color="inherit">
+              <Button
+                onClick={handleDrawerOpen}
+                sx={{
+                  bgcolor: "white",
+                  marginRight: "10px"
+                }}
+              >
                 Enroll student
               </Button>
 
-              <Button color="inherit">Import</Button>
+              <Button
+                
+                sx={{
+                  bgcolor: "white",
+                }}
+              >
+                Import
+              </Button>
               {/* <Button autoFocus color="inherit" onClick={handleSave}>
                 Save
               </Button> */}
@@ -165,7 +179,6 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
             /> */}
             <DataGrid
               rows={selectedTrainees}
-              // rowCount={selectedTrainees.length}
               columns={columns}
               initialState={{
                 pagination: {
@@ -176,15 +189,6 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
               }}
               pageSizeOptions={[5]}
               pagination
-              // onRowSelectionModelChange={(newRowSelectionModel) => {
-              //   setRowSelectedModel(newRowSelectionModel);
-              //   setRowSelectionModel(newRowSelectionModel)
-              //   // console.log(detail)
-              //   // setSelectedTrainees([...]);
-              // }}
-              // rowSelectionModel={rowSelectedModel}
-              // checkboxSelection
-              // keepNonExistentRowsSelected
             />
           </Box>
 
@@ -199,9 +203,6 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
             maxWidth={"lg"}
             open={isOpenDrawer}
             onClose={handleDrawerClose}
-            // Add 'DrawerProps' type here
-            // Example: type DrawerProps = import("@mui/material/Drawer").DrawerProps;
-            // ...other props if needed
           >
             {/* Drawer content goes here */}
             <AppBar position="static">
@@ -298,6 +299,9 @@ function TableStudent({
         rows={trainees}
         rowCount={total}
         columns={columns}
+        slots={{
+          toolbar: CustomToolbar,
+        }}
         pagination
         paginationMode="server"
         paginationModel={paginationModel}
@@ -347,3 +351,17 @@ const columns: GridColDef[] = [
     //   `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   },
 ];
+
+interface CustomToolbarProps {
+  setFilterButtonEl: React.Dispatch<
+    React.SetStateAction<HTMLButtonElement | null>
+  >;
+}
+
+function CustomToolbar({ setFilterButtonEl }: CustomToolbarProps) {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarFilterButton ref={setFilterButtonEl} />
+    </GridToolbarContainer>
+  );
+}
