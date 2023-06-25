@@ -1,13 +1,19 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
+  AppBar,
   Box,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
+  Slide,
   Stack,
+  Toolbar,
+  Typography,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import Textarea from "@mui/joy/Textarea";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
@@ -18,6 +24,17 @@ import { fetchClassDetail } from "../../actions/classAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Class } from "../../models/classManagementModel";
 import { RootState } from "../../reduxs/Root";
+import { TransitionProps } from "@mui/material/transitions";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const ClassApprovalCp: React.FC = () => {
   const getClassDetail: Class = useSelector(
@@ -26,15 +43,46 @@ const ClassApprovalCp: React.FC = () => {
   const getID = useParams();
   const dispatch = useDispatch();
   const [comment, setComment] = useState<string>("");
-  const [acceptOpen, setAcceptOpen] = React.useState(false);
-  const [rejectOpen, setRejectOpen] = React.useState(false);
+  const [dialogAccept, setDialogAccept] = useState<boolean>(false);
+  const [dialogReject, setDialogReject] = useState<boolean>(false);
   const [mess, setMess] = useState<string>("");
+  const [showSuccessDialog, setShowSuccessDialog] = useState<boolean>(false);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDialogAcceptOpen = () => {
+    setDialogAccept(true);
+  };
+
+  const handleDialogAcceptedClose = () => {
+    setDialogAccept(false);
+  };
+
+  const handleDialogRejectOpen = () => {
+    setDialogReject(true);
+  };
+
+  const handleDialogRejectClose = () => {
+    setDialogReject(false);
+  };
+
+  const handleSuccessDialogClose = () => {
+    setShowSuccessDialog(false);
+  };
 
   const fetchClassDetailApi = React.useCallback(async () => {
     try {
       const param = {};
       const response = await classApi.getbyId(param, getID.id);
-      // console.log("Resp>>>> ", response.data);
+      console.log("Resp>>>> ", response.data);
       const action = fetchClassDetail(response.data);
       dispatch(action);
     } catch (error) {
@@ -64,13 +112,16 @@ const ClassApprovalCp: React.FC = () => {
         console.log(params);
         const response = await classApi.aprroval(params);
         console.log("Approval Status accept >> ", response.status);
-        setAcceptOpen(true);
-        setMess("Accept successfully");
+        if (response.status === 200) {
+          setDialogAccept(true);
+          setMess("Accept successfully");
+          setShowSuccessDialog(true);
+        }
       } catch (error) {
         console.log(error);
       }
     } else {
-      setAcceptOpen(true);
+      setDialogAccept(true);
       setMess("Accept failed");
       console.log("Fill comment first");
     }
@@ -85,33 +136,71 @@ const ClassApprovalCp: React.FC = () => {
         };
         const response = await classApi.reject(params);
         console.log("Approval Status reject >> ", response.status);
-        setRejectOpen(true);
-        setMess("Reject successfully");
+        if (response.status === 200) {
+          setDialogReject(true);
+          setMess("Reject successfully");
+          setShowSuccessDialog(true);
+        }
       } catch (error) {
         console.log(error);
       }
     } else {
-      setRejectOpen(true);
+      setDialogReject(true);
       setMess("Reject failed");
       console.log("Fill comment first");
     }
   };
 
-  const handleAcceptClose = () => {
-    setAcceptOpen(false);
+  const convertTimeString = (timeString: string): string => {
+    const timeRegex =
+      /Start{(\d{2}):(\d{2}),(\w+)};Stop{(\d{2}):(\d{2}),(\w+)}/g;
+    let convertedString = "";
+
+    let match;
+    while ((match = timeRegex.exec(timeString)) !== null) {
+      const startTime = match[1];
+      const startMinutes = match[2];
+      const startDay = match[3];
+      const endTime = match[4];
+      const endMinutes = match[5];
+      const endDay = match[6];
+
+      const formatTime = (hours: string, minutes: string): string => {
+        const hour = parseInt(hours, 10);
+        const period = hour >= 12 ? "pm" : "am";
+        const formattedHour = hour % 12 || 12;
+        return `${formattedHour}:${minutes}${period}`;
+      };
+
+      const start = formatTime(startTime, startMinutes);
+      const end = formatTime(endTime, endMinutes);
+      const days = startDay === endDay ? startDay : `${startDay}-${endDay}`;
+
+      if (convertedString !== "") {
+        convertedString += "; ";
+      }
+
+      convertedString += `(${start}, ${end}) - (${days})`;
+    }
+
+    return convertedString;
   };
 
-  const handleRejectClose = () => {
-    setRejectOpen(false);
-  };
+  // Usage example
+  const timeString =
+    "Start{07:00,Thursday};Stop{10:00,Thursday};Start{07:00,Friday};Stop{10:00,Friday}";
+  const convertedString = convertTimeString(timeString);
+  console.log(convertedString);
 
   const classManagement = {
     Class: `${getClassDetail.name}`,
-    Duetime: "7am-9am (t4,t7)",
+    Program: `${getClassDetail.program.code} - ${getClassDetail.program.name}`,
+    Schedule: `${convertTimeString(getClassDetail.generalSchedule)}`,
+    CreatedDate: `${getClassDetail.createdDate}`,
     Department: `${getClassDetail.program.department?.name}`,
-    Cycle: `${getClassDetail.cycle.name}`,
-    Program: `${getClassDetail.program.code}`,
-    Student: `${getClassDetail.trainees.length}`,
+    Cycle: `${getClassDetail.cycle.name} - ${getClassDetail.cycle.duration} months`,
+    StartDate: `${getClassDetail.startDate}`,
+    Student: `${getClassDetail.trainees.length}/${getClassDetail.program.maxQuantity}`,
   };
 
   return (
@@ -156,7 +245,7 @@ const ClassApprovalCp: React.FC = () => {
               <Grid container direction="row">
                 <Grid
                   item
-                  xs={7}
+                  xs={12}
                   sx={{
                     width: "50%",
                     paddingRight: "5px",
@@ -169,35 +258,12 @@ const ClassApprovalCp: React.FC = () => {
                         <Grid item xs={6}>
                           <strong>{key}:</strong>
                         </Grid>
-                        <Grid
-                          item
-                          xs={5}
-                          // sx={{
-                          //   textAlign: "right",
-                          // }}
-                        >
+                        <Grid item xs={5}>
                           {value}
                         </Grid>
                       </Grid>
                     ))}
                   </Grid>
-                </Grid>
-                <Grid item xs={5} className="comment-box">
-                  <Box
-                    sx={{
-                      backgroundColor: "#E6E6E6",
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    <Textarea
-                      onChange={handleCommentChange}
-                      name="Soft"
-                      placeholder="Comment in here…"
-                      variant="soft"
-                    />
-                  </Box>
                 </Grid>
               </Grid>
             </Grid>
@@ -210,27 +276,131 @@ const ClassApprovalCp: React.FC = () => {
               >
                 <Button
                   variant="contained"
+                  color="info"
+                  onClick={handleClickOpen}
+                >
+                  List trainee
+                </Button>
+                <Button
+                  variant="contained"
                   color="success"
-                  onClick={handleAccept}
+                  onClick={handleDialogAcceptOpen}
                 >
                   Accept
                 </Button>
-                <Button variant="outlined" color="error" onClick={handleReject}>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={handleDialogRejectOpen}
+                >
                   Reject
                 </Button>
               </Stack>
-              <Dialog open={acceptOpen} onClose={handleAcceptClose}>
-                <DialogTitle>Accept</DialogTitle>
-                <DialogContent>{mess}</DialogContent>
+
+              {/* Show dialog list trainee */}
+              <Box>
+                <Dialog
+                  fullScreen
+                  open={open}
+                  onClose={handleClose}
+                  TransitionComponent={Transition}
+                >
+                  <AppBar sx={{ position: "relative" }}>
+                    <Toolbar>
+                      <IconButton
+                        edge="start"
+                        color="inherit"
+                        onClick={handleClose}
+                        aria-label="close"
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                      <Typography sx={{ ml: 2, flex: 1 }} variant="h6">
+                        List Trainee
+                      </Typography>
+                    </Toolbar>
+                  </AppBar>
+                  <Box>
+                    <DataGrid
+                      rows={getClassDetail.trainees}
+                      columns={columns}
+                      initialState={{
+                        pagination: {
+                          paginationModel: { page: 0, pageSize: 10 },
+                        },
+                      }}
+                      pageSizeOptions={[5, 10]}
+                      disableRowSelectionOnClick
+                      // checkboxSelection
+                    />
+                  </Box>
+                </Dialog>
+              </Box>
+
+              <Dialog
+                open={dialogAccept}
+                onClose={handleDialogAcceptedClose}
+                fullWidth
+              >
+                <DialogTitle>Accept Comment</DialogTitle>
+                <DialogContent>
+                  <Textarea
+                    onChange={handleCommentChange}
+                    name="Soft"
+                    placeholder="Comment in here…"
+                    variant="soft"
+                  />
+                  {mess !== "" ? (
+                    <Typography variant="body2" color="error">
+                      Please add a comment.
+                    </Typography>
+                  ) : (
+                    <></>
+                  )}
+                </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleAcceptClose}>Close</Button>
+                  <Button onClick={handleAccept}>Accept</Button>
+                  <Button onClick={handleDialogAcceptedClose}>Close</Button>
                 </DialogActions>
               </Dialog>
-              <Dialog open={rejectOpen} onClose={handleRejectClose}>
-                <DialogTitle>Reject</DialogTitle>
-                <DialogContent>{mess}</DialogContent>
+
+              <Dialog
+                open={dialogReject}
+                onClose={handleDialogRejectClose}
+                fullWidth
+              >
+                <DialogTitle>Reject Comment</DialogTitle>
+                <DialogContent>
+                  <Textarea
+                    onChange={handleCommentChange}
+                    name="Soft"
+                    placeholder="Comment in here…"
+                    variant="soft"
+                  />
+                  {mess !== "" ? (
+                    <Typography variant="body2" color="error">
+                      Please add a comment.
+                    </Typography>
+                  ) : (
+                    <></>
+                  )}
+                </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleRejectClose}>Close</Button>
+                  <Button onClick={handleReject}>Accept</Button>
+                  <Button onClick={handleDialogRejectClose}>Close</Button>
+                </DialogActions>
+              </Dialog>
+
+              <Dialog
+                open={showSuccessDialog}
+                onClose={handleSuccessDialogClose}
+              >
+                <DialogTitle>Success</DialogTitle>
+                <DialogContent>
+                  <p>{mess}</p>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleSuccessDialogClose}>Close</Button>
                 </DialogActions>
               </Dialog>
             </div>
@@ -271,5 +441,32 @@ const ClassApprovalCp: React.FC = () => {
     </Box>
   );
 };
+
+const columns: GridColDef[] = [
+  // { field: "id", headerName: "ID", width: 70 },
+  { field: "name", headerName: "Name", width: 200 },
+  { field: "code", headerName: "Code", width: 130 },
+  {
+    field: "phone",
+    headerName: "Phone",
+    type: "number",
+    width: 120,
+  },
+  {
+    field: "birthdate",
+    headerName: "Birthdate",
+    // description: "This column has a value getter and is not sortable.",
+    sortable: false,
+    width: 160,
+    // valueGetter: (params: GridValueGetterParams) =>
+    //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+  },
+  {
+    field: "profile.status",
+    headerName: "Status",
+    width: 130,
+    valueGetter: (params) => params.row.profile?.status || "",
+  },
+];
 
 export default ClassApprovalCp;
