@@ -9,6 +9,7 @@ import {
 import React from "react";
 import CourseEditTopicAccordionCp from "./CourseEditTopicAccordionCp";
 import CourseViewTopicAccordionCp from "./CourseViewTopicAccordionCp";
+import ParticipantsCp from "./ParticipantsCp";
 
 interface CourseTabBarProps {
   editMode: boolean;
@@ -45,7 +46,7 @@ const CourseTabBarCp: React.FC<CourseTabBarProps> = ({ editMode }) => {
         )}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Participants
+        <ParticipantsCp />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Grades
