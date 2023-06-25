@@ -47,6 +47,7 @@ import {
   GridToolbar,
   GridToolbarContainer,
   GridToolbarFilterButton,
+  GridToolbarQuickFilter,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
 import ClassAddDrawer from "./ClassAddDrawer";
@@ -151,14 +152,13 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
                 onClick={handleDrawerOpen}
                 sx={{
                   bgcolor: "white",
-                  marginRight: "10px"
+                  marginRight: "10px",
                 }}
               >
                 Enroll student
               </Button>
 
               <Button
-                
                 sx={{
                   bgcolor: "white",
                 }}
@@ -302,6 +302,13 @@ function TableStudent({
         slots={{
           toolbar: CustomToolbar,
         }}
+        // slots={{ toolbar: GridToolbar }}
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500 },
+          },
+        }}
         pagination
         paginationMode="server"
         paginationModel={paginationModel}
@@ -322,24 +329,27 @@ function TableStudent({
 export default ClassAddFormPopup;
 
 const columns: GridColDef[] = [
-  { field: "code", headerName: "Code", width: 90 },
+  { field: "code", headerName: "Code", width: 90, filterable: false },
   {
     field: "name",
     headerName: "Name",
     width: 200,
     editable: true,
+    filterable: false,
   },
   {
     field: "email",
     headerName: "Email",
     width: 200,
+    filterable: false,
     editable: true,
     sortable: false,
   },
   {
     field: "birthdate",
     headerName: "Birhdate",
-    width: 200,
+    width: 150,
+    filterable: false,
     sortable: false,
   },
   {
@@ -362,6 +372,7 @@ function CustomToolbar({ setFilterButtonEl }: CustomToolbarProps) {
   return (
     <GridToolbarContainer>
       <GridToolbarFilterButton ref={setFilterButtonEl} />
+      <GridToolbarQuickFilter />
     </GridToolbarContainer>
   );
 }

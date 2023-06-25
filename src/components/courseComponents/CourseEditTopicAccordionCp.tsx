@@ -9,18 +9,20 @@ import {
   styled,
   Link,
   Box,
+  TextField,
 } from "@mui/material";
 
 import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CourseEditActivityCp from "./CourseEditActivityCp";
 import CourseButtonAddActivityCp from "./CourseButtonAddActivityCp";
 import CouseChooseActivityCp from "./CouseChooseActivityCp";
+import EditIcon from "@mui/icons-material/Edit";
 
 const CourseEditTopicAccordionCp: React.FC = () => {
   const [accordionCount, setAccordionCount] = useState(3);
@@ -30,6 +32,9 @@ const CourseEditTopicAccordionCp: React.FC = () => {
   );
   const [open, setOpen] = React.useState(false);
   const [selectedAccordion, setSelectedAccordion] = useState<number>(0);
+  const [editingTitleIndex, setEditingTitleIndex] = useState<number | null>(
+    null
+  );
 
   const handleAddAccordion = () => {
     setAccordionCount((prevCount) => prevCount + 1);
@@ -59,7 +64,6 @@ const CourseEditTopicAccordionCp: React.FC = () => {
       return updatedActivities;
     });
     setOpen(false);
-
   };
 
   const handleClickOpen = (accordionIndex: number) => {
@@ -70,6 +74,43 @@ const CourseEditTopicAccordionCp: React.FC = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const textFieldRef = useRef<HTMLInputElement>(null);
+
+  const handleShowInputChangeTitle = (
+    event: React.MouseEvent<HTMLElement>,
+    accordionIndex: number
+  ) => {
+    event.stopPropagation();
+    setEditingTitleIndex(accordionIndex);
+  };
+
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (
+      textFieldRef.current &&
+      !textFieldRef.current.contains(event.target as Node)
+    ) {
+      setEditingTitleIndex(null);
+    }
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Escape" || event.key === "Enter") {
+      event.preventDefault();
+      setEditingTitleIndex(null);
+    }
+  };
+
+  const handleUnfocus = () => {
+    setEditingTitleIndex(null);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   const renderAccordions = () => {
     return Array.from({ length: accordionCount }, (_, i) => {
@@ -83,7 +124,35 @@ const CourseEditTopicAccordionCp: React.FC = () => {
             id={`panel${accordionIndex}-header`}
             sx={{ display: "flex", alignItems: "center" }}
           >
-            <Typography fontSize="30px">Accordion {accordionIndex}</Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {editingTitleIndex === accordionIndex ? (
+                <TextField
+                  inputRef={textFieldRef}
+                  onKeyDown={handleKeyPress}
+                  autoFocus
+                  onBlur={handleUnfocus}
+                />
+              ) : (
+                <>
+                  <Typography fontSize="30px">
+                    Accordion {accordionIndex}
+                  </Typography>
+                  <IconButton
+                    // aria-label="more"
+                    onClick={(event) =>
+                      handleShowInputChangeTitle(event, accordionIndex)
+                    }
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </>
+              )}
+            </Box>
             <IconButton
               aria-label="more"
               onClick={handleMoreVertClick}
@@ -146,16 +215,13 @@ const Accordion = styled((props: AccordionProps) => (
   },
 }));
 
+
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary
     expandIcon={<ExpandMoreIcon sx={{ fontSize: "0.9rem" }} />}
     {...props}
   />
 ))(({ theme }) => ({
-  // backgroundColor:
-  //   theme.palette.mode === "dark"
-  //     ? "rgba(255, 255, 255, .05)"
-  //     : "rgba(0, 0, 0, .03)",
   flexDirection: "row-reverse",
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(180deg)",
@@ -163,4 +229,11 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
   "& .MuiAccordionSummary-content": {
     marginLeft: theme.spacing(1),
   },
+  "&.Mui-focusVisible": {
+    backgroundColor: "unset",
+  },
 }));
+
+
+
+

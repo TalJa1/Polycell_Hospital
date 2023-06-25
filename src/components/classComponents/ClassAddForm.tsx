@@ -198,7 +198,7 @@ const ClassAddForm: React.FC = () => {
       console.log(response.status);
       if (response.status === 200) {
         console.log("SUCCESS");
-        navigate("/class-acceptance");
+        navigate("/class-management");
       }
       // console.log("Post request successful:", response.data);
     } catch (error) {

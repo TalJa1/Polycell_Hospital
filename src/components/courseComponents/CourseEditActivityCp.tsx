@@ -9,6 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import EditIcon from "@mui/icons-material/Edit";
+
 
 import React, { useState } from "react";
 
@@ -60,12 +62,14 @@ const CourseEditActivityCp: React.FC = () => {
           />
 
           <div>
+            
             <Typography variant="subtitle1" component="div">
               Type
             </Typography>
             <Typography variant="subtitle1" color="#1976d2">
               Card Title
             </Typography>
+            
           </div>
         </div>
         <div
