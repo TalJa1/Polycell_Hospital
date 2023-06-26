@@ -5,9 +5,21 @@ import FormActivityUrl from "./FormActivityUrl";
 import CourseTabBar from "../courseComponents/CourseTabBar";
 import Footer from "../layoutComponents/Footer";
 import { useParams } from "react-router-dom";
+import FormActivityFile from "./FormActivityFile";
 
 const FormActivityCp: React.FC = () => {
-    const { type } = useParams();
+  const { type } = useParams();
+
+  const renderFormActivityComponent = () => {
+    switch (type) {
+      case "URL":
+        return <FormActivityUrl />;
+      case "FILE":
+        return <FormActivityFile />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="class-container">
@@ -24,7 +36,7 @@ const FormActivityCp: React.FC = () => {
         {/* <CourseTabBarCp editMode={editMode} /> */}
         <Box sx={{ width: "70%" }}>
           <CourseTabBar />
-          {type === "URL" ? <FormActivityUrl /> : <></>}
+          {renderFormActivityComponent()}
         </Box>
       </Box>
       <Footer />

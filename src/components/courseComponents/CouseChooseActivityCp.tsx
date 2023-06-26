@@ -111,9 +111,9 @@ const TabPanel = (props: TabPanelProps) => {
 };
 
 const activityData = [
-  { id: 1, label: "Url" },
-  { id: 2, label: "Text" },
-  { id: 3, label: "File" },
+  { id: 1, label: "URL" },
+  { id: 2, label: "TEXT" },
+  { id: 3, label: "FILE" },
 ];
 
 interface ListActivityProps {
@@ -132,7 +132,7 @@ const ListActivity: React.FC<ListActivityProps> = ({ handleAddActivity }) => {
       {activityData.map((card) => (
         <Card
           key={card.id}
-          onClick={() => navigate("/form-activity/URL")}
+          onClick={() => navigate(`/form-activity/${card.label}`)}
           sx={{
             width: "15%",
             display: "flex",
