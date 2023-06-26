@@ -14,7 +14,9 @@ import {
   Typography,
   CardContent,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+import { PageContext } from "./CourseEditTopicAccordionCp";
+import { useNavigate } from "react-router-dom";
 
 interface CouseChooseActivityProps {
   open: boolean;
@@ -54,9 +56,7 @@ const CouseChooseActivityCp: React.FC<CouseChooseActivityProps> = ({
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-              <ListActivity
-                handleAddActivity={handleAddActivity}
-              />
+              <ListActivity handleAddActivity={handleAddActivity} />
             </TabPanel>
             <TabPanel value={value} index={1}>
               Item Two
@@ -120,9 +120,9 @@ interface ListActivityProps {
   handleAddActivity: () => void;
 }
 
-const ListActivity: React.FC<ListActivityProps> = ({
-  handleAddActivity,
-}) => {
+const ListActivity: React.FC<ListActivityProps> = ({ handleAddActivity }) => {
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -132,7 +132,7 @@ const ListActivity: React.FC<ListActivityProps> = ({
       {activityData.map((card) => (
         <Card
           key={card.id}
-          onClick={handleAddActivity}
+          onClick={() => navigate("/form-activity/URL")}
           sx={{
             width: "15%",
             display: "flex",

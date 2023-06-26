@@ -16,13 +16,15 @@ import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
-import React, { useEffect, useRef, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CourseEditActivityCp from "./CourseEditActivityCp";
 import CourseButtonAddActivityCp from "./CourseButtonAddActivityCp";
 import CouseChooseActivityCp from "./CouseChooseActivityCp";
 import EditIcon from "@mui/icons-material/Edit";
+import FormActivityFile from "../formActivityComponents/FormActivityFile";
+import FormActivityUrl from "../formActivityComponents/FormActivityUrl";
 
 const CourseEditTopicAccordionCp: React.FC = () => {
   const [accordionCount, setAccordionCount] = useState(3);
@@ -35,6 +37,7 @@ const CourseEditTopicAccordionCp: React.FC = () => {
   const [editingTitleIndex, setEditingTitleIndex] = useState<number | null>(
     null
   );
+  const [page, setPage] = useState<string>("");
 
   const handleAddAccordion = () => {
     setAccordionCount((prevCount) => prevCount + 1);
@@ -202,7 +205,13 @@ const CourseEditTopicAccordionCp: React.FC = () => {
     });
   };
 
-  return <div>{renderAccordions()}</div>;
+  return (
+    <div>
+      {renderAccordions()}
+      {/* <FormActivityUrl />
+      <FormActivityFile /> */}
+    </div>
+  );
 };
 
 export default CourseEditTopicAccordionCp;
@@ -214,7 +223,6 @@ const Accordion = styled((props: AccordionProps) => (
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
 }));
-
 
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary
@@ -234,6 +242,15 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
   },
 }));
 
+interface PageContextValue {
+  page: string;
+  setPage: React.Dispatch<React.SetStateAction<string>>;
+  // ...
+}
 
+const initialContextValue: PageContextValue = {
+  page: "",
+  setPage: () => {},
+};
 
-
+export const PageContext = createContext<PageContextValue>(initialContextValue);
