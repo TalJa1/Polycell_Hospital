@@ -22,12 +22,14 @@ interface CouseChooseActivityProps {
   open: boolean;
   handleClose: () => void;
   handleAddActivity: () => void;
+  setActivityType: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CouseChooseActivityCp: React.FC<CouseChooseActivityProps> = ({
   open,
   handleClose,
   handleAddActivity,
+  setActivityType,
 }) => {
   const [value, setValue] = React.useState(0);
 
@@ -56,7 +58,7 @@ const CouseChooseActivityCp: React.FC<CouseChooseActivityProps> = ({
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-              <ListActivity handleAddActivity={handleAddActivity} />
+              <ListActivity setActivityType={setActivityType} />
             </TabPanel>
             <TabPanel value={value} index={1}>
               Item Two
@@ -117,11 +119,10 @@ const activityData = [
 ];
 
 interface ListActivityProps {
-  handleAddActivity: () => void;
+  setActivityType: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ListActivity: React.FC<ListActivityProps> = ({ handleAddActivity }) => {
-  const navigate = useNavigate();
+const ListActivity: React.FC<ListActivityProps> = ({ setActivityType }) => {
 
   return (
     <div
@@ -132,7 +133,9 @@ const ListActivity: React.FC<ListActivityProps> = ({ handleAddActivity }) => {
       {activityData.map((card) => (
         <Card
           key={card.id}
-          onClick={() => navigate(`/form-activity/${card.label}`)}
+          onClick={
+            () => setActivityType(card.label)
+          }
           sx={{
             width: "15%",
             display: "flex",

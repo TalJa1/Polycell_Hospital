@@ -30,15 +30,15 @@ const CourseCp: React.FC = () => {
           position: "relative",
         }}
       >
-        {/* <CourseTabBarCp editMode={editMode} /> */}
-        <Box sx={{ width: "70%" }}>
+        <CourseTabBarCp editMode={editMode} />
+        {/* <Box sx={{ width: "70%" }}>
           <CourseTabBar />
           {editMode ? (
             <CourseEditTopicAccordionCp />
           ) : (
             <CourseViewTopicAccordionCp />
           )}
-        </Box>
+        </Box> */}
         {/* <FormControlLabel
           sx={{
             position: "absolute",

@@ -37,7 +37,7 @@ const CourseEditTopicAccordionCp: React.FC = () => {
   const [editingTitleIndex, setEditingTitleIndex] = useState<number | null>(
     null
   );
-  const [page, setPage] = useState<string>("");
+  const [activityType, setActivityType] = useState<string>("");
 
   const handleAddAccordion = () => {
     setAccordionCount((prevCount) => prevCount + 1);
@@ -185,6 +185,7 @@ const CourseEditTopicAccordionCp: React.FC = () => {
               open={open}
               handleClose={() => handleClose()}
               handleAddActivity={() => handleAddActivity(selectedAccordion)}
+              setActivityType={setActivityType}
             />
           </AccordionDetails>
           <Divider sx={{ bgcolor: "#1976d2" }} />
@@ -205,10 +206,22 @@ const CourseEditTopicAccordionCp: React.FC = () => {
     });
   };
 
+  const renderFormActivityComponent = () => {
+    switch (activityType) {
+      case "URL":
+        return <FormActivityUrl />;
+      case "FILE":
+        return <FormActivityFile />;
+      default:
+        return renderAccordions();
+    }
+  };
+
   return (
     <div>
-      {renderAccordions()}
-      {/* <FormActivityUrl />
+      {renderFormActivityComponent()}
+      {/* {renderAccordions()}
+      <FormActivityUrl />
       <FormActivityFile /> */}
     </div>
   );

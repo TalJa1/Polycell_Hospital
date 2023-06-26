@@ -7,7 +7,6 @@ const CourseTabBar: React.FC = () => {
     <Box >
       <AppBar position="static">
         <Toolbar>
-
           <Typography sx={{ flexGrow: 1 }}>
             Course
           </Typography>
