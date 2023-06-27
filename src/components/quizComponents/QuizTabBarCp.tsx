@@ -1,21 +1,8 @@
-import {
-  Box,
-  FormControlLabel,
-  Switch,
-  Tab,
-  Tabs,
-  Typography,
-} from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 import React from "react";
-import CourseEditTopicAccordionCp from "./CourseEditTopicAccordionCp";
-import CourseViewTopicAccordionCp from "./CourseViewTopicAccordionCp";
-import ParticipantsCp from "./ParticipantsCp";
+import QuizMainCp from "./QuizMainCp";
 
-interface CourseTabBarProps {
-  editMode: boolean;
-}
-
-const CourseTabBarCp: React.FC<CourseTabBarProps> = ({ editMode }) => {
+const QuizTabBarCp: React.FC = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -28,12 +15,11 @@ const CourseTabBarCp: React.FC<CourseTabBarProps> = ({ editMode }) => {
         variant="h4"
         sx={{
           paddingTop: "30px",
-          paddingBottom: "30px"
+          paddingBottom: "30px",
         }}
       >
         My course
       </Typography>
-
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           textColor="inherit"
@@ -42,30 +28,30 @@ const CourseTabBarCp: React.FC<CourseTabBarProps> = ({ editMode }) => {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Course" {...a11yProps(0)} />
-          <Tab label="Participants" {...a11yProps(1)} />
-          <Tab label="Grades" {...a11yProps(2)} />
+          <Tab label="Quiz" {...a11yProps(0)} />
+          <Tab label="Questions" {...a11yProps(1)} />
+          <Tab label="Results" {...a11yProps(2)} />
+          <Tab label="Question bank" {...a11yProps(3)} />
         </Tabs>
       </Box>
 
       <TabPanel value={value} index={0}>
-        {editMode ? (
-          <CourseEditTopicAccordionCp />
-        ) : (
-          <CourseViewTopicAccordionCp />
-        )}
+        <QuizMainCp />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ParticipantsCp />
+        Questions
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Grades
+        Results
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        Question bank
       </TabPanel>
     </Box>
   );
 };
 
-export default CourseTabBarCp;
+export default QuizTabBarCp;
 
 function a11yProps(index: number) {
   return {
@@ -93,9 +79,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-
           <Typography component={"div"}>{children}</Typography>
-
         </Box>
       )}
     </div>
