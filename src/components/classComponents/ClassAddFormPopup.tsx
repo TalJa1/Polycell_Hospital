@@ -2,34 +2,16 @@ import {
   AppBar,
   Box,
   Button,
-  Checkbox,
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Drawer,
-  Grid,
   IconButton,
-  InputLabel,
-  Pagination,
-  Paper,
-  Slide,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
-import { ArrowDropDownIcon } from "@mui/x-date-pickers";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import { TransitionProps } from "@mui/material/transitions";
+
 import { RootState } from "../../reduxs/Root";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -42,6 +24,8 @@ import {
   DataGrid,
   GridCallbackDetails,
   GridColDef,
+  GridFilterItem,
+  GridFilterModel,
   GridRowId,
   GridRowSelectionModel,
   GridToolbar,
@@ -49,9 +33,13 @@ import {
   GridToolbarFilterButton,
   GridToolbarQuickFilter,
   GridValueGetterParams,
+  GridFilterOperator,
+  getGridStringOperators,
 } from "@mui/x-data-grid";
 import ClassAddDrawer from "./ClassAddDrawer";
 import { Trainee } from "../../models/traineeModel";
+import { WidthFull } from "@mui/icons-material";
+import styled from "@emotion/styled";
 
 interface ClassAddFormProps {
   selectTraineeList: GridRowSelectionModel;
@@ -151,8 +139,13 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
               <Button
                 onClick={handleDrawerOpen}
                 sx={{
-                  bgcolor: "white",
+                  bgcolor: "black",
+                  color: "white",
                   marginRight: "10px",
+                  "&:hover": {
+                    bgcolor: "white",
+                    color: "black",
+                  },
                 }}
               >
                 Enroll student
@@ -160,11 +153,17 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
 
               <Button
                 sx={{
-                  bgcolor: "white",
+                  bgcolor: "black",
+                  color: "white",
+                  "&:hover": {
+                    bgcolor: "white",
+                    color: "black",
+                  },
                 }}
               >
-                Import
+                Import from file
               </Button>
+
               {/* <Button autoFocus color="inherit" onClick={handleSave}>
                 Save
               </Button> */}
@@ -257,17 +256,22 @@ function TableStudent({
   const dispatch = useDispatch();
   const { trainees, total } = useSelector((state: RootState) => state.trainee);
 
-  const [paginationModel, setPaginationModel] = React.useState({
+  const [paginationModel, setPaginationModel] = useState({
     pageSize: 10,
     page: 0,
   });
+
+  const [filterParams, setFilterParams] = useState<any>({});
 
   const fetchTrainees = useCallback(async () => {
     try {
       const param = {
         page: paginationModel.page + 1,
         size: "10",
+        ...filterParams,
       };
+
+      console.log(param);
 
       const response = await traineeApi.getTraineeList(param);
       const { data } = response;
@@ -278,6 +282,58 @@ function TableStudent({
       console.error("Error fetching trainees:", error);
     }
   }, [dispatch, paginationModel.page]);
+
+  const handleFilterChange = useCallback(
+    async (filterModel: GridFilterModel) => {
+      // Extract the filter values from the filter model
+      const { items, quickFilterValues } = filterModel;
+      // const filterParams: any = {};
+      var tmpParam: any = {};
+
+      // Iterate over the filter items and add the filter parameters to the filterParams object
+      if (items.length > 0) {
+        items.forEach((filterItem: GridFilterItem) => {
+          const { field, operator, value } = filterItem;
+          console.log(filterItem);
+          // var filterKey = "";
+          // `filter[${field}][${operator}]`;
+          if (field === "title" && value !== "") {
+            // filterKey = field;
+            tmpParam = {
+              title: value,
+            };
+          } else {
+            tmpParam = {};
+          }
+
+          // filterParams[filterKey] = value;
+        });
+      } else {
+        tmpParam = {};
+      }
+      setFilterParams(tmpParam);
+
+      // console.log(filterParams);
+      console.log(items);
+
+      // Apply the filter parameters to the server-side API call and update the trainees list
+      const param = {
+        page: 0,
+        size: "10",
+        ...tmpParam,
+      };
+
+      console.log(param);
+
+      const response = await traineeApi.getTraineeList(param);
+      const { data } = response;
+
+      console.log(data);
+      dispatch(fetchTraineesSuccess(data.items));
+      dispatch(fetchTraineeTotalSuccess(data.totalItems));
+    },
+    [dispatch, filterParams]
+  );
 
   useEffect(() => {
     fetchTrainees();
@@ -302,7 +358,6 @@ function TableStudent({
         slots={{
           toolbar: CustomToolbar,
         }}
-        // slots={{ toolbar: GridToolbar }}
         slotProps={{
           toolbar: {
             showQuickFilter: true,
@@ -321,6 +376,8 @@ function TableStudent({
         rowSelectionModel={rowSelectionModel}
         checkboxSelection
         keepNonExistentRowsSelected
+        filterMode="server"
+        onFilterModelChange={handleFilterChange}
       />
     </>
   );
@@ -357,8 +414,9 @@ const columns: GridColDef[] = [
     headerName: "Tilte",
     sortable: false,
     width: 200,
-    // valueGetter: (params: GridValueGetterParams) =>
-    //   `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    filterOperators: getGridStringOperators().filter((op) =>
+      ["equals"].includes(op.value)
+    ),
   },
 ];
 
@@ -370,9 +428,20 @@ interface CustomToolbarProps {
 
 function CustomToolbar({ setFilterButtonEl }: CustomToolbarProps) {
   return (
-    <GridToolbarContainer>
+    <GridToolbarContainer
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+    >
       <GridToolbarFilterButton ref={setFilterButtonEl} />
       <GridToolbarQuickFilter />
     </GridToolbarContainer>
   );
 }
+
+// interface CustomFilterItem {
+//   columnField: string;
+//   operatorValue: GridFilterOperatorValue;
+//   value: any;
+// }
