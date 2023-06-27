@@ -1,15 +1,4 @@
-import {
-  AccordionDetails,
-  Button,
-  Divider,
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography,
-  styled,
-  Link,
-  Box,
-} from "@mui/material";
+import { styled } from "@mui/material";
 
 import MuiAccordionSummary, {
   AccordionSummaryProps,
@@ -17,13 +6,10 @@ import MuiAccordionSummary, {
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
 import React, { useCallback, useEffect, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import CourseEditActivityCp from "./CourseEditActivityCp";
+
 import {
   fetchProgramContent,
   fetchProgramContentSuccess,
-  fetchPrograms,
-  fetchProgramsError,
-  fetchProgramsSuccess,
 } from "../../actions/programAction";
 import programApi from "../../api/programApi";
 import { useDispatch, useSelector } from "react-redux";
@@ -90,7 +76,6 @@ const CourseViewTopicAccordionCp: React.FC = () => {
               <CourseViewActivityCp activity={activity} />
             </div>
           ))}
-
         </Accordion>
       );
     });

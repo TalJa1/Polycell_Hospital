@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
 import CourseTabBarCp from "./CourseTabBarCp";
-import { Box, FormControlLabel, Switch } from "@mui/material";
+import { Box, FormControlLabel, Switch, Typography } from "@mui/material";
 import TraineeHeader from "../layoutComponents/TraineeHeader";
 import CourseTabBar from "./CourseTabBar";
 import CourseEditTopicAccordionCp from "./CourseEditTopicAccordionCp";
@@ -30,6 +30,7 @@ const CourseCp: React.FC = () => {
           position: "relative",
         }}
       >
+        
         <CourseTabBarCp editMode={editMode} />
         {/* <Box sx={{ width: "70%" }}>
           <CourseTabBar />

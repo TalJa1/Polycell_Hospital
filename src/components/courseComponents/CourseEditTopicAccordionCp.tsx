@@ -25,6 +25,7 @@ import CouseChooseActivityCp from "./CouseChooseActivityCp";
 import EditIcon from "@mui/icons-material/Edit";
 import FormActivityFile from "../formActivityComponents/FormActivityFile";
 import FormActivityUrl from "../formActivityComponents/FormActivityUrl";
+import FormActivityQuiz from "../formActivityComponents/FormActivityQuiz";
 
 const CourseEditTopicAccordionCp: React.FC = () => {
   const [accordionCount, setAccordionCount] = useState(3);
@@ -212,6 +213,8 @@ const CourseEditTopicAccordionCp: React.FC = () => {
         return <FormActivityUrl />;
       case "FILE":
         return <FormActivityFile />;
+      case "QUIZ":
+        return <FormActivityQuiz />;
       default:
         return renderAccordions();
     }

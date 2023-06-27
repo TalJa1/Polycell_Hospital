@@ -6,6 +6,7 @@ import CourseTabBar from "../courseComponents/CourseTabBar";
 import Footer from "../layoutComponents/Footer";
 import { useParams } from "react-router-dom";
 import FormActivityFile from "./FormActivityFile";
+import FormActivityQuiz from "./FormActivityQuiz";
 
 const FormActivityCp: React.FC = () => {
   const { type } = useParams();
@@ -16,6 +17,8 @@ const FormActivityCp: React.FC = () => {
         return <FormActivityUrl />;
       case "FILE":
         return <FormActivityFile />;
+      case "QUIZ": 
+        return <FormActivityQuiz/>;
       default:
         return null;
     }
