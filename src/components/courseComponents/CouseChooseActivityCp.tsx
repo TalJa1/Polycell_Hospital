@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Box,
   Dialog,
@@ -105,7 +106,7 @@ const TabPanel = (props: TabPanelProps) => {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography component={'div'}>{children}</Typography>
+          <Typography component={"div"}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -117,8 +118,6 @@ const activityData = [
   { id: 2, label: "FILE" },
   { id: 3, label: "QUIZ" },
   { id: 4, label: "ASSIGNMENT" },
-
-
 ];
 
 interface ListActivityProps {
@@ -126,7 +125,6 @@ interface ListActivityProps {
 }
 
 const ListActivity: React.FC<ListActivityProps> = ({ setActivityType }) => {
-
   return (
     <div
       style={{
@@ -136,9 +134,7 @@ const ListActivity: React.FC<ListActivityProps> = ({ setActivityType }) => {
       {activityData.map((card) => (
         <Card
           key={card.id}
-          onClick={
-            () => setActivityType(card.label)
-          }
+          onClick={() => setActivityType(card.label)}
           sx={{
             width: "15%",
             display: "flex",
