@@ -11,15 +11,40 @@ const QuizTabBarCp: React.FC = () => {
 
   return (
     <Box sx={{ width: "70%" }}>
-      <Typography
-        variant="h4"
+      <Box
         sx={{
           paddingTop: "30px",
           paddingBottom: "30px",
+          display: "flex",
+          
         }}
       >
-        My course
-      </Typography>
+        <Box
+          sx={{
+            width: "60px",
+            height: "60px",
+            border: "1px solid #1976d2",
+            backgroundColor: "transparent",
+            marginRight: "5px",
+
+            borderRadius: "5px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        />
+        <Box
+          sx={{
+            height: "50px",
+
+          }}
+        >
+          <Typography variant="subtitle1">Quiz</Typography>
+
+          <Typography variant="h4">Quiz Name</Typography>
+        </Box>
+      </Box>
+
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           textColor="inherit"
