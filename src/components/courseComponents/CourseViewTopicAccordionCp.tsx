@@ -62,7 +62,7 @@ const CourseViewTopicAccordionCp: React.FC = () => {
       const accordionIndex = i + 1;
       const accordionActivities = activities[i] || [];
       return (
-        <Accordion key={accordionIndex}>
+        <Accordion key={accordionIndex} >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls={`panel${accordionIndex}-content`}
