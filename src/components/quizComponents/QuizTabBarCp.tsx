@@ -1,5 +1,6 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import React from "react";
+import QuizMainCp from "./QuizMainCp";
 
 const QuizTabBarCp: React.FC = () => {
   const [value, setValue] = React.useState(0);
@@ -10,6 +11,15 @@ const QuizTabBarCp: React.FC = () => {
 
   return (
     <Box sx={{ width: "70%" }}>
+      <Typography
+        variant="h4"
+        sx={{
+          paddingTop: "30px",
+          paddingBottom: "30px",
+        }}
+      >
+        My course
+      </Typography>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           textColor="inherit"
@@ -26,7 +36,7 @@ const QuizTabBarCp: React.FC = () => {
       </Box>
 
       <TabPanel value={value} index={0}>
-        Quiz
+        <QuizMainCp />
       </TabPanel>
       <TabPanel value={value} index={1}>
         Questions

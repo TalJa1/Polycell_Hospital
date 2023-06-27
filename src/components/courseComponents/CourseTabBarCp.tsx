@@ -24,6 +24,16 @@ const CourseTabBarCp: React.FC<CourseTabBarProps> = ({ editMode }) => {
 
   return (
     <Box sx={{ width: "70%" }}>
+      <Typography
+        variant="h4"
+        sx={{
+          paddingTop: "30px",
+          paddingBottom: "30px"
+        }}
+      >
+        My course
+      </Typography>
+
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           textColor="inherit"
@@ -83,7 +93,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography component={'div'}>{children}</Typography>
+          <Typography component={"div"}>{children}</Typography>
         </Box>
       )}
     </div>
