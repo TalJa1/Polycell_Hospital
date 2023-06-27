@@ -114,8 +114,11 @@ const TabPanel = (props: TabPanelProps) => {
 
 const activityData = [
   { id: 1, label: "URL" },
-  { id: 2, label: "TEXT" },
-  { id: 3, label: "FILE" },
+  { id: 2, label: "FILE" },
+  { id: 3, label: "QUIZ" },
+  { id: 4, label: "ASSIGNMENT" },
+
+
 ];
 
 interface ListActivityProps {
