@@ -1,4 +1,4 @@
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, makeStyles } from "@mui/material";
 import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
 import React from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -21,9 +21,8 @@ const Transition = React.forwardRef(function Transition(
 
 const ParticipantsCp: React.FC = () => {
   const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = (id : any) => {
-    console.log("Group ID >>>>>>>> ", id)
+  const handleClickOpen = (id: any) => {
+    console.log("Group ID >>>>>>>> ", id);
     setOpen(true);
   };
 
@@ -32,26 +31,31 @@ const ParticipantsCp: React.FC = () => {
   };
 
   const columns: GridColDef[] = [
-    { field: "name", headerName: "Class Name", width: 130 },
-    { field: "createdDate", headerName: "Created date", width: 130 },
+    { field: "name", headerName: "Class Name", width: 200 },
+    { field: "createdDate", headerName: "Created date", width: 200 },
     {
       field: "amounts",
       headerName: "Amounts",
       type: "number",
-      width: 90,
+      width: 130,
     },
     {
       field: "option",
       headerName: "Options",
-      width: 120,
+      width: 200,
       sortable: false,
       disableColumnMenu: true,
+      headerAlign: "right",
+      align: "right",
       renderCell: (params: GridCellParams) => (
         <span>
           {/* <Link to={``}>
             <VisibilityIcon sx={{ color: "blue" }}/>
           </Link> */}
-          <IconButton aria-label="view" onClick={() => handleClickOpen(params.row.id)}>
+          <IconButton
+            aria-label="view"
+            onClick={() => handleClickOpen(params.row.id)}
+          >
             <VisibilityIcon sx={{ color: "blue" }} />
           </IconButton>
         </span>
@@ -71,19 +75,19 @@ const ParticipantsCp: React.FC = () => {
     { id: 9, name: "LMS223", createdDate: "20/10/2022", amounts: 30 },
     { id: 10, name: "LMS224", createdDate: "20/10/2022", amounts: 30 },
   ];
-  
+
   const columnsTrainees: GridColDef[] = [
-    { field: "id", headerName: "Trainee ID", width: 130 },
-    { field: "name", headerName: "Class Name", width: 130 },
-    { field: "email", headerName: "Email", width: 130 , sortable: false},
+    { field: "id", headerName: "Trainee ID", width: 200 },
+    { field: "name", headerName: "Class Name", width: 200 },
+    { field: "email", headerName: "Email", width: 200, sortable: false },
     {
       field: "phone",
       headerName: "Phone",
       width: 130,
-      sortable: false
+      sortable: false,
     },
   ];
-  
+
   const rowsTrainees = [
     {
       id: "SE161560",
