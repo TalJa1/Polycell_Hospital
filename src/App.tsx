@@ -19,6 +19,7 @@ import SyllabusPage from "./layouts/trainee/SyllabusPage";
 import CoursesPage from "./layouts/trainer/CoursesPage";
 import SchedulePage from "./layouts/schedule/SchedulePage";
 import CourseFormActivity from "./layouts/trainer/CourseFormActivity";
+import QuizPage from "./layouts/quiz/QuizPage";
 
 function App() {
   return (
@@ -43,6 +44,8 @@ function App() {
       <Route path={`/course-view`} Component={CoursesPage} />
       <Route path={`/schedule-page`} Component={SchedulePage} />
       <Route path={`/form-activity/:type`} Component={CourseFormActivity} />
+      <Route path={`/quiz-setup`} Component={QuizPage} />
+
 
 
 
