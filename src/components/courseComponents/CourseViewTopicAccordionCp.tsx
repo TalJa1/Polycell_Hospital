@@ -76,7 +76,7 @@ const CourseViewTopicAccordionCp: React.FC = () => {
       const accordionIndex = i + 1;
       const accordionActivities = activities[i] || [];
       return (
-        <Accordion key={accordionIndex}>
+        <Accordion key={accordionIndex} >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls={`panel${accordionIndex}-content`}
@@ -84,7 +84,6 @@ const CourseViewTopicAccordionCp: React.FC = () => {
             sx={{ display: "flex", alignItems: "center", fontSize: "30px" }}
           >
             {topic.name}
-            {/* <Typography fontSize="30px"></Typography> */}
           </AccordionSummary>
           {topic.activities.map((activity, index) => (
             <div key={index}>
@@ -97,7 +96,7 @@ const CourseViewTopicAccordionCp: React.FC = () => {
     });
   };
 
-  return <div>{renderAccordions()}</div>;
+  return <>{renderAccordions()}</>;
 };
 
 export default CourseViewTopicAccordionCp;
@@ -110,9 +109,6 @@ const Accordion = styled((props: AccordionProps) => (
   "&:not(:last-child)": {
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
-  // "&:before": {
-  //   display: "none",
-  // },
 }));
 
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
@@ -121,10 +117,6 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
     {...props}
   />
 ))(({ theme }) => ({
-  // backgroundColor:
-  //   theme.palette.mode === "dark"
-  //     ? "rgba(255, 255, 255, .05)"
-  //     : "rgba(0, 0, 0, .03)",
   flexDirection: "row-reverse",
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(180deg)",
