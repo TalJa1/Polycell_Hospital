@@ -11,6 +11,7 @@ import {
 
 interface TraineeState {
   trainees: Trainee[];
+  allTrainees: Trainee[];
   total: number;
   totalpage: number;
   loading: boolean;
@@ -19,6 +20,7 @@ interface TraineeState {
 
 const initialState: TraineeState = {
   trainees: [],
+  allTrainees: [],
   totalpage: 0,
   total: 0,
   loading: false,
@@ -42,12 +44,20 @@ const traineeReducer = (
         error: null,
       };
     case FETCH_TRAINEES_SUCCESS:
+      const combinedTrainees = [...state.allTrainees, ...action.payload];
+      const uniqueTrainees = combinedTrainees.filter(
+        (trainee, index, self) =>
+          self.findIndex((t) => t.id === trainee.id) === index
+      );
+
       return {
         ...state,
-        trainees: action.payload,
+        trainees: [...action.payload],
+        allTrainees: uniqueTrainees,
         loading: false,
         error: null,
       };
+
     case FETCH_TRAINEES_ERROR:
       return {
         ...state,

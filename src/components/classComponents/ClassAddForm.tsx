@@ -71,6 +71,8 @@ const ClassAddForm: React.FC = () => {
   const [selectStartDate, setSelectedStartDate] = useState<Dayjs | null>();
   const [selectEndDate, setSelectedEndDate] = useState<Dayjs>();
   const [selectQuantity, setSelectedQuantity] = useState<string>("");
+  const [maxQuantity, setMaxQuantity] = useState<string>("");
+  const [minQuantity, setMinQuantity] = useState<string>("");
   const [generalSchedules, setGeneralSchedules] = useState<GeneralSchedule[]>(
     []
   );
@@ -95,11 +97,23 @@ const ClassAddForm: React.FC = () => {
   ) => {
     setSelectedCourse(value);
     setSelectedCard(value);
-    setSelectedQuantity(value?.maxQuantity.toString() || "");
+    // setSelectedQuantity(value?.maxQuantity.toString() || "");
   };
 
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedQuantity(event.target.value);
+  };
+
+  const handleMinQuantityChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setMinQuantity(event.target.value);
+  };
+
+  const handleMaxQuantityChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setMaxQuantity(event.target.value);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -153,15 +167,16 @@ const ClassAddForm: React.FC = () => {
   }, [dispatch]);
 
   const handleCheckForm = () => {
-    if(selectTraineeList.length >= parseInt(selectQuantity)) {
-      setWarning("The number of students exceeds the allowable limit")
-    } else if(selectTraineeList.length < selectedCourse?.minQuantity!) {
-      setWarning("The number of students is not enough")
-    }else {
+    if (selectTraineeList.length >= parseInt(selectQuantity)) {
+      setWarning("The number of students exceeds the allowable limit");
+    } else if (selectTraineeList.length < selectedCourse?.minQuantity!) {
+      setWarning("The number of students is not enough");
+    } else {
       setWarning("");
     }
     setOpen(true);
-  }
+  };
+
 
   //
   const handlePostData = async () => {
@@ -181,15 +196,15 @@ const ClassAddForm: React.FC = () => {
       console.log(params);
       const response = await classApi.create(params);
       console.log(response.status);
-      if(response.status === 200) {
-        console.log("SUCCESS")
-        navigate("/class-acceptance");
+      if (response.status === 200) {
+        console.log("SUCCESS");
+        navigate("/class-management");
       }
       // console.log("Post request successful:", response.data);
     } catch (error) {
       console.error("Error posting data:", error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchCreateClassDataForm();
@@ -433,8 +448,6 @@ const ClassAddForm: React.FC = () => {
                 <div></div>
               )}
 
-              
-
               {/* Department */}
               <Grid item xs={12} sm={2}>
                 <InputLabel>Department</InputLabel>
@@ -463,86 +476,6 @@ const ClassAddForm: React.FC = () => {
               ) : (
                 <div></div>
               )}
-
-              {/* QUANTITY */}
-              <Grid item xs={12} sm={2}>
-                <InputLabel>Quantity</InputLabel>
-              </Grid>
-              <Grid item xs={12} sm={10}>
-                <Grid container>
-                  <Grid item sm={12}>
-                    <Grid container>
-                      <Grid item sm={3}>
-                        <TextField
-                          id="quantity"
-                          name="quantity"
-                          label="Min"
-                          // fullWidth
-                          size="medium"
-                          autoComplete="off"
-                          variant="outlined"
-                          sx={{ float: "right" }}
-                          inputProps={{
-                            style: { textAlign: "right" },
-                          }}
-                          value={
-                            selectedCourse != null
-                              ? selectedCourse.minQuantity
-                              : ""
-                          }
-                        />
-                      </Grid>
-
-                      <Grid item xs={12} sm={2}></Grid>
-                      <Grid item sm={3}>
-                        <TextField
-                          id="quantity"
-                          name="quantity"
-                          label="Max"
-                          // fullWidth
-                          size="medium"
-                          autoComplete="off"
-                          variant="outlined"
-                          sx={{ float: "right" }}
-                          inputProps={{
-                            style: { textAlign: "right" },
-                          }}
-                          value={selectedCourse != null ? selectQuantity : ""}
-                          onChange={handleQuantityChange}
-                        />
-                      </Grid>
-
-                      <Grid item sm={4}>
-                        {/* <IconButton
-                      color="secondary"
-                      aria-label="add an alarm"
-                      onClick={handleClickOpen}
-                    >
-                      <VisibilityIcon
-                        sx={{
-                          paddingLeft: "5px",
-                          display: "flex",
-                          justifyContent: "start",
-                          alignItems: "center",
-                          height: "100%",
-                        }}
-                      />
-                    </IconButton> */}
-                      </Grid>
-                    </Grid>
-                  </Grid>
-
-                  {/* <Grid item sm={1}>
-                  to
-                </Grid> */}
-
-                  {/* <Grid item sm={4}>
-                  <Grid container>
-                    
-                  </Grid>
-                </Grid> */}
-                </Grid>
-              </Grid>
 
               {/* Department */}
               <Grid item xs={12} sm={2}>
@@ -627,10 +560,79 @@ const ClassAddForm: React.FC = () => {
               ) : (
                 <div></div>
               )}
+              {/* QUANTITY */}
+              <Grid item xs={12} sm={2}>
+                <InputLabel>Quantity</InputLabel>
+              </Grid>
+              <Grid item xs={12} sm={10}>
+                <Grid container>
+                  <Grid item sm={12}>
+                    <Grid container>
+                      <Grid item sm={3}>
+                        <TextField
+                          id="quantity"
+                          label="Min"
+                          // fullWidth
+                          size="medium"
+                          autoComplete="off"
+                          variant="outlined"
+                          sx={{ float: "right" }}
+                          inputProps={{
+                            style: { textAlign: "right" },
+                          }}
+                          {...register("minQuantity", {
+                            required: true,
+                            valueAsNumber: true,
+                            validate: (value) => value > 0,
+                          })}
+                          error={errors.minQuantity ? true : false}
+                          // helperText={errors.minQuantity && "This field is required"}
+                          value={minQuantity}
+                          onChange={handleMinQuantityChange}
+                        />
+                      </Grid>
 
-              
+                      <Grid item xs={12} sm={2}></Grid>
+                      <Grid item sm={3}>
+                        <TextField
+                          id="quantity"
+                          label="Max"
+                          // fullWidth
+                          size="medium"
+                          autoComplete="off"
+                          variant="outlined"
+                          sx={{ float: "right" }}
+                          inputProps={{
+                            style: { textAlign: "right" },
+                          }}
+                          {...register("maxQuantity", {
+                            required: true,
+                            valueAsNumber: true,
+                            validate: (value) => value > 0,
+                          })}
+                          error={errors.maxQuantity ? true : false}
+                          // helperText={errors.maxQuantity && "This field is required"}
+                          value={maxQuantity}
+                          onChange={handleMaxQuantityChange}
+                        />
+                      </Grid>
 
-              {/* Due time */}
+                      <Grid item sm={4}></Grid>
+                    </Grid>
+                  </Grid>
+
+                  {/* <Grid item sm={1}>
+                  to
+                </Grid> */}
+
+                  {/* <Grid item sm={4}>
+                  <Grid container>
+                    
+                  </Grid>
+                </Grid> */}
+                </Grid>
+              </Grid>
+              {/* List trainee */}
               <Grid item xs={12} sm={2}>
                 <InputLabel
 
@@ -652,7 +654,7 @@ const ClassAddForm: React.FC = () => {
               <Grid item xs={12} sm={5}>
                 Trainee quantity:{" "}
                 {selectTraineeList.length > 0 ? selectTraineeList.length : 0} /{" "}
-                {selectQuantity}
+                {maxQuantity.length === 0 ? "max" : maxQuantity}
               </Grid>
 
               {/* Start date */}
@@ -746,11 +748,9 @@ const ClassAddForm: React.FC = () => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {warning !==  "" ? "Warning" : "Do you want to create?"}
+          {warning !== "" ? "Warning" : "Do you want to create?"}
         </DialogTitle>
-        <DialogContent>
-           {warning.toUpperCase()}
-        </DialogContent>
+        <DialogContent>{warning.toUpperCase()}</DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Disagree</Button>
           <Button onClick={handlePostData} autoFocus>
@@ -763,5 +763,3 @@ const ClassAddForm: React.FC = () => {
 };
 
 export default ClassAddForm;
-
-

@@ -14,18 +14,22 @@ import {
   Typography,
   CardContent,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+import { PageContext } from "./CourseEditTopicAccordionCp";
+import { useNavigate } from "react-router-dom";
 
 interface CouseChooseActivityProps {
   open: boolean;
   handleClose: () => void;
   handleAddActivity: () => void;
+  setActivityType: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CouseChooseActivityCp: React.FC<CouseChooseActivityProps> = ({
   open,
   handleClose,
   handleAddActivity,
+  setActivityType,
 }) => {
   const [value, setValue] = React.useState(0);
 
@@ -54,9 +58,7 @@ const CouseChooseActivityCp: React.FC<CouseChooseActivityProps> = ({
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-              <ListActivity
-                handleAddActivity={handleAddActivity}
-              />
+              <ListActivity setActivityType={setActivityType} />
             </TabPanel>
             <TabPanel value={value} index={1}>
               Item Two
@@ -111,18 +113,20 @@ const TabPanel = (props: TabPanelProps) => {
 };
 
 const activityData = [
-  { id: 1, label: "Url" },
-  { id: 2, label: "Text" },
-  { id: 3, label: "File" },
+  { id: 1, label: "URL" },
+  { id: 2, label: "FILE" },
+  { id: 3, label: "QUIZ" },
+  { id: 4, label: "ASSIGNMENT" },
+
+
 ];
 
 interface ListActivityProps {
-  handleAddActivity: () => void;
+  setActivityType: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ListActivity: React.FC<ListActivityProps> = ({
-  handleAddActivity,
-}) => {
+const ListActivity: React.FC<ListActivityProps> = ({ setActivityType }) => {
+
   return (
     <div
       style={{
@@ -132,7 +136,9 @@ const ListActivity: React.FC<ListActivityProps> = ({
       {activityData.map((card) => (
         <Card
           key={card.id}
-          onClick={handleAddActivity}
+          onClick={
+            () => setActivityType(card.label)
+          }
           sx={{
             width: "15%",
             display: "flex",

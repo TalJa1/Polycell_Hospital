@@ -10,8 +10,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import { Menu, MenuItem, Paper } from "@mui/material";
+import {
+  Divider,
+  FormControlLabel,
+  Menu,
+  MenuItem,
+  Paper,
+  Switch,
+} from "@mui/material";
 import { Link } from "react-router-dom";
+import { EditModeContext } from "../../provider/EditModeProvider";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -34,6 +42,8 @@ interface HeaderProps {
 }
 
 const TraineeHeader: React.FC<HeaderProps> = (props) => {
+  const { editMode, handleEditModeChange } = React.useContext(EditModeContext);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -109,9 +119,11 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
           <Box sx={{ display: { md: "flex" }, color: "#1B5461" }}>
             <Link to="/schedule-page">
               <IconButton size="large">
-                <CalendarMonthIcon sx={{
-                  color: "#1B5461"
-                }} />
+                <CalendarMonthIcon
+                  sx={{
+                    color: "#1B5461",
+                  }}
+                />
               </IconButton>
             </Link>
 
@@ -135,6 +147,13 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
             >
               <AccountCircle />
             </IconButton>
+            <Divider orientation="vertical" flexItem />
+            <FormControlLabel
+              label="Edit mode"
+              control={
+                <Switch checked={editMode} onChange={handleEditModeChange} />
+              }
+            />
           </Box>
         </Toolbar>
       </AppBar>
