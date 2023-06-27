@@ -209,59 +209,6 @@ export default Postdata;
 
 const filterCreatedDate = ["Most recently", "Oldest"];
 
-const classDetail = [
-  {
-    course: "PPG201",
-    class: "SS011",
-    quantity: "30",
-    createddate: "20/10/2023",
-    status: "pending",
-    trainer: "Pham Van A",
-    duetime: "7am-9am (t4,t7)",
-    deparment: "A",
-  },
-  {
-    course: "PPG202",
-    class: "SS021",
-    quantity: "25",
-    createddate: "20/10/2023",
-    status: "pending",
-    trainer: "Pham Van B",
-    duetime: "7am-9am (t2,t6)",
-    deparment: "A",
-  },
-  {
-    course: "PPG202",
-    class: "SS021",
-    quantity: "25",
-    createddate: "20/10/2023",
-    status: "pending",
-    trainer: "Pham Van B",
-    duetime: "7am-9am (t2,t6)",
-    deparment: "A",
-  },
-  {
-    course: "PPG202",
-    class: "SS021",
-    quantity: "25",
-    createddate: "20/10/2023",
-    status: "pending",
-    trainer: "Pham Van B",
-    duetime: "7am-9am (t2,t6)",
-    deparment: "A",
-  },
-  {
-    course: "PPG202",
-    class: "SS021",
-    quantity: "25",
-    createddate: "20/10/2023",
-    status: "pending",
-    trainer: "Pham Van B",
-    duetime: "7am-9am (t2,t6)",
-    deparment: "A",
-  },
-];
-
 {
   /* For paging */
 }
