@@ -7,8 +7,10 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import React, { useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const FormActivityAssignment: React.FC = () => {
   return (
@@ -44,7 +46,18 @@ const strongStyle = {
   fontSize: "30px",
 };
 
-const AssignmentGenerator = () => {
+const RichTextEditor = () => {
+  const [editorContent, setEditorContent] = useState("");
+
+  const handleChange = (content: any) => {
+    setEditorContent(content);
+  };
+
+  return <ReactQuill value={editorContent} onChange={handleChange} />;
+};
+
+export const AssignmentGenerator = () => {
+
   return (
     <Box>
       <Accordion>
@@ -58,6 +71,8 @@ const AssignmentGenerator = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
+        <RichTextEditor />
+          
           {/* <Typography>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
             malesuada lacus ex, sit amet blandit leo lobortis eget.
@@ -75,10 +90,10 @@ const AssignmentGenerator = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
+          {/* <Typography>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
             malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          </Typography> */}
         </AccordionDetails>
       </Accordion>
       <Accordion>
