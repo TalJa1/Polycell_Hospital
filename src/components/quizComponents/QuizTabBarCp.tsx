@@ -1,6 +1,7 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import React from "react";
 import QuizMainCp from "./QuizMainCp";
+import QuizQuestionsCp from "./QuizQuestionsCp";
 
 const QuizTabBarCp: React.FC = () => {
   const [value, setValue] = React.useState(0);
@@ -64,7 +65,7 @@ const QuizTabBarCp: React.FC = () => {
         <QuizMainCp />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Questions
+        <QuizQuestionsCp/>
       </TabPanel>
       <TabPanel value={value} index={2}>
         Results
