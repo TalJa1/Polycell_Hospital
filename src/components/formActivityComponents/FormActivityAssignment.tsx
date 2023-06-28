@@ -27,7 +27,7 @@ const FormActivityAssignment: React.FC = () => {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom sx={{ paddingBottom: 5 }}>
-        Adding new URL
+        Assignment
       </Typography>
 
       <AssignmentGenerator />
