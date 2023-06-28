@@ -11,6 +11,17 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useDropzone } from "react-dropzone";
+import "../../styles/DropdownBox.css";
+import dayjs, { Dayjs } from "dayjs";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 const FormActivityAssignment: React.FC = () => {
   return (
@@ -42,6 +53,31 @@ const FormActivityAssignment: React.FC = () => {
   );
 };
 
+const FileDropzone: React.FC = () => {
+  const onDrop = React.useCallback((acceptedFiles: File[]) => {
+    // Do something with the dropped files
+    console.log(acceptedFiles);
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+  return (
+    <div
+      {...getRootProps()}
+      className={`dropzone ${isDragActive ? "active" : ""}`}
+    >
+      <input {...getInputProps()} />
+      <div className="dropzone-box">
+        {isDragActive ? (
+          <p>Drop the files here...</p>
+        ) : (
+          <p>Drag and drop some files here, or click to select files</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const strongStyle = {
   fontSize: "30px",
 };
@@ -56,7 +92,41 @@ const RichTextEditor = () => {
   return <ReactQuill value={editorContent} onChange={handleChange} />;
 };
 
+const BasicSelect: React.FC<{ contentArray: Array<any> }> = ({
+  contentArray,
+}) => {
+  const [maxFiles, setMaxFiles] = useState<number>(1);
+
+  const handleChange = (event: any) => {
+    setMaxFiles(event.target.value);
+  };
+
+  return (
+    <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="max-file-select-label">Max Files</InputLabel>
+        <Select
+          labelId="max-file-select-label"
+          id="max-file-select"
+          value={maxFiles.toString()}
+          label="Max Files"
+          onChange={handleChange}
+        >
+          {contentArray.map((value) => (
+            <MenuItem key={value} value={value}>
+              {value}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
+  );
+};
+
 export const AssignmentGenerator = () => {
+  const [value, setValue] = React.useState<Dayjs | null>(
+    dayjs("2022-04-17T15:30")
+  );
   return (
     <Box>
       <Accordion>
@@ -100,15 +170,11 @@ export const AssignmentGenerator = () => {
                 File submission
               </Grid>
               <Grid item xs={9}>
+                <FileDropzone />
                 {/* <RichTextEditor /> */}
               </Grid>
             </Grid>
           </Grid>
-
-          {/* <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography> */}
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -122,10 +188,80 @@ export const AssignmentGenerator = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {/* <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography> */}
+          <Grid container direction="column" rowGap={2}>
+            <Grid item container>
+              <Grid item xs={3}>
+                Allow submission from
+              </Grid>
+              <Grid item xs={9}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer
+                    components={["DateTimePicker", "DateTimePicker"]}
+                  >
+                    <DateTimePicker
+                      label="Controlled picker"
+                      value={value}
+                      onChange={(newValue) => setValue(newValue)}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Grid>
+            </Grid>
+            <Grid item container>
+              <Grid item xs={3}>
+                Due date
+              </Grid>
+              <Grid item xs={9}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer
+                    components={["DateTimePicker", "DateTimePicker"]}
+                  >
+                    <DateTimePicker
+                      label="Controlled picker"
+                      value={value}
+                      onChange={(newValue) => setValue(newValue)}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Grid>
+            </Grid>
+            <Grid item container>
+              <Grid item xs={3}>
+                Cut-off date
+              </Grid>
+              <Grid item xs={9}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer
+                    components={["DateTimePicker", "DateTimePicker"]}
+                  >
+                    <DateTimePicker
+                      label="Controlled picker"
+                      value={value}
+                      onChange={(newValue) => setValue(newValue)}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Grid>
+            </Grid>
+            <Grid item container>
+              <Grid item xs={3}>
+                Remind me to grade by
+              </Grid>
+              <Grid item xs={9}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer
+                    components={["DateTimePicker", "DateTimePicker"]}
+                  >
+                    <DateTimePicker
+                      label="Controlled picker"
+                      value={value}
+                      onChange={(newValue) => setValue(newValue)}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Grid>
+            </Grid>
+          </Grid>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -138,9 +274,41 @@ export const AssignmentGenerator = () => {
             <strong style={strongStyle}>Submission types</strong>
           </Typography>
         </AccordionSummary>
+        <AccordionDetails>
+          <Grid container direction="column" rowGap={2}>
+            <Grid item container>
+              <Grid item xs={3}>
+                Max number files upload
+              </Grid>
+              <Grid item xs={9}>
+                <BasicSelect contentArray={MaxfileAmounts} />
+              </Grid>
+            </Grid>
+            <Grid item container>
+              <Grid item xs={3}>
+                Max size
+              </Grid>
+              <Grid item xs={9}>
+                <BasicSelect contentArray={MaxfileLarge} />
+              </Grid>
+            </Grid>
+            <Grid item container>
+              <Grid item xs={3}>
+                File type submission
+              </Grid>
+              <Grid item xs={9}>
+                <BasicSelect contentArray={FileTypeSubmission} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </AccordionDetails>
       </Accordion>
     </Box>
   );
 };
+
+const MaxfileAmounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const MaxfileLarge = ["1MB", "500KB", "50KB"];
+const FileTypeSubmission = ["JPG", "TxT", "JDPG"];
 
 export default FormActivityAssignment;
