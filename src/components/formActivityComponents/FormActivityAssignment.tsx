@@ -309,6 +309,6 @@ export const AssignmentGenerator = () => {
 
 const MaxfileAmounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const MaxfileLarge = ["1MB", "500KB", "50KB"];
-const FileTypeSubmission = ["JPG", "TxT", "JDPG"];
+const FileTypeSubmission = ["JPG", "TXT", "JDPG"];
 
 export default FormActivityAssignment;
