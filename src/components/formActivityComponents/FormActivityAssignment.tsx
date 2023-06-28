@@ -8,9 +8,9 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const FormActivityAssignment: React.FC = () => {
   return (
@@ -57,7 +57,6 @@ const RichTextEditor = () => {
 };
 
 export const AssignmentGenerator = () => {
-
   return (
     <Box>
       <Accordion>
@@ -71,8 +70,41 @@ export const AssignmentGenerator = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-        <RichTextEditor />
-          
+          <Grid container direction="column" rowGap={2}>
+            <Grid item container>
+              <Grid item xs={3}>
+                Assignment name
+              </Grid>
+              <Grid item xs={9}>
+                <RichTextEditor />
+              </Grid>
+            </Grid>
+            <Grid item container>
+              <Grid item xs={3}>
+                Description
+              </Grid>
+              <Grid item xs={9}>
+                <RichTextEditor />
+              </Grid>
+            </Grid>
+            <Grid item container>
+              <Grid item xs={3}>
+                Instruction
+              </Grid>
+              <Grid item xs={9}>
+                <RichTextEditor />
+              </Grid>
+            </Grid>
+            <Grid item container>
+              <Grid item xs={3}>
+                File submission
+              </Grid>
+              <Grid item xs={9}>
+                {/* <RichTextEditor /> */}
+              </Grid>
+            </Grid>
+          </Grid>
+
           {/* <Typography>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
             malesuada lacus ex, sit amet blandit leo lobortis eget.
