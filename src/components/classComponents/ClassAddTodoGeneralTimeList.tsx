@@ -49,6 +49,7 @@ const GeneralScheduleGeneralTimeList: React.FC<GeneralScheduleGeneralTimeListPro
 
 
 
+
   return (
     <>
       {generalSchedules.map((generalSchedule) => (
@@ -57,6 +58,7 @@ const GeneralScheduleGeneralTimeList: React.FC<GeneralScheduleGeneralTimeListPro
             <TimePicker.RangePicker
               style={{
                 width: "100%",
+                height: "56px",
                 backgroundColor: "transparent",
               }}
               value={generalSchedule.time || undefined}
@@ -99,6 +101,9 @@ const GeneralScheduleGeneralTimeList: React.FC<GeneralScheduleGeneralTimeListPro
         </Grid>
       ))}
       <Button
+      sx={{
+        marginTop: "5px"
+      }}
         variant="contained"
         onClick={handleAddGeneralSchedule}
       >
