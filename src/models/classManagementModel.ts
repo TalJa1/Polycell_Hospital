@@ -1,4 +1,4 @@
-import { Cycle, Program } from "./programAddModel";
+import { Cycle, Program, Trainer } from "./programAddModel";
 import { Trainees } from "./traineeModel";
 
 export interface Class {
@@ -18,7 +18,8 @@ export interface Class {
   cycleId: string;
   startDate: Date;
   endDate: Date;
-  program: Program
-  cycle: Cycle
+  program: Program;
+  cycle: Cycle;
+  trainer: Trainer;
   trainees: Trainees[]
 }

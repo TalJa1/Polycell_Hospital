@@ -1,13 +1,13 @@
+import dayjs, { Dayjs } from "dayjs";
 import React, { useCallback, useEffect, useState } from "react";
-import type { BadgeProps } from "antd";
-import { Badge, Calendar } from "antd";
-import type { Dayjs } from "dayjs";
-import type { CellRenderInfo } from "rc-picker/lib/interface";
-import { RootState } from "../../reduxs/Root";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchScheduleSuccess } from "../../actions/scheduleAction";
-import scheduleApi from "../../api/schedule";
-import { Schedule } from "../../models/scheduleModel";
+import { RootState } from "../../reduxs/Root";
+import attendanceApi from "../../api/attendanceApi";
+import { FETCH_ATTENDANCE_SUCCESS } from "../../utils/constant";
+import { fetchAttendanceSuccess } from "../../actions/attendanceAction";
+import { Attendance } from "../../models/attendaceModel";
+import type { CellRenderInfo } from "rc-picker/lib/interface";
+
 import {
   Box,
   Button,
@@ -18,12 +18,12 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import dayjs from "dayjs";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { Calendar } from "antd";
 
-const ScheduleListData: React.FC = () => {
-  const { list } = useSelector((state: RootState) => state.schedule);
+const ScheduleTraineeListData: React.FC = () => {
+  const { list } = useSelector((state: RootState) => state.attendance);
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -31,12 +31,12 @@ const ScheduleListData: React.FC = () => {
 
   const fetchSchedule = useCallback(async () => {
     try {
-      const response = await scheduleApi.getScheduleOfTrainer(
-        "3ae6a7fb-87a4-423e-8f38-d1313e710a00"
+      const response = await attendanceApi.getAttendanceOfTrainee(
+        "00bcab59-5ddd-4528-b811-d85a8f0e27f7"
       );
       const { data } = response;
 
-      dispatch(fetchScheduleSuccess(data));
+      dispatch(fetchAttendanceSuccess(data));
     } catch (error) {
       console.error("Error fetching trainees:", error);
     }
@@ -48,9 +48,11 @@ const ScheduleListData: React.FC = () => {
 
   const getList = (value: Dayjs) => {
     const dateStr = value.format("DD/MM/YYYY");
-    const events = list.filter((item: Schedule) => item.date === dateStr);
-    const listData: { type: string; content: Schedule }[] = events.map(
-      (item: Schedule) => ({
+    const events = list.filter(
+      (item: Attendance) => item.schedule.date === dateStr
+    );
+    const listData: { type: string; content: Attendance }[] = events.map(
+      (item: Attendance) => ({
         type: "success",
         content: item,
       })
@@ -65,12 +67,24 @@ const ScheduleListData: React.FC = () => {
         {listData.map((item, index) => (
           <Box key={index}>
             <Typography variant="body1">
-              {item.content.clazz.code}
+              {item.content.schedule.clazz.code}
             </Typography>
-            <Typography variant="caption">
-              ({dayjs(item.content.startTime, "HH:mm:ss").format("HH:mm")}-
-              {dayjs(item.content.endTime, "HH:mm:ss").format("HH:mm")})
-            </Typography>
+            <Box>
+              <Typography variant="caption">{item.content.status}</Typography>
+            </Box>
+            <Box>
+              <Typography variant="caption">
+                (
+                {dayjs(item.content.schedule.startTime, "HH:mm:ss").format(
+                  "HH:mm"
+                )}
+                -
+                {dayjs(item.content.schedule.endTime, "HH:mm:ss").format(
+                  "HH:mm"
+                )}
+                )
+              </Typography>
+            </Box>
           </Box>
         ))}
       </Box>
@@ -105,7 +119,6 @@ const ScheduleListData: React.FC = () => {
     setSelectedMonth(value);
   };
 
-
   return (
     <>
       <Calendar
@@ -126,10 +139,10 @@ const ScheduleListData: React.FC = () => {
         <Divider></Divider>
         <DialogContent>
           {selectedDate && (
-
             <Box>
               {getList(selectedDate).map((item, index) => (
                 <>
+                
                   <Box
                     key={index}
                     sx={{
@@ -147,15 +160,19 @@ const ScheduleListData: React.FC = () => {
                       <AccessTimeIcon />
                     </Box>
                     <Typography color="GrayText">
-                      {dayjs(item.content.date, "DD/MM/YYYY").format(
+                      {dayjs(item.content.schedule.date, "DD/MM/YYYY").format(
                         "dddd, D MMMM"
                       )}{" "}
                       (
-                      {dayjs(item.content.startTime, "HH:mm:ss").format(
-                        "HH:mm"
-                      )}{" "}
+                      {dayjs(
+                        item.content.schedule.startTime,
+                        "HH:mm:ss"
+                      ).format("HH:mm")}{" "}
                       -{" "}
-                      {dayjs(item.content.endTime, "HH:mm:ss").format("HH:mm")})
+                      {dayjs(item.content.schedule.endTime, "HH:mm:ss").format(
+                        "HH:mm"
+                      )}
+                      )
                     </Typography>
                   </Box>
                   <Box
@@ -180,12 +197,29 @@ const ScheduleListData: React.FC = () => {
                         }
                       }
                     >
-                      <Typography>{item.content.clazz.code} </Typography>
+                      <Typography>
+                        {item.content.schedule.clazz.code} (
+                        <Typography variant="caption">
+                          {item.content.status}
+                        </Typography>
+                        )
+                      </Typography>
+                      <Box>
+                        <Typography variant="caption">
+                          Lecture: {item.content.schedule.clazz.trainer.name}
+                        </Typography>
+                      </Box>
+
                       <Typography variant="caption">
-                        at {item.content.room.name}
+                        at {item.content.schedule.room.name}
                       </Typography>
                     </Box>
                   </Box>
+                  {getList(selectedDate).length > 1 ? (
+                    <Divider sx={{ marginTop: "10px", marginBottom: "10px" }} />
+                  ) : (
+                    <></>
+                  )}
                 </>
               ))}
             </Box>
@@ -200,4 +234,4 @@ const ScheduleListData: React.FC = () => {
   );
 };
 
-export default ScheduleListData;
+export default ScheduleTraineeListData;
