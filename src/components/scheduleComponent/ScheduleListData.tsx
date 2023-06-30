@@ -196,7 +196,7 @@ const ScheduleListData: React.FC = () => {
                         }
                       }
                     >
-                      <Typography>{item.content.clazz.name} </Typography>
+                      <Typography>{item.content.clazz.code} </Typography>
                       <Typography variant="caption">
                         at {item.content.room.name}
                       </Typography>

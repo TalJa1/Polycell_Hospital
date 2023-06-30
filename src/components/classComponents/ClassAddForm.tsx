@@ -77,11 +77,17 @@ const ClassAddForm: React.FC = () => {
     []
   );
   const [selectClassName, setSelectClassName] = useState<string>("");
+  const [selectRoom, setSelectRoom] = useState<string>("");
+
   const [selectTraineeList, setSelectTraineeList] =
     useState<GridRowSelectionModel>([]);
 
   const handleClassName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectClassName(event.target.value);
+  };
+
+  const handleRoom = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectRoom(event.target.value);
   };
 
   const [warning, setWarning] = useState<string>("");
@@ -185,6 +191,7 @@ const ClassAddForm: React.FC = () => {
       departmentId: selectedCourse?.department?.id,
       trainerId: selectedTrainer?.id,
       programId: selectedCourse?.id,
+      roomId: "b49d2b9c-d8a1-473d-bafe-2207f62a034b",
       cycleId: selectedCycle?.id,
       quantity: selectTraineeList.length,
       minQuantity: minQuantity,
@@ -197,7 +204,7 @@ const ClassAddForm: React.FC = () => {
       console.log(params);
       const response = await classApi.create(params);
       console.log(response.status);
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log("SUCCESS");
         navigate("/class-management");
       }
@@ -478,7 +485,7 @@ const ClassAddForm: React.FC = () => {
                 <div></div>
               )}
 
-              {/* Department */}
+              {/* Class name */}
               <Grid item xs={12} sm={2}>
                 <InputLabel>Class name*</InputLabel>
               </Grid>
@@ -501,6 +508,21 @@ const ClassAddForm: React.FC = () => {
                   fullWidth
                 />
               </Grid>
+              {/* Room */}
+              {/* <Grid item xs={12} sm={2}>
+                <InputLabel>Room*</InputLabel>
+              </Grid>
+              <Grid item xs={12} sm={9}>
+              
+                <TextField
+                  {...register("room", { required: true })}
+                  error={errors.room ? true : false}
+                  helperText={errors.room && "This field is required"}
+                  value={selectRoom}
+                  onChange={handleRoom}
+                  fullWidth
+                />
+              </Grid> */}
 
               {/* Trainer */}
               <Grid item xs={12} sm={2}>
