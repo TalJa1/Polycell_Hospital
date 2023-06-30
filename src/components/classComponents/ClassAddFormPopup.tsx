@@ -337,7 +337,6 @@ function TableStudent({
 
   useEffect(() => {
     fetchTrainees();
-    console.log("Hello");
   }, [fetchTrainees]);
 
   const setRowSelectModels = (

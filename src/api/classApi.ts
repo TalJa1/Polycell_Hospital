@@ -12,7 +12,6 @@ const classApi = {
   },
   create: (params: any) => {
     const url = "/v1/class";
-    console.log("URL >>>>> ", url);
     return axiosClient.post(url,  params );
   },
 

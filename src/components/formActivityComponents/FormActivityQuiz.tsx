@@ -31,11 +31,6 @@ const FormActivityQuiz: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const [age, setAge] = React.useState("");
-
-  const handleChangeAge = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
-  };
 
   return (
     <React.Fragment>

@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 import { Calendar } from "antd";
 import type { Dayjs } from "dayjs";
 import type { CalendarMode } from "antd/es/calendar/generateCalendar";
+import ScheduleListData from "./ScheduleListData";
 
 const ScheduleCP: React.FC = () => {
   const onPanelChange = (value: Dayjs, mode: CalendarMode) => {
@@ -21,7 +22,8 @@ const ScheduleCP: React.FC = () => {
           
           width: "80%"
         }}>
-          <Calendar onPanelChange={onPanelChange} />
+          {/* <Calendar onPanelChange={onPanelChange}  /> */}
+          <ScheduleListData/>
         </Box>
       </Box>
       <Footer />

@@ -177,7 +177,6 @@ const ClassAddForm: React.FC = () => {
     setOpen(true);
   };
 
-
   //
   const handlePostData = async () => {
     const params = {
@@ -188,6 +187,8 @@ const ClassAddForm: React.FC = () => {
       programId: selectedCourse?.id,
       cycleId: selectedCycle?.id,
       quantity: selectTraineeList.length,
+      minQuantity: minQuantity,
+      maxQuantity: maxQuantity,
       startDate: selectStartDate?.format("YYYY-MM-DD"),
       endDate: selectEndDate?.format("YYYY-MM-DD"),
       traineeIds: selectTraineeList,
@@ -200,7 +201,7 @@ const ClassAddForm: React.FC = () => {
         console.log("SUCCESS");
         navigate("/class-management");
       }
-      // console.log("Post request successful:", response.data);
+      console.log("Post request successful:", response.data);
     } catch (error) {
       console.error("Error posting data:", error);
     }
