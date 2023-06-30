@@ -388,4 +388,25 @@ const fakeData = [
   },
 ];
 
+// const fakeData2 = [
+//   {
+//     Term: "Spring2020",
+//     Course: [
+//       {
+//         name: "CourseIndex 1",
+//         code: "ABC123",
+//         attendance: [
+//           {
+//             Date: "20/20/2020",
+//             Time: "17:00-20:00",
+//             Room: "P001",
+//             Trainer: "BV",
+//             Group: "BVC201_SU20",
+//             Status: "absent",
+//           },
+//         ],
+//       },
+//     ],
+//   },]
+
 export default TraineeAttendanceCp;
