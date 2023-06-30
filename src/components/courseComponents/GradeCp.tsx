@@ -94,8 +94,8 @@ const OverviewGrade: React.FC<{ handleRowClick: (course: string) => void }> = ({
           <Grid item xs={8}>
             <strong style={{ fontSize: "1.5rem" }}>Course name</strong>
           </Grid>
-          <Grid item xs={2}>
-            <strong style={{ fontSize: "1.5rem" }}>Grade</strong>
+          <Grid item xs={2}  sx={{textAlign: "right"}}>
+            <strong style={{ fontSize: "1.5rem"}}>Grade</strong>
           </Grid>
         </Grid>
 
@@ -120,7 +120,7 @@ const OverviewGrade: React.FC<{ handleRowClick: (course: string) => void }> = ({
               <Grid item xs={8}>
                 {data.Course} - {data.CourseName}
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={2} sx={{textAlign: "right"}}>
                 {data.Grade}
               </Grid>
             </Grid>

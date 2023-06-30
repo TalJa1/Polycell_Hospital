@@ -25,7 +25,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 const FormActivityAssignment: React.FC = () => {
   return (
-    <React.Fragment>
+    <React.Fragment >
       <Typography variant="h6" gutterBottom sx={{ paddingBottom: 5 }}>
         Assignment
       </Typography>
