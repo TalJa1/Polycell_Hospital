@@ -1,5 +1,5 @@
 import { Class } from "../models/classManagementModel";
-import { Cycle, Program } from "../models/programAddModel";
+import { Cycle, Program, Trainer } from "../models/programAddModel";
 import { Trainees } from "../models/traineeModel";
 import { CREATE_CLASS_REQUEST, CREATE_CLASS_SUCCESS } from "../utils/constant";
 
@@ -34,6 +34,7 @@ const initialState: initState = {
     endDate: new Date(),
     program: {} as Program,
     cycle: {} as Cycle,
+    trainer: {} as Trainer,
     trainees: [] as Trainees[],
   },
   loading: false,
