@@ -47,10 +47,15 @@ function Loginpage() {
       return;
     }
 
-    console.log({
-      email: email,
-      password: password,
-    });
+    if(email === "admin@polycell.com" && password === "1"){
+
+    }else if (email === "upper@polycell.com" && password === "1"){
+
+    }else if(email === "trainer@polycell.com" && password === "1"){
+
+    }else if(email === "trainee@polycell.com" && password === "1"){
+
+    }
   };
 
   return (
