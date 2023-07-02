@@ -5,12 +5,14 @@ interface initState {
   list: Array<User>;
   page: number;
   isLogin: boolean;
+  userEmail: string;
 }
 
 const initialState: initState = {
   list: [],
   page: 0,
   isLogin: false,
+  userEmail: "",
   user: {
     id: 0,
     name: "",
@@ -53,6 +55,14 @@ const UserReducer = (state = initialState, { type, payload }: Props) => {
       return {
         ...state,
         user: userbyID,
+      };
+
+    case "LOGINUSER":
+      console.log("payload.userEmail >> ", payload.userEmail)
+      return {
+        ...state,
+        isLogin: payload.isLogin,
+        userEmail: payload.userEmail,
       };
 
     default:

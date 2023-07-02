@@ -26,7 +26,8 @@ function App() {
   return (
     <Routes>
       {/* <Menubar /> */}
-      <Route path="/" Component={Home} />
+      <Route path="/" Component={Loginpage} />
+      <Route path="/home" Component={Home} />
       <Route path="/class-management" Component={ClassManagement} />
       <Route path="/class-acceptance" Component={ClassAcceptance} />
       <Route path="/class-approval/:id" Component={ClassApproval} />
@@ -34,7 +35,7 @@ function App() {
       <Route path="/trainee-management" Component={TraineeManagement} />
       <Route path="/communty" />
       <Route path="/trainee-course-page" Component={CoursePage} />
-      <Route path="/login" Component={Loginpage} />
+      {/* <Route path="/login" Component={Loginpage} /> */}
       <Route path="/add-class" Component={AddClass} />
       <Route path="/class-trainee" Component={ClassListTrainee} />
       <Route path="/trainee-detail" Component={TraineeDetail} />
