@@ -67,7 +67,7 @@ function Loginpage() {
     } else if (email === "trainee@polycell.com" && password === "1") {
       const action1 = loginUser(true, email);
       dispatch(action1);
-      navigate("/home");
+      navigate("/homeTrainee");
     }
   };
 

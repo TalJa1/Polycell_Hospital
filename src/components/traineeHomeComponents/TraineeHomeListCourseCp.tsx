@@ -1,6 +1,6 @@
 import React from "react";
 import CourseCard from "./CourseCard";
-import { Box } from "@mui/material";
+import { Box, Button, styled } from "@mui/material";
 
 const TraineeHomeListCourseCp: React.FC = () => {
   const courseData = [
@@ -57,8 +57,33 @@ const TraineeHomeListCourseCp: React.FC = () => {
           />
         ))}
       </Box>
+      <Box
+        display={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <GradientButton
+          sx={{
+            margin: "50px 0",
+            backgroundColor:
+              "linear-gradient(90deg, rgb(17, 182, 122) 0%, rgb(0, 148, 68) 100%)",
+          }}
+        >
+          View all Course
+        </GradientButton>
+      </Box>
     </>
   );
 };
 
 export default TraineeHomeListCourseCp;
+
+const GradientButton = styled(Button)`
+  background: linear-gradient(
+    90deg,
+    rgb(17, 182, 122) 0%,
+    rgb(0, 148, 68) 100%
+  );
+  color: white;
+`;

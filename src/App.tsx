@@ -28,6 +28,8 @@ function App() {
       {/* <Menubar /> */}
       <Route path="/" Component={Loginpage} />
       <Route path="/home" Component={Home} />
+      <Route path="/homeTrainee" Component={TraineeHome} />
+
       <Route path="/class-management" Component={ClassManagement} />
       <Route path="/class-acceptance" Component={ClassAcceptance} />
       <Route path="/class-approval/:id" Component={ClassApproval} />

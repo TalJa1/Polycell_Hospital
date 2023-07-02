@@ -17,8 +17,9 @@ import {
   MenuItem,
   Paper,
   Switch,
+  Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EditModeContext } from "../../provider/EditModeProvider";
 
 const Search = styled("div")(({ theme }) => ({
@@ -42,6 +43,7 @@ interface HeaderProps {
 }
 
 const TraineeHeader: React.FC<HeaderProps> = (props) => {
+  const navigate = useNavigate();
   const { editMode, handleEditModeChange } = React.useContext(EditModeContext);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -54,6 +56,10 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    navigate("/");
   };
 
   const menuId = "primary-search-account-menu";
@@ -75,6 +81,8 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <Divider />
+      <MenuItem onClick={handleLogout}>Log out</MenuItem>
     </Menu>
   );
 
@@ -86,7 +94,11 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
             backgroundColor: "#E6E6E6",
           }}
         >
-          <Box>
+          <Box sx={{
+            display: "flex",
+            gap: "20px",
+            alignItems: "center"
+          }}>
             {props.title !== "" ? (
               <Box>
                 <strong className="header-title" style={{ color: "black" }}>
@@ -94,29 +106,32 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
                 </strong>
               </Box>
             ) : null}
+            <Typography sx={{
+              color: "black"
+            }}>My course</Typography>
           </Box>
-          <Search>
-            <Paper
-              component="form"
-              sx={{
-                p: "2px 4px",
-                display: "flex",
-                alignItems: "center",
-                width: "100%",
-              }}
-            >
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder="Search Course"
-                inputProps={{ "aria-label": "search course" }}
-              />
-              <IconButton type="button" aria-label="search">
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-          </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { md: "flex" }, color: "#1B5461" }}>
+            <Search>
+              <Paper
+                component="form"
+                sx={{
+                  p: "2px 4px",
+                  display: "flex",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <InputBase
+                  sx={{ ml: 1, flex: 1 }}
+                  placeholder="Search Course"
+                  inputProps={{ "aria-label": "search course" }}
+                />
+                <IconButton type="button" aria-label="search">
+                  <SearchIcon />
+                </IconButton>
+              </Paper>
+            </Search>
             <Link to="/schedule-page">
               <IconButton size="large">
                 <CalendarMonthIcon

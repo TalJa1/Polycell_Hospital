@@ -9,9 +9,9 @@ import TraineeHome from "./trainee/TraineeHome";
 const home: React.FC = () => {
   return (
     <div className="container">
-      {/* <Menubar /> */}
+      <Menubar />
       <main className="rightlayout">
-        <TraineeHome/>
+        {/* <TraineeHome/> */}
       </main>
     </div>
   );

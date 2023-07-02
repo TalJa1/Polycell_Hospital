@@ -8,7 +8,7 @@ import Chip from "@mui/joy/Chip";
 import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import { Divider } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 
 const CourseCard: React.FC<CourseCardProps> = ({
   name,
@@ -28,7 +28,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
         </AspectRatio>
       </CardOverflow>
       <CardContent>
-        <Typography level="h4">{name}</Typography>
+        <Typography level="h5">{name}</Typography>
         <Typography>{description}</Typography>
 
         {/* <Typography
@@ -45,13 +45,25 @@ const CourseCard: React.FC<CourseCardProps> = ({
         </Typography> */}
       </CardContent>
       <Divider />
-      <Chip component="span" size="sm" variant="soft" color="success">
+      <Box
+        sx={{
+          display: "flex",
+          gap: "12px",
+          // justifyContent: "space-between"
+        }}
+      >
+        <Chip component="span" size="sm" variant="soft" color="success">
+          20/06/2023 - 20/8/2024
+        </Chip>
+        <Chip component="span" size="sm" variant="soft" color="warning">
+          30 slot
+        </Chip>
+      </Box>
+      <Divider />
 
-        20/06/2023 - 20/8/2024
-      </Chip>
       <Button
         variant="solid"
-        size="lg"
+        size="md"
         sx={{
           bgcolor: "transparent",
           border: "solid 2px ActiveBorder",

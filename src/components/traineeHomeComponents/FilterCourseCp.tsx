@@ -31,7 +31,7 @@ const FilterCourseCp = () => {
     console.log("Performing search...");
   };
   return (
-    <Box sx={{ display: 'flex', gap: '16px' }}>
+    <Box sx={{ display: 'flex', gap: '16px', paddingTop: '16px' }}>
       <FormControl>
         <Select
           value={age}
