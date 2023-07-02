@@ -3,15 +3,15 @@ import "../styles/Home.css";
 import Menubar from "../components/layoutComponents/Menubar";
 
 import Postdata from "../components/classComponents/ClassViewManage";
+import TraineeHome from "./trainee/TraineeHome";
 
 
 const home: React.FC = () => {
   return (
     <div className="container">
-      <Menubar />
+      {/* <Menubar /> */}
       <main className="rightlayout">
-
-        <h1>Home page</h1>
+        <TraineeHome/>
       </main>
     </div>
   );

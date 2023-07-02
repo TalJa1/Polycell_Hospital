@@ -32,24 +32,6 @@ const CourseCp: React.FC = () => {
       >
         
         <CourseTabBarCp editMode={editMode} />
-        {/* <Box sx={{ width: "70%" }}>
-          <CourseTabBar />
-          {editMode ? (
-            <CourseEditTopicAccordionCp />
-          ) : (
-            <CourseViewTopicAccordionCp />
-          )}
-        </Box> */}
-        {/* <FormControlLabel
-          sx={{
-            position: "absolute",
-            right: "0",
-          }}
-          control={
-            <Switch checked={editMode} onChange={handleEditModeChange} />
-          }
-          label="Edit mode"
-        /> */}
       </Box>
       <Footer />
     </div>
