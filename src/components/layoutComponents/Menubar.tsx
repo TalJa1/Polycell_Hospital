@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 const Menubar: React.FC = () => {
   const { collapseSidebar, broken, toggleSidebar, collapsed } = useProSidebar();
   const isLogined = useSelector((state: any) => state.user.isLogin);
+  const userEmail = useSelector((state: any) => state.user.userEmail);
 
   return (
     <div style={{ display: "flex" }}>
@@ -49,54 +50,66 @@ const Menubar: React.FC = () => {
           </div>
         )}
         <Menu>
-          <MenuItem icon={<AccessibilityIcon />} component={<Link to="/" />}>
+          <MenuItem
+            icon={<AccessibilityIcon />}
+            component={<Link to="/home" />}
+          >
             Home
           </MenuItem>
-          <MenuItem
-            icon={<SchoolIcon />}
-            component={<Link to="/class-management" />}
-          >
-            Class
-          </MenuItem>
-          <MenuItem
-            icon={<SchoolIcon />}
-            component={<Link to="/class-acceptance" />}
-          >
-            Class Acceptance
-          </MenuItem>
-          <MenuItem
-            icon={<SchoolIcon />}
-            component={<Link to="/trainee-course-page" />}
-          >
-            My Course
-          </MenuItem>
-          <MenuItem
-            icon={<SchoolIcon />}
-            component={<Link to="/trainee-management" />}
-          >
-            Trainee List
-          </MenuItem>
-          <MenuItem
-            icon={<SchoolIcon />}
-            component={<Link to="/course-view" />}
-          >
-            Courses
-          </MenuItem>
-          <MenuItem
-            icon={<ForumIcon />}
-            component={<Link to="/trainee-attendance" />}
-          >
-            Trainee attendance
-          </MenuItem>
+          {userEmail === "admin@polycell.com" ? (
+            <MenuItem
+              icon={<SchoolIcon />}
+              component={<Link to="/class-management" />}
+            >
+              Class
+            </MenuItem>
+          ) : userEmail === "upper@polycell.com" ? (
+            <MenuItem
+              icon={<SchoolIcon />}
+              component={<Link to="/class-acceptance" />}
+            >
+              Class Acceptance
+            </MenuItem>
+          ) : userEmail === "trainer@polycell.com" ? (
+            <MenuItem
+              icon={<SchoolIcon />}
+              component={<Link to="/trainee-course-page" />}
+            >
+              My Course
+            </MenuItem>
+          ) : userEmail === "trainee@polycell.com" ? (
+            <>
+              <MenuItem
+                icon={<SchoolIcon />}
+                component={<Link to="/trainee-management" />}
+              >
+                Trainee List
+              </MenuItem>
+              <MenuItem
+                icon={<SchoolIcon />}
+                component={<Link to="/course-view" />}
+              >
+                Courses
+              </MenuItem>
+              <MenuItem
+                icon={<ForumIcon />}
+                component={<Link to="/trainee-attendance" />}
+              >
+                Trainee attendance
+              </MenuItem>
+            </>
+          ) : (
+            <></>
+          )}
+
           <MenuItem icon={<InfoIcon />} component={<Link to="/about" />}>
             About
           </MenuItem>
-
           <MenuItem icon={<ForumIcon />} component={<Link to="/" />}>
             Community
           </MenuItem>
           {isLogined === false ? (
-            <MenuItem icon={<LoginIcon />} component={<Link to="/login" />}>
+            <MenuItem icon={<LoginIcon />} component={<Link to="/" />}>
               Login
             </MenuItem>
           ) : (

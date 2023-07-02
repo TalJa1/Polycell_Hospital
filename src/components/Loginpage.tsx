@@ -12,18 +12,23 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../actions/userAction";
+import { useNavigate } from "react-router-dom";
 
-function isValidEmail(email : any) {
-  // Regular expression for email format validation
+function isValidEmail(email: any) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
 
 function Loginpage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const handleSubmit = (event : any) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
@@ -47,14 +52,22 @@ function Loginpage() {
       return;
     }
 
-    if(email === "admin@polycell.com" && password === "1"){
-
-    }else if (email === "upper@polycell.com" && password === "1"){
-
-    }else if(email === "trainer@polycell.com" && password === "1"){
-
-    }else if(email === "trainee@polycell.com" && password === "1"){
-
+    if (email === "admin@polycell.com" && password === "1") {
+      const action1 = loginUser(true, email);
+      dispatch(action1);
+      navigate("/home");
+    } else if (email === "upper@polycell.com" && password === "1") {
+      const action1 = loginUser(true, email);
+      dispatch(action1);
+      navigate("/home");
+    } else if (email === "trainer@polycell.com" && password === "1") {
+      const action1 = loginUser(true, email);
+      dispatch(action1);
+      navigate("/home");
+    } else if (email === "trainee@polycell.com" && password === "1") {
+      const action1 = loginUser(true, email);
+      dispatch(action1);
+      navigate("/home");
     }
   };
 
