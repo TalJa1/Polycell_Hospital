@@ -12,7 +12,7 @@ import classApi from "../../api/classApi";
 import { fetchClass } from "../../actions/classAction";
 
 const ClassAcceptCp: React.FC = () => {
-  const getClassRequestAccept: Class[] = useSelector(
+  const getClass: Class[] = useSelector(
     (state: RootState) => state.class.list
   );
   const dispatch = useDispatch();
@@ -31,8 +31,8 @@ const ClassAcceptCp: React.FC = () => {
         size: 10,
       };
       const response = await classApi.getAll(param);
-      console.log("response AC>>>>", response.data);
-      const action = fetchClass(response.data);
+      console.log("response AC>>>>", response.data.items);
+      const action = fetchClass(response.data.items);
       dispatch(action);
     } catch (error) {
       console.log(error);
@@ -69,15 +69,15 @@ const ClassAcceptCp: React.FC = () => {
                 <span>Options</span>
               </div>
               <div className="class-info">
-                {getClassRequestAccept.map((item, index) => (
+                {getClass.map((item, index) => (
                   <div key={index}>
                     <div
                       className={`class-item ${
                         index % 2 === 0 ? "even" : "odd"
                       }`}
                     >
-                      <span>{item.programCode}</span>
-                      <span>{item.code}</span>
+                      <span>{item.program.code}</span>
+                      <span>{item.name}</span>
                       {/* <span>{item.trainees.length}</span> */}
                       <span>{item.status}</span>
                       <span>{item.createdDate.toString()}</span>

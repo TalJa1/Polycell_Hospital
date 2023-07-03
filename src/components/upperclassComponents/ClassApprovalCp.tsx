@@ -18,7 +18,7 @@ import Textarea from "@mui/joy/Textarea";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
 import Button from "@mui/material/Button";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import classApi from "../../api/classApi";
 import { fetchClassDetail } from "../../actions/classAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,6 +40,7 @@ const ClassApprovalCp: React.FC = () => {
   const getClassDetail: Class = useSelector(
     (state: RootState) => state.class.class
   );
+  const navigate = useNavigate();
   const getID = useParams();
   const dispatch = useDispatch();
   const [comment, setComment] = useState<string>("");
@@ -76,6 +77,7 @@ const ClassApprovalCp: React.FC = () => {
 
   const handleSuccessDialogClose = () => {
     setShowSuccessDialog(false);
+    navigate("/class-acceptance");
   };
 
   const fetchClassDetailApi = React.useCallback(async () => {
@@ -114,6 +116,7 @@ const ClassApprovalCp: React.FC = () => {
         console.log("Approval Status accept >> ", response.status);
         if (response.status === 200) {
           setDialogAccept(true);
+          setDialogAccept(false);
           setMess("Accept successfully");
           setShowSuccessDialog(true);
         }
@@ -138,6 +141,7 @@ const ClassApprovalCp: React.FC = () => {
         console.log("Approval Status reject >> ", response.status);
         if (response.status === 200) {
           setDialogReject(true);
+          setDialogReject(false);
           setMess("Reject successfully");
           setShowSuccessDialog(true);
         }
