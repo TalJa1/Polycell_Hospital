@@ -7,7 +7,7 @@ import TraineeHomeComponent from '../../components/traineeHomeComponents/Trainee
 const TraineeHome: React.FC = () => {
   return (
     <div className="class-container">
-      <TraineeHeader title="Course" />
+      <TraineeHeader title="Pollycell" />
       <Box
         sx={{
           backgroundColor: "white",

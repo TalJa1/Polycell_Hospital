@@ -5,7 +5,7 @@ import ScheduleCP from '../../components/scheduleComponent/ScheduleCp'
 const SchedulePage : React.FC = () => {
   return (
     <div className="container">
-      <Menubar />
+      {/* <Menubar /> */}
       <main className="rightlayout">
         <ScheduleCP/>
       </main>

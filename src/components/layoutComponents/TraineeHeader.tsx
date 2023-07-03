@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { EditModeContext } from "../../provider/EditModeProvider";
+import { AppProviderContext } from "../../provider/Provider";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -45,6 +46,7 @@ interface HeaderProps {
 const TraineeHeader: React.FC<HeaderProps> = (props) => {
   const navigate = useNavigate();
   const { editMode, handleEditModeChange } = React.useContext(EditModeContext);
+  const { role, setRole } = React.useContext(AppProviderContext);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -59,6 +61,8 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
   };
 
   const handleLogout = () => {
+    setRole("");
+    handleEditModeChange(false);
     navigate("/");
   };
 
@@ -94,11 +98,13 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
             backgroundColor: "#E6E6E6",
           }}
         >
-          <Box sx={{
-            display: "flex",
-            gap: "20px",
-            alignItems: "center"
-          }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "20px",
+              alignItems: "center",
+            }}
+          >
             {props.title !== "" ? (
               <Box>
                 <strong className="header-title" style={{ color: "black" }}>
@@ -106,9 +112,41 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
                 </strong>
               </Box>
             ) : null}
-            <Typography sx={{
-              color: "black"
-            }}>My course</Typography>
+            <Typography
+              onClick={() => {
+                if (role === "TRAINEE") {
+                  navigate("/homeTrainee");
+                } else {
+                  navigate("/home");
+
+                }
+              }}
+              sx={{
+                color: "black",
+              }}
+            >
+              Home
+            </Typography>
+            <Typography
+              onClick={() => navigate("/trainee-course-page")}
+              sx={{
+                color: "black",
+              }}
+            >
+              My courses
+            </Typography>
+            {role === "TRAINEE" ? (
+              <Typography
+                onClick={() => navigate("/trainee-attendance")}
+                sx={{
+                  color: "black",
+                }}
+              >
+                Attendance
+              </Typography>
+            ) : (
+              <></>
+            )}
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { md: "flex" }, color: "#1B5461" }}>
@@ -162,13 +200,22 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
             >
               <AccountCircle />
             </IconButton>
-            <Divider orientation="vertical" flexItem />
-            <FormControlLabel
-              label="Edit mode"
-              control={
-                <Switch checked={editMode} onChange={handleEditModeChange} />
-              }
-            />
+            {role === "TRAINEE" ? (
+              <></>
+            ) : (
+              <>
+                <Divider orientation="vertical" flexItem />
+                <FormControlLabel
+                  label="Edit mode"
+                  control={
+                    <Switch
+                      checked={editMode}
+                      onChange={() => handleEditModeChange(!editMode)}
+                    />
+                  }
+                />
+              </>
+            )}
           </Box>
         </Toolbar>
       </AppBar>
