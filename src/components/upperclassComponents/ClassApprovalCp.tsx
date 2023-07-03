@@ -12,6 +12,8 @@ import {
   Stack,
   Toolbar,
   Typography,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Textarea from "@mui/joy/Textarea";
@@ -51,6 +53,16 @@ const ClassApprovalCp: React.FC = () => {
 
   const [open, setOpen] = React.useState(false);
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const labelContent = event.target.name;
+    console.log("Label content:", labelContent);
+    if (event.target.checked) {
+      setComment(prevComment => prevComment + labelContent + ", ");
+    } else {
+      setComment(prevComment => prevComment.replace(labelContent + ", ", ""));
+    }
+  };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -64,6 +76,7 @@ const ClassApprovalCp: React.FC = () => {
   };
 
   const handleDialogAcceptedClose = () => {
+    setComment("");
     setDialogAccept(false);
   };
 
@@ -72,6 +85,7 @@ const ClassApprovalCp: React.FC = () => {
   };
 
   const handleDialogRejectClose = () => {
+    setComment("");
     setDialogReject(false);
   };
 
@@ -353,6 +367,7 @@ const ClassApprovalCp: React.FC = () => {
                     name="Soft"
                     placeholder="Comment in here…"
                     variant="soft"
+                    value={comment}
                   />
                   {mess !== "" ? (
                     <Typography variant="body2" color="error">
@@ -361,6 +376,11 @@ const ClassApprovalCp: React.FC = () => {
                   ) : (
                     <></>
                   )}
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleChange} />}
+                    label="This class is nice setup"
+                    name="This class is nice setup"
+                  />
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={handleAccept}>Accept</Button>
@@ -380,6 +400,7 @@ const ClassApprovalCp: React.FC = () => {
                     name="Soft"
                     placeholder="Comment in here…"
                     variant="soft"
+                    value={comment}
                   />
                   {mess !== "" ? (
                     <Typography variant="body2" color="error">
@@ -388,6 +409,16 @@ const ClassApprovalCp: React.FC = () => {
                   ) : (
                     <></>
                   )}
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleChange} />}
+                    label="This class is not valid"
+                    name="This class is not valid"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleChange} />}
+                    label="Date is not valid"
+                    name="Date is not valid"
+                  />
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={handleReject}>Accept</Button>

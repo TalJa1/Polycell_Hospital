@@ -31,7 +31,7 @@ const ClassAcceptCp: React.FC = () => {
         size: 10,
       };
       const response = await classApi.getAll(param);
-      console.log("response AC>>>>", response.data.items);
+      // console.log("response AC>>>>", response.data.items);
       const action = fetchClass(response.data.items);
       dispatch(action);
     } catch (error) {
