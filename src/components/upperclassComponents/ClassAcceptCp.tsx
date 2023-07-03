@@ -12,7 +12,7 @@ import classApi from "../../api/classApi";
 import { fetchClass } from "../../actions/classAction";
 
 const ClassAcceptCp: React.FC = () => {
-  const getClassRequestAccept : Class[] = useSelector(
+  const getClassRequestAccept: Class[] = useSelector(
     (state: RootState) => state.class.list
   );
   const dispatch = useDispatch();
@@ -26,10 +26,12 @@ const ClassAcceptCp: React.FC = () => {
   const fetchClassApi = React.useCallback(async () => {
     try {
       const param = {
-        status: "PENDING"
+        filterAnd: "classApprovals.status|jn|PENDING",
+        page: 0,
+        size: 10,
       };
       const response = await classApi.getAll(param);
-      console.log("response AC>>>>", response.data)
+      console.log("response AC>>>>", response.data);
       const action = fetchClass(response.data);
       dispatch(action);
     } catch (error) {
@@ -105,7 +107,6 @@ const ClassAcceptCp: React.FC = () => {
                 renderInput={(params) => <TextField {...params} />}
               />
               <br />
-              
             </div>
             <Button variant="contained" endIcon={<SendIcon />}>
               Send
@@ -120,8 +121,4 @@ const ClassAcceptCp: React.FC = () => {
 
 export default ClassAcceptCp;
 
-const top100Films = [
-  "Most recently","Old news"
-];
-
-
+const top100Films = ["Most recently", "Old news"];

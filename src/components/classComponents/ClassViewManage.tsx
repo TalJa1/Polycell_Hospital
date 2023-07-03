@@ -39,14 +39,19 @@ const Postdata: React.FC = () => {
   const fetchClassApi = React.useCallback(async () => {
     try {
       const param = {
-        status:
-          tabsValue === 0 ? "PENDING" : tabsValue === 1 ? "APPROVE" : "REJECT",
-        // _page: getPage,
-        // _limit: 9,
+        filterAnd:
+          tabsValue === 0
+            ? "classApprovals.status|jn|PENDING"
+            : tabsValue === 1
+            ? "classApprovals.status|jn|APPROVE"
+            : "classApprovals.status|jn|REJECT",
+        page: 0,
+        size: 10,
       };
       const response = await classApi.getAll(param);
       // console.log("Resp>>>> ", response);
-      const action = fetchClass(response.data);
+      // console.log("Resp data >>>> ", response.data);
+      const action = fetchClass(response.data.items);
       // const action1 = fetchUser(response1.data);
       // const actionPage = getTotalPage(
       //   response.headers["x-total-count"] / param._limit

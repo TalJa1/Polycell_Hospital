@@ -1,3 +1,4 @@
+import { Department } from "./classModel";
 import { Cycle, Program, Trainer } from "./programAddModel";
 import { Trainees } from "./traineeModel";
 
@@ -21,5 +22,6 @@ export interface Class {
   program: Program;
   cycle: Cycle;
   trainer: Trainer;
-  trainees: Trainees[]
+  trainees: Trainees[],
+  department: Department
 }
