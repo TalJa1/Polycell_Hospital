@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 
 const classApi = {
   getAll: (params: any) => {
-    const url: string = "/v1/class/search";
+    const url: string = "/v1/class";
     // console.log(params);
     return axiosClient.get(url, { params });
   },

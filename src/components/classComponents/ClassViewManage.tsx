@@ -36,14 +36,6 @@ const Postdata: React.FC = () => {
     setTabsValue(newValue);
   };
 
-  // if (tabsValue === 0) {
-  //   console.log("pending");
-  // } else if (tabsValue === 1) {
-  //   console.log("accepted");
-  // } else {
-  //   console.log("rejected");
-  // }
-
   const fetchClassApi = React.useCallback(async () => {
     try {
       const param = {
@@ -160,8 +152,8 @@ const Postdata: React.FC = () => {
                           index % 2 === 0 ? "even" : "odd"
                         }`}
                       >
-                        <span>{item.code}</span>
-                        <span>{item.programCode}</span>
+                        <span>{item.name}</span>
+                        <span>{item.program.code}</span>
                         <span>{item.status}</span>
                         <span>{item.createdDate.toString()}</span>
                         <span>

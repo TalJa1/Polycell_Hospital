@@ -48,7 +48,7 @@ interface Props {
 const ClassReducer = (state = initialState, { type, payload }: Props) => {
   switch (type) {
     case "GETCLASS":
-      return { ...state, list: payload };
+      return { ...state, class: payload };
 
     case "CLASS_DETAIL":
       return { ...state, class: payload };
