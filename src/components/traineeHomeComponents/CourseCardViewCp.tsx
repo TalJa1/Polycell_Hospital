@@ -10,13 +10,13 @@ import Typography from "@mui/joy/Typography";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { Box, Divider } from "@mui/material";
 
-const CourseCard: React.FC<CourseCardProps> = ({
+const CourseCardViewCp: React.FC<CourseCardProps> = ({
   name,
   image,
   description,
 }) => {
   return (
-    <Card sx={{ width: "25%", boxShadow: "lg" }}>
+    <Card sx={{ width: "100%", boxShadow: "lg", marginBottom: "40px" }}>
       <CardOverflow>
         <AspectRatio sx={{ minWidth: 200 }}>
           <img
@@ -32,17 +32,17 @@ const CourseCard: React.FC<CourseCardProps> = ({
         <Typography>{description}</Typography>
 
         {/* <Typography
-          fontSize="sm"
-          fontWeight="xl"
-          sx={{ mt: 1 }}
-          endDecorator={
-            <Chip component="span" size="sm" variant="soft" color="success">
-              Lowest price
-            </Chip>
-          }
-        >
-          Start
-        </Typography> */}
+            fontSize="sm"
+            fontWeight="xl"
+            sx={{ mt: 1 }}
+            endDecorator={
+              <Chip component="span" size="sm" variant="soft" color="success">
+                Lowest price
+              </Chip>
+            }
+          >
+            Start
+          </Typography> */}
       </CardContent>
       <Divider />
       <Box
@@ -73,7 +73,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
           },
         }}
       >
-        Join
+        View detail
       </Button>
     </Card>
   );
@@ -85,4 +85,4 @@ interface CourseCardProps {
   description: string;
 }
 
-export default CourseCard;
+export default CourseCardViewCp;

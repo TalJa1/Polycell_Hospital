@@ -1,8 +1,12 @@
 import React from "react";
 import CourseCard from "./CourseCard";
 import { Box, Button, styled } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const TraineeHomeListCourseCp: React.FC = () => {
+
+  const navigate = useNavigate();
+
   const courseData = [
     {
       name: "Course 1",
@@ -69,6 +73,9 @@ const TraineeHomeListCourseCp: React.FC = () => {
             backgroundColor:
               "linear-gradient(90deg, rgb(17, 182, 122) 0%, rgb(0, 148, 68) 100%)",
           }}
+          onClick={
+            () => navigate("/course-list-page")
+          }
         >
           View all Course
         </GradientButton>
