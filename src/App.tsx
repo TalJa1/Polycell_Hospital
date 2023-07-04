@@ -22,6 +22,7 @@ import CourseFormActivity from "./layouts/trainer/CourseFormActivity";
 import QuizPage from "./layouts/quiz/QuizPage";
 import TraineeAttendanceCheck from "./layouts/trainee/TraineeAttendanceCheck";
 import CourseListPage from "./layouts/trainee/CourseListPage";
+import CourseDetailEnrollPage from "./layouts/trainee/CourseDetailEnrollPage";
 
 function App() {
   return (
@@ -52,6 +53,8 @@ function App() {
       <Route path={`/quiz-setup`} Component={QuizPage} />
       <Route path={`/trainee-attendance`} Component={TraineeAttendanceCheck} />
       <Route path={`/course-list-page`} Component={CourseListPage} />
+      <Route path={`/course-detail-view-enroll`} Component={CourseDetailEnrollPage} />
+
 
 
     </Routes>

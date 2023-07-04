@@ -74,113 +74,104 @@ const TraineCourseListCp: React.FC = () => {
       </Box>
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "center",
+          padding: "100px 0",
         }}
       >
-        <Box
-          sx={{
-            width: "70%",
-            paddingTop: "100px",
-            paddingBottom: "100px",
-          }}
-        >
-          <Grid container gap={5}>
-            <Grid item xs={3}>
+        <Grid container spacing={5} sx={{ justifyContent: 'center' }}>
+          <Grid item xs={3}>
+            <Box
+              sx={{
+                border: "1px solid rgb(238, 238, 238)",
+                padding: "16px 20px",
+                marginBottom: "40px",
+              }}
+            >
+              <Typography variant="h5">Search Courses</Typography>
+
               <Box
                 sx={{
-                  border: "1px solid rgb(238, 238, 238)",
-                  padding: "16px 20px",
-                  marginBottom: "40px",
+                  borderBottom: "2px solid rgb(17, 182, 122)",
+                  width: "50px",
+                  marginBottom: "20px",
                 }}
-              >
-                <Typography variant="h5">Search Courses</Typography>
+              />
 
-                <Box
+              <TextField placeholder="Search" size="small" />
+            </Box>
+            <Box
+              sx={{
+                border: "1px solid rgb(238, 238, 238)",
+                padding: "16px 20px",
+              }}
+            >
+              <Typography variant="h5">Courses Category</Typography>
+
+              <Box
+                sx={{
+                  borderBottom: "2px solid rgb(17, 182, 122)",
+                  width: "50px",
+                  marginBottom: "20px",
+                }}
+              />
+
+              <FormGroup>
+                <FormControlLabel
                   sx={{
-                    borderBottom: "2px solid rgb(17, 182, 122)",
-                    width: "50px",
-                    marginBottom: "20px",
+                    borderTop: "1px dashed rgb(221, 221, 221)",
+                    padding: "10px 0px",
                   }}
+                  control={<Checkbox />}
+                  label="Category 1"
                 />
-
-                <TextField placeholder="Search" size="small" />
-              </Box>
-              <Box
-                sx={{
-                  border: "1px solid rgb(238, 238, 238)",
-                  padding: "16px 20px",
-                }}
-              >
-                <Typography variant="h5">Courses Category</Typography>
-
-                <Box
+                <FormControlLabel
                   sx={{
-                    borderBottom: "2px solid rgb(17, 182, 122)",
-                    width: "50px",
-                    marginBottom: "20px",
+                    borderTop: "1px dashed rgb(221, 221, 221)",
+                    padding: "10px 0px",
                   }}
+                  control={<Checkbox />}
+                  label="Category 1"
                 />
-
-                <FormGroup>
-                  <FormControlLabel
-                    sx={{
-                      borderTop: "1px dashed rgb(221, 221, 221)",
-                      padding: "10px 0px",
-                    }}
-                    control={<Checkbox />}
-                    label="Category 1"
-                  />
-                  <FormControlLabel
-                    sx={{
-                      borderTop: "1px dashed rgb(221, 221, 221)",
-                      padding: "10px 0px",
-                    }}
-                    control={<Checkbox />}
-                    label="Category 1"
-                  />
-                  <FormControlLabel
-                    sx={{
-                      borderTop: "1px dashed rgb(221, 221, 221)",
-                      padding: "10px 0px",
-                    }}
-                    control={<Checkbox />}
-                    label="Category 1"
-                  />
-                  <FormControlLabel
-                    sx={{
-                      borderTop: "1px dashed rgb(221, 221, 221)",
-                      padding: "10px 0px",
-                    }}
-                    control={<Checkbox />}
-                    label="Category 1"
-                  />
-                </FormGroup>
-              </Box>
-            </Grid>
-            <Grid item xs={7}>
-              <Box sx={{}}>
-                {courseData.map((course, index) => (
-                  <CourseCardViewCp
-                    key={index}
-                    name={course.name}
-                    image={course.image}
-                    description={course.description}
-                  />
-                ))}
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "20px",
-                }}
-              >
-                <Pagination count={10} size="large" />
-              </Box>
-            </Grid>
+                <FormControlLabel
+                  sx={{
+                    borderTop: "1px dashed rgb(221, 221, 221)",
+                    padding: "10px 0px",
+                  }}
+                  control={<Checkbox />}
+                  label="Category 1"
+                />
+                <FormControlLabel
+                  sx={{
+                    borderTop: "1px dashed rgb(221, 221, 221)",
+                    padding: "10px 0px",
+                  }}
+                  control={<Checkbox />}
+                  label="Category 1"
+                />
+              </FormGroup>
+            </Box>
           </Grid>
-        </Box>
+          <Grid item xs={7}>
+            <Box sx={{}}>
+              {courseData.map((course, index) => (
+                <CourseCardViewCp
+                  key={index}
+                  name={course.name}
+                  image={course.image}
+                  description={course.description}
+                />
+              ))}
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "20px",
+              }}
+            >
+              <Pagination count={10} size="large" />
+            </Box>
+          </Grid>
+        </Grid>
       </Box>
     </div>
   );

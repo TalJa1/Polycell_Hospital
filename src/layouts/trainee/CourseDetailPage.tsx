@@ -1,6 +1,6 @@
 import React from "react";
 import Menubar from "../../components/layoutComponents/Menubar";
-import CourseDetailPageCp from "../../components/traineeComponents/CourseDetailPageCp";
+import CourseDetailPageCp from "../../components/TraineeCourseListComponent/CourseDetailPageCp";
 
 const CourseDetailPage: React.FC = () => {
   return (

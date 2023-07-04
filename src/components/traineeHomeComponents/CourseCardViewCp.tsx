@@ -10,16 +10,17 @@ import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import { Button } from "@mui/joy";
+import { useNavigate } from "react-router-dom";
 
 const CourseCardViewCp: React.FC<CourseCardProps> = ({
   name,
   image,
   description,
 }) => {
-  const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
-    <Card sx={{ display: "flex", marginBottom: "30px" }}>
+    <Card sx={{ display: "flex", marginBottom: "30px", width: "100%"}}>
       <CardMedia
         component="img"
         sx={{ width: 200 }}
@@ -61,6 +62,7 @@ const CourseCardViewCp: React.FC<CourseCardProps> = ({
                 // Replace "NewColor" with the desired color on hover
               },
             }}
+            onClick={() => navigate("/course-detail-view-enroll")}
           >
             View details
           </Button>
