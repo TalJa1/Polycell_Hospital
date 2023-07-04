@@ -4,6 +4,7 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
+  Pagination,
   TextField,
   Typography,
 } from "@mui/material";
@@ -16,32 +17,38 @@ const TraineCourseListCp: React.FC = () => {
     {
       name: "Course 1",
       image: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-      description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
     },
     {
       name: "Course 2",
       image: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-      description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
     },
     {
       name: "Course 3",
       image: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-      description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
     },
     {
       name: "Course 4",
       image: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-      description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
     },
     {
       name: "Course 5",
       image: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-      description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
     },
     {
       name: "Course 6",
       image: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-      description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
     },
     // Add more courses as needed
   ];
@@ -79,7 +86,7 @@ const TraineCourseListCp: React.FC = () => {
           }}
         >
           <Grid container gap={5}>
-            <Grid item sm={3}>
+            <Grid item xs={3}>
               <Box
                 sx={{
                   border: "1px solid rgb(238, 238, 238)",
@@ -151,12 +158,8 @@ const TraineCourseListCp: React.FC = () => {
                 </FormGroup>
               </Box>
             </Grid>
-            <Grid item sm={7}>
-              <Box
-                sx={{
-
-                }}
-              >
+            <Grid item xs={7}>
+              <Box sx={{}}>
                 {courseData.map((course, index) => (
                   <CourseCardViewCp
                     key={index}
@@ -165,6 +168,15 @@ const TraineCourseListCp: React.FC = () => {
                     description={course.description}
                   />
                 ))}
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "20px",
+                }}
+              >
+                <Pagination count={10} size="large" />
               </Box>
             </Grid>
           </Grid>
