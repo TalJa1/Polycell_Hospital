@@ -5,7 +5,7 @@ import CoursePageCp from "../../components/traineeComponents/CoursePageCp";
 const CoursePage: React.FC = () => {
   return (
     <div className="container">
-      <Menubar />
+      {/* <Menubar /> */}
       <main className="rightlayout">
         <CoursePageCp />
       </main>

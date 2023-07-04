@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../actions/userAction";
 import { useNavigate } from "react-router-dom";
+import { AppProviderContext } from "../provider/Provider";
 
 function isValidEmail(email: any) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -24,6 +25,7 @@ function isValidEmail(email: any) {
 function Loginpage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { setRole } = useContext(AppProviderContext);
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -63,11 +65,13 @@ function Loginpage() {
     } else if (email === "trainer@polycell.com" && password === "1") {
       const action1 = loginUser(true, email);
       dispatch(action1);
+      setRole("TRAINER");
       navigate("/home");
     } else if (email === "trainee@polycell.com" && password === "1") {
       const action1 = loginUser(true, email);
       dispatch(action1);
-      navigate("/home");
+      setRole("TRAINEE");
+      navigate("/homeTrainee");
     }
   };
 

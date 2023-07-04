@@ -5,8 +5,8 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [editMode, setEditMode] = useState(false);
 
-  const handleEditModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEditMode(event.target.checked);
+  const handleEditModeChange = (checked: boolean) => {
+    setEditMode(checked);
   };
 
   const contextValue: EditModeContextProps = {
@@ -23,14 +23,15 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
 
 interface EditModeContextProps {
   editMode: boolean;
-  handleEditModeChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleEditModeChange: (checked: boolean) => void;
 }
 
 const defaultEditModeContext: EditModeContextProps = {
-    editMode: false,
-    handleEditModeChange: () => {},
-  };
+  editMode: false,
+  handleEditModeChange: () => {},
+};
 
-  export const EditModeContext = createContext<EditModeContextProps>(
-    defaultEditModeContext
-  );
+export const EditModeContext = createContext<EditModeContextProps>({
+  editMode: false,
+  handleEditModeChange: () => {},
+});

@@ -140,88 +140,98 @@ const ScheduleTraineeListData: React.FC = () => {
         <DialogContent>
           {selectedDate && (
             <Box>
-              {getList(selectedDate).map((item, index) => (
-                <>
-                
-                  <Box
-                    key={index}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-
-                      paddingBottom: "10px",
-                    }}
-                  >
+              {getList(selectedDate).length > 0 ? (
+                getList(selectedDate).map((item, index) => (
+                  <>
                     <Box
+                      key={index}
                       sx={{
-                        paddingRight: "20px",
+                        display: "flex",
+                        alignItems: "center",
+
+                        paddingBottom: "10px",
                       }}
                     >
-                      <AccessTimeIcon />
-                    </Box>
-                    <Typography color="GrayText">
-                      {dayjs(item.content.schedule.date, "DD/MM/YYYY").format(
-                        "dddd, D MMMM"
-                      )}{" "}
-                      (
-                      {dayjs(
-                        item.content.schedule.startTime,
-                        "HH:mm:ss"
-                      ).format("HH:mm")}{" "}
-                      -{" "}
-                      {dayjs(item.content.schedule.endTime, "HH:mm:ss").format(
-                        "HH:mm"
-                      )}
-                      )
-                    </Typography>
-                  </Box>
-                  <Box
-                    key={index}
-                    sx={{
-                      display: "flex",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        paddingRight: "20px",
-                      }}
-                    >
-                      <CalendarMonthIcon />
-                    </Box>
-
-                    <Box
-                      sx={
-                        {
-                          // display: "flex",
-                          // alignItems: "center",
-                        }
-                      }
-                    >
-                      <Typography>
-                        {item.content.schedule.clazz.code} (
-                        <Typography variant="caption">
-                          {item.content.status}
-                        </Typography>
+                      <Box
+                        sx={{
+                          paddingRight: "20px",
+                        }}
+                      >
+                        <AccessTimeIcon />
+                      </Box>
+                      <Typography color="GrayText">
+                        {dayjs(item.content.schedule.date, "DD/MM/YYYY").format(
+                          "dddd, D MMMM"
+                        )}{" "}
+                        (
+                        {dayjs(
+                          item.content.schedule.startTime,
+                          "HH:mm:ss"
+                        ).format("HH:mm")}{" "}
+                        -{" "}
+                        {dayjs(
+                          item.content.schedule.endTime,
+                          "HH:mm:ss"
+                        ).format("HH:mm")}
                         )
                       </Typography>
-                      <Box>
-                        <Typography variant="caption">
-                          Lecture: {item.content.schedule.clazz.trainer.name}
-                        </Typography>
+                    </Box>
+                    <Box
+                      key={index}
+                      sx={{
+                        display: "flex",
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          paddingRight: "20px",
+                        }}
+                      >
+                        <CalendarMonthIcon />
                       </Box>
 
-                      <Typography variant="caption">
-                        at {item.content.schedule.room.name}
-                      </Typography>
+                      <Box
+                        sx={
+                          {
+                            // display: "flex",
+                            // alignItems: "center",
+                          }
+                        }
+                      >
+                        <Typography>
+                          {item.content.schedule.clazz.code} (
+                          <Typography variant="caption">
+                            {item.content.status}
+                          </Typography>
+                          )
+                        </Typography>
+                        <Box>
+                          <Typography variant="caption">
+                            Lecture: {item.content.schedule.clazz.trainer.name}
+                          </Typography>
+                        </Box>
+
+                        <Typography variant="caption">
+                          at {item.content.schedule.room.name}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                  {getList(selectedDate).length > 1 ? (
-                    <Divider sx={{ marginTop: "10px", marginBottom: "10px" }} />
-                  ) : (
-                    <></>
-                  )}
+                    {getList(selectedDate).length > 1 ? (
+                      <Divider
+                        sx={{ marginTop: "10px", marginBottom: "10px" }}
+                      />
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                ))
+              ) : (
+                <>
+                <Typography>
+                    No event
+                </Typography>
                 </>
-              ))}
+              )}
             </Box>
           )}
         </DialogContent>

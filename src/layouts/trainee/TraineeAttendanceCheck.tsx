@@ -5,7 +5,7 @@ import Menubar from "../../components/layoutComponents/Menubar";
 const TraineeAttendanceCheck: React.FC = () => {
   return (
     <div className="container">
-      <Menubar />
+      {/* <Menubar /> */}
       <main className="rightlayout">
         <TraineeAttendanceCp />
       </main>

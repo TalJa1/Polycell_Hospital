@@ -21,6 +21,7 @@ import SchedulePage from "./layouts/schedule/SchedulePage";
 import CourseFormActivity from "./layouts/trainer/CourseFormActivity";
 import QuizPage from "./layouts/quiz/QuizPage";
 import TraineeAttendanceCheck from "./layouts/trainee/TraineeAttendanceCheck";
+import CourseListPage from "./layouts/trainee/CourseListPage";
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
       {/* <Menubar /> */}
       <Route path="/" Component={Loginpage} />
       <Route path="/home" Component={Home} />
+      <Route path="/homeTrainee" Component={TraineeHome} />
+
       <Route path="/class-management" Component={ClassManagement} />
       <Route path="/class-acceptance" Component={ClassAcceptance} />
       <Route path="/class-approval/:id" Component={ClassApproval} />
@@ -48,6 +51,8 @@ function App() {
       <Route path={`/form-activity/:type`} Component={CourseFormActivity} />
       <Route path={`/quiz-setup`} Component={QuizPage} />
       <Route path={`/trainee-attendance`} Component={TraineeAttendanceCheck} />
+      <Route path={`/course-list-page`} Component={CourseListPage} />
+
 
     </Routes>
   );

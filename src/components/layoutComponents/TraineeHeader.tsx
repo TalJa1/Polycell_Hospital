@@ -17,9 +17,11 @@ import {
   MenuItem,
   Paper,
   Switch,
+  Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EditModeContext } from "../../provider/EditModeProvider";
+import { AppProviderContext } from "../../provider/Provider";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -42,7 +44,9 @@ interface HeaderProps {
 }
 
 const TraineeHeader: React.FC<HeaderProps> = (props) => {
+  const navigate = useNavigate();
   const { editMode, handleEditModeChange } = React.useContext(EditModeContext);
+  const { role, setRole } = React.useContext(AppProviderContext);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -54,6 +58,12 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    setRole("");
+    handleEditModeChange(false);
+    navigate("/");
   };
 
   const menuId = "primary-search-account-menu";
@@ -75,6 +85,8 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <Divider />
+      <MenuItem onClick={handleLogout}>Log out</MenuItem>
     </Menu>
   );
 
@@ -86,7 +98,13 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
             backgroundColor: "#E6E6E6",
           }}
         >
-          <Box>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "20px",
+              alignItems: "center",
+            }}
+          >
             {props.title !== "" ? (
               <Box>
                 <strong className="header-title" style={{ color: "black" }}>
@@ -94,29 +112,64 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
                 </strong>
               </Box>
             ) : null}
-          </Box>
-          <Search>
-            <Paper
-              component="form"
+            <Typography
+              onClick={() => {
+                if (role === "TRAINEE") {
+                  navigate("/homeTrainee");
+                } else {
+                  navigate("/home");
+
+                }
+              }}
               sx={{
-                p: "2px 4px",
-                display: "flex",
-                alignItems: "center",
-                width: "100%",
+                color: "black",
               }}
             >
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder="Search Course"
-                inputProps={{ "aria-label": "search course" }}
-              />
-              <IconButton type="button" aria-label="search">
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-          </Search>
+              Home
+            </Typography>
+            <Typography
+              onClick={() => navigate("/trainee-course-page")}
+              sx={{
+                color: "black",
+              }}
+            >
+              My courses
+            </Typography>
+            {role === "TRAINEE" ? (
+              <Typography
+                onClick={() => navigate("/trainee-attendance")}
+                sx={{
+                  color: "black",
+                }}
+              >
+                Attendance
+              </Typography>
+            ) : (
+              <></>
+            )}
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { md: "flex" }, color: "#1B5461" }}>
+            <Search>
+              <Paper
+                component="form"
+                sx={{
+                  p: "2px 4px",
+                  display: "flex",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <InputBase
+                  sx={{ ml: 1, flex: 1 }}
+                  placeholder="Search Course"
+                  inputProps={{ "aria-label": "search course" }}
+                />
+                <IconButton type="button" aria-label="search">
+                  <SearchIcon />
+                </IconButton>
+              </Paper>
+            </Search>
             <Link to="/schedule-page">
               <IconButton size="large">
                 <CalendarMonthIcon
@@ -147,13 +200,22 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
             >
               <AccountCircle />
             </IconButton>
-            <Divider orientation="vertical" flexItem />
-            <FormControlLabel
-              label="Edit mode"
-              control={
-                <Switch checked={editMode} onChange={handleEditModeChange} />
-              }
-            />
+            {role === "TRAINEE" ? (
+              <></>
+            ) : (
+              <>
+                <Divider orientation="vertical" flexItem />
+                <FormControlLabel
+                  label="Edit mode"
+                  control={
+                    <Switch
+                      checked={editMode}
+                      onChange={() => handleEditModeChange(!editMode)}
+                    />
+                  }
+                />
+              </>
+            )}
           </Box>
         </Toolbar>
       </AppBar>

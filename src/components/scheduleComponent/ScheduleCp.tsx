@@ -8,12 +8,14 @@ import type { CalendarMode } from "antd/es/calendar/generateCalendar";
 import ScheduleListData from "./ScheduleListData";
 import ScheduleTraineeListData from "./ScheduleTraineeListData";
 import { EditModeContext } from "../../provider/EditModeProvider";
+import { AppProviderContext } from "../../provider/Provider";
 
 const ScheduleCP: React.FC = () => {
   const onPanelChange = (value: Dayjs, mode: CalendarMode) => {
     console.log(value.format("YYYY-MM-DD"), mode);
   };
-  const { editMode } = useContext(EditModeContext);
+  const { role } = useContext(AppProviderContext);
+
 
   return (
     <div className="class-container">
@@ -31,7 +33,7 @@ const ScheduleCP: React.FC = () => {
           }}
         >
           {/* <Calendar onPanelChange={onPanelChange}  /> */}
-          {!editMode ? <ScheduleTraineeListData /> : <ScheduleListData />}
+          {role === "TRAINEE" ? <ScheduleTraineeListData /> : <ScheduleListData />}
         </Box>
       </Box>
       <Footer />

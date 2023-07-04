@@ -55,7 +55,7 @@ const CoursePageCp: React.FC = () => {
 
   return (
     <Box>
-      <TraineeHeader title="My course" />
+      <TraineeHeader title="Pollycell" />
       <Grid
         container
         direction="row"

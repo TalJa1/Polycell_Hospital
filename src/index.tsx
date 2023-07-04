@@ -11,6 +11,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { EditModeProvider } from "./provider/EditModeProvider";
+import { AppProvider } from "./provider/Provider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -20,9 +21,11 @@ root.render(
     <BrowserRouter>
       <ProSidebarProvider>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <EditModeProvider>
-            <App />
-          </EditModeProvider>
+          <AppProvider>
+            <EditModeProvider>
+              <App />
+            </EditModeProvider>
+          </AppProvider>
         </LocalizationProvider>
       </ProSidebarProvider>
     </BrowserRouter>
