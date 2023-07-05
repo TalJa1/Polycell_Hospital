@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import TraineeHomeCarouselCp from "./TraineeHomeCarouselCp";
 import TraineeHomeListCourseCp from "./TraineeHomeListCourseCp";
 import { Box } from "@mui/material";
-import FilterCourseCp from "./FilterCourseCp";
-import TabbarCourse from "./TabbarCourse";
 import { Radio } from "antd";
 
 const TraineeHomeComponent: React.FC = () => {

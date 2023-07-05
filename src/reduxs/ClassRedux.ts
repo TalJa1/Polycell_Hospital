@@ -36,6 +36,11 @@ const initialState: initState = {
     cycle: {} as Cycle,
     trainer: {} as Trainer,
     trainees: [] as Trainees[],
+    department: {
+      id: "",
+      name: "",
+      code: "",
+    },
   },
   loading: false,
 };
@@ -48,6 +53,7 @@ interface Props {
 const ClassReducer = (state = initialState, { type, payload }: Props) => {
   switch (type) {
     case "GETCLASS":
+      // console.log("payload >> ", payload);
       return { ...state, list: payload };
 
     case "CLASS_DETAIL":

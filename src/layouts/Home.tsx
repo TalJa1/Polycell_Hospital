@@ -9,6 +9,8 @@ import { Box } from "@mui/material";
 import Footer from "../components/layoutComponents/Footer";
 import { AppProviderContext } from "../provider/Provider";
 import Header from "../components/layoutComponents/Header";
+import TraineeHomeComponent from "../components/traineeHomeComponents/TraineeHomeComponent";
+import HomeCp from "../components/classComponents/HomeCp";
 
 const Home: React.FC = () => {
   const { role, setRole } = React.useContext(AppProviderContext);
@@ -20,7 +22,8 @@ const Home: React.FC = () => {
       <main className="rightlayout">
         <div className="class-container">
           {role === "" ? (
-            <Header title="Home" imageUrl="" />
+            // <Header title="Home" imageUrl="" />
+            <></>
           ) : (
             <TraineeHeader title="Pollycell" />
           )}
@@ -34,7 +37,7 @@ const Home: React.FC = () => {
               position: "relative",
             }}
           >
-            {/* <TraineeHomeComponent/> */}
+            <HomeCp/>
           </Box>
           <Footer />
         </div>

@@ -16,7 +16,7 @@ const TraineeAttendanceCp: React.FC = () => {
   };
   return (
     <Box>
-      <Header imageUrl="" title="Trainee Schedule" />
+      <Header imageUrl="" title="Trainee Attendance" />
       <Box
         sx={{
           backgroundColor: "white",
@@ -36,31 +36,6 @@ const TraineeAttendanceCp: React.FC = () => {
               Campus
             </Grid>
             <Grid sx={{ fontWeight: "bold" }}>FHos</Grid>
-          </Grid>
-          <Grid item xs={1}>
-            <Grid
-              sx={{
-                backgroundColor: "#6082B6",
-                border: "0.5px solid white",
-                color: "white",
-              }}
-            >
-              Term
-            </Grid>
-            <Grid sx={{ fontWeight: "bold" }}>
-              {fakeData.map((data, index) => (
-                <Grid
-                  key={index}
-                  sx={{
-                    fontWeight: clickedIndexTerm === index ? "bold" : "normal",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleClickTerm(index)}
-                >
-                  {`${data.Term} `}
-                </Grid>
-              ))}
-            </Grid>
           </Grid>
           <Grid item xs={3}>
             <Grid
@@ -86,7 +61,7 @@ const TraineeAttendanceCp: React.FC = () => {
                 </Grid>
               ))}
           </Grid>
-          <Grid item xs={7}>
+          <Grid item xs={8}>
             <Grid container direction="row">
               <Grid
                 item
@@ -145,7 +120,7 @@ const TraineeAttendanceCp: React.FC = () => {
               </Grid>
               <Grid
                 item
-                xs={2}
+                xs={3}
                 sx={{
                   backgroundColor: "#6082B6",
                   border: "0.5px solid white",
@@ -156,7 +131,7 @@ const TraineeAttendanceCp: React.FC = () => {
               </Grid>
               <Grid
                 item
-                xs={2}
+                xs={1}
                 sx={{
                   backgroundColor: "#6082B6",
                   border: "0.5px solid white",
@@ -187,13 +162,13 @@ const TraineeAttendanceCp: React.FC = () => {
                       <Grid item xs={1}>
                         {attendance.Trainer}
                       </Grid>
-                      <Grid item xs={2}>
+                      <Grid item xs={3}>
                         {attendance.Group}
                       </Grid>
                       {attendance.Status === "present" ? (
                         <Grid
                           item
-                          xs={2}
+                          xs={1}
                           sx={{ color: "green", textAlign: "center" }}
                         >
                           {attendance.Status}

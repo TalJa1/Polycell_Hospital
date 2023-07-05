@@ -12,13 +12,15 @@ import {
   Stack,
   Toolbar,
   Typography,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Textarea from "@mui/joy/Textarea";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
 import Button from "@mui/material/Button";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import classApi from "../../api/classApi";
 import { fetchClassDetail } from "../../actions/classAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,6 +42,7 @@ const ClassApprovalCp: React.FC = () => {
   const getClassDetail: Class = useSelector(
     (state: RootState) => state.class.class
   );
+  const navigate = useNavigate();
   const getID = useParams();
   const dispatch = useDispatch();
   const [comment, setComment] = useState<string>("");
@@ -49,6 +52,16 @@ const ClassApprovalCp: React.FC = () => {
   const [showSuccessDialog, setShowSuccessDialog] = useState<boolean>(false);
 
   const [open, setOpen] = React.useState(false);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const labelContent = event.target.name;
+    console.log("Label content:", labelContent);
+    if (event.target.checked) {
+      setComment((prevComment) => prevComment + labelContent + ", ");
+    } else {
+      setComment((prevComment) => prevComment.replace(labelContent + ", ", ""));
+    }
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -63,6 +76,7 @@ const ClassApprovalCp: React.FC = () => {
   };
 
   const handleDialogAcceptedClose = () => {
+    setComment("");
     setDialogAccept(false);
   };
 
@@ -71,11 +85,13 @@ const ClassApprovalCp: React.FC = () => {
   };
 
   const handleDialogRejectClose = () => {
+    setComment("");
     setDialogReject(false);
   };
 
   const handleSuccessDialogClose = () => {
     setShowSuccessDialog(false);
+    navigate("/class-acceptance");
   };
 
   const fetchClassDetailApi = React.useCallback(async () => {
@@ -102,23 +118,50 @@ const ClassApprovalCp: React.FC = () => {
 
   const handleAccept = async () => {
     if (comment !== "") {
-      try {
-        const params = {
-          comment: comment,
-          createdDate: new Date().toLocaleString("en-GB", { timeZone: "UTC" }),
-          status: "REJECT",
-          classId: `${getID.id}`,
-        };
-        console.log(params);
-        const response = await classApi.aprroval(params);
-        console.log("Approval Status accept >> ", response.status);
-        if (response.status === 200) {
-          setDialogAccept(true);
-          setMess("Accept successfully");
-          setShowSuccessDialog(true);
+      if (getClassDetail.status === "PLANNING") {
+        try {
+          const params = {
+            comment: comment,
+            createdDate: new Date().toLocaleString("en-GB", {
+              timeZone: "UTC",
+            }),
+            status: "REJECT",
+            classId: `${getID.id}`,
+          };
+          console.log(params);
+          const response = await classApi.aprroval(params);
+          console.log("Approval Status accept >> ", response.data.status);
+          if (response.status === 200) {
+            setDialogAccept(true);
+            setDialogAccept(false);
+            setMess("Accept successfully");
+            setShowSuccessDialog(true);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
+      } else {
+        try {
+          const params = {
+            comment: comment,
+            createdDate: new Date().toLocaleString("en-GB", {
+              timeZone: "UTC",
+            }),
+            status: "REJECT",
+            classId: `${getID.id}`,
+          };
+          console.log(params);
+          const response = await classApi.aprroval2(params);
+          console.log("Approval Status accept >> ", response.data.status);
+          if (response.status === 200) {
+            setDialogAccept(true);
+            setDialogAccept(false);
+            setMess("Accept successfully");
+            setShowSuccessDialog(true);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
     } else {
       setDialogAccept(true);
@@ -129,20 +172,40 @@ const ClassApprovalCp: React.FC = () => {
 
   const handleReject = async () => {
     if (comment !== "") {
-      try {
-        const params = {
-          comment: comment,
-          classId: `${getID.id}`,
-        };
-        const response = await classApi.reject(params);
-        console.log("Approval Status reject >> ", response.status);
-        if (response.status === 200) {
-          setDialogReject(true);
-          setMess("Reject successfully");
-          setShowSuccessDialog(true);
+      if (getClassDetail.status === "PLANNING") {
+        try {
+          const params = {
+            comment: comment,
+            classId: `${getID.id}`,
+          };
+          const response = await classApi.reject(params);
+          console.log("Approval Status reject >> ", response.status);
+          if (response.status === 200) {
+            setDialogReject(true);
+            setDialogReject(false);
+            setMess("Reject successfully");
+            setShowSuccessDialog(true);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
+      } else if (getClassDetail.status === "REJECT") {
+        try {
+          const params = {
+            comment: comment,
+            classId: `${getID.id}`,
+          };
+          const response = await classApi.reject2(params);
+          console.log("Approval Status reject >> ", response.status);
+          if (response.status === 200) {
+            setDialogReject(true);
+            setDialogReject(false);
+            setMess("Reject successfully");
+            setShowSuccessDialog(true);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
     } else {
       setDialogReject(true);
@@ -196,11 +259,12 @@ const ClassApprovalCp: React.FC = () => {
     Class: `${getClassDetail.name}`,
     Program: `${getClassDetail.program.code} - ${getClassDetail.program.name}`,
     Schedule: `${convertTimeString(getClassDetail.generalSchedule)}`,
+    // Schedule: `${getClassDetail.generalSchedule}`,
     CreatedDate: `${getClassDetail.createdDate}`,
     Department: `${getClassDetail.program.department?.name}`,
     Cycle: `${getClassDetail.cycle.name} - ${getClassDetail.cycle.duration} months`,
     StartDate: `${getClassDetail.startDate}`,
-    Student: `${getClassDetail.trainees.length}/${getClassDetail.program.maxQuantity}`,
+    Student: `${getClassDetail.trainees.length}/${getClassDetail.maxQuantity}`,
   };
 
   return (
@@ -349,6 +413,7 @@ const ClassApprovalCp: React.FC = () => {
                     name="Soft"
                     placeholder="Comment in here…"
                     variant="soft"
+                    value={comment}
                   />
                   {mess !== "" ? (
                     <Typography variant="body2" color="error">
@@ -357,6 +422,11 @@ const ClassApprovalCp: React.FC = () => {
                   ) : (
                     <></>
                   )}
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleChange} />}
+                    label="This class is nice setup"
+                    name="This class is nice setup"
+                  />
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={handleAccept}>Accept</Button>
@@ -376,6 +446,7 @@ const ClassApprovalCp: React.FC = () => {
                     name="Soft"
                     placeholder="Comment in here…"
                     variant="soft"
+                    value={comment}
                   />
                   {mess !== "" ? (
                     <Typography variant="body2" color="error">
@@ -384,6 +455,16 @@ const ClassApprovalCp: React.FC = () => {
                   ) : (
                     <></>
                   )}
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleChange} />}
+                    label="This class is not valid"
+                    name="This class is not valid"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleChange} />}
+                    label="Date is not valid"
+                    name="Date is not valid"
+                  />
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={handleReject}>Accept</Button>

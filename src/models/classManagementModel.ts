@@ -1,3 +1,4 @@
+import { Department } from "./classModel";
 import { Cycle, Program, Trainer } from "./programAddModel";
 import { Trainees } from "./traineeModel";
 
@@ -22,10 +23,13 @@ export interface Class {
   cycle: Cycle;
   trainer: Trainer;
   trainees: Trainees[];
+  department: Department
   // overlappedSchedules: Overlap[];
 }
 
 export interface Overlap {
   id: string;
   overlappedDayTimes: string[];
+  trainees: Trainees[],
+  department: Department
 }

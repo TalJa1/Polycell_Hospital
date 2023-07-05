@@ -2,9 +2,7 @@
 import "../../styles/Postdata.css";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { fetchClass } from "../../actions/classAction";
-
 import classApi from "../../api/classApi";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
@@ -13,7 +11,6 @@ import Footer from "../layoutComponents/Footer";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Box, Tab, Tabs } from "@mui/material";
-
 import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -36,25 +33,26 @@ const Postdata: React.FC = () => {
     setTabsValue(newValue);
   };
 
-  // if (tabsValue === 0) {
-  //   console.log("pending");
-  // } else if (tabsValue === 1) {
-  //   console.log("accepted");
-  // } else {
-  //   console.log("rejected");
-  // }
-
   const fetchClassApi = React.useCallback(async () => {
     try {
       const param = {
-        status:
-          tabsValue === 0 ? "PENDING" : tabsValue === 1 ? "APPROVE" : "REJECT",
-        // _page: getPage,
-        // _limit: 9,
+        filterAnd:
+          tabsValue === 0
+            ? "status|eq|PLANNING"
+            : tabsValue === 1
+            ? "status|eq|PENDING"
+            : tabsValue === 2
+            ? "status|eq|OPENING"
+            : tabsValue === 3
+            ? "status|eq|CLOSED"
+            : "status|eq|REJECT",
+        page: 0,
+        size: 10,
       };
       const response = await classApi.getAll(param);
       // console.log("Resp>>>> ", response);
-      const action = fetchClass(response.data);
+      // console.log("Resp data >>>> ", response.data);
+      const action = fetchClass(response.data.items);
       // const action1 = fetchUser(response1.data);
       // const actionPage = getTotalPage(
       //   response.headers["x-total-count"] / param._limit
@@ -137,9 +135,11 @@ const Postdata: React.FC = () => {
                     aria-label="basic tabs example"
                   >
                     {/* <Tab label="All" {...a11yProps(0)} /> */}
-                    <Tab label="Pending" {...a11yProps(0)} />
-                    <Tab label="Accepted" {...a11yProps(1)} />
-                    <Tab label="Rejected" {...a11yProps(2)} />
+                    <Tab label="Planning" {...a11yProps(0)} />
+                    <Tab label="Pending" {...a11yProps(1)} />
+                    <Tab label="Opening" {...a11yProps(2)} />
+                    <Tab label="Closed" {...a11yProps(3)} />
+                    <Tab label="Rejected" {...a11yProps(3)} />
                   </Tabs>
                 </Box>
                 {/* </div> */}
@@ -160,8 +160,8 @@ const Postdata: React.FC = () => {
                           index % 2 === 0 ? "even" : "odd"
                         }`}
                       >
-                        <span>{item.code}</span>
-                        <span>{item.programCode}</span>
+                        <span>{item.name}</span>
+                        <span>{item.program.code}</span>
                         <span>{item.status}</span>
                         <span>{item.createdDate.toString()}</span>
                         <span>
