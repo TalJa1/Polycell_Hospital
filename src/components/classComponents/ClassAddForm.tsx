@@ -15,6 +15,11 @@ import {
   Grid,
   IconButton,
   InputLabel,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
@@ -22,6 +27,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import React, {
   ChangeEventHandler,
+  ReactNode,
   createContext,
   useCallback,
   useEffect,
@@ -49,6 +55,8 @@ import { GridRowSelectionModel } from "@mui/x-data-grid";
 import { useForm, SubmitHandler } from "react-hook-form";
 import classApi from "../../api/classApi";
 import { useNavigate } from "react-router-dom";
+import { Overlap } from "../../models/classManagementModel";
+import { create } from "domain";
 
 const ClassAddForm: React.FC = () => {
   const createClassData: CreateClassFormData = useSelector(
@@ -60,9 +68,14 @@ const ClassAddForm: React.FC = () => {
 
   const {
     register,
+    control,
+    trigger,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
+  const minQuantity = watch("minQuantity");
+  const maxQuantity = watch("maxQuantity");
 
   const [selectedCourse, setSelectedCourse] = useState<Program | null>(null);
   const [selectedTrainer, setselectedTrainer] = useState<Trainer | null>(null);
@@ -71,8 +84,8 @@ const ClassAddForm: React.FC = () => {
   const [selectStartDate, setSelectedStartDate] = useState<Dayjs | null>();
   const [selectEndDate, setSelectedEndDate] = useState<Dayjs>();
   const [selectQuantity, setSelectedQuantity] = useState<string>("");
-  const [maxQuantity, setMaxQuantity] = useState<string>("");
-  const [minQuantity, setMinQuantity] = useState<string>("");
+  const [seletcMaxQuantity, setMaxQuantity] = useState<string>("");
+  const [seletcMinQuantity, setMinQuantity] = useState<string>("");
   const [generalSchedules, setGeneralSchedules] = useState<GeneralSchedule[]>(
     []
   );
@@ -81,6 +94,20 @@ const ClassAddForm: React.FC = () => {
 
   const [selectTraineeList, setSelectTraineeList] =
     useState<GridRowSelectionModel>([]);
+  const [warning, setWarning] = useState<string>("");
+  const [open, setOpen] = useState(false);
+
+  const [listOverlap, setListOverlap] = useState<Overlap[]>([]);
+  const [openWarningOverlap, setOpenWarningOverlap] = useState(false);
+  const [overlapErrors, setOverlapErrors] = useState<ErrorItem[]>([]);
+
+  const handleOpenDialogOverlap = () => {
+    setOpenWarningOverlap(true);
+  };
+
+  const handleCloseDialogOverlap = () => {
+    setOpenWarningOverlap(false);
+  };
 
   const handleClassName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectClassName(event.target.value);
@@ -89,9 +116,6 @@ const ClassAddForm: React.FC = () => {
   const handleRoom = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectRoom(event.target.value);
   };
-
-  const [warning, setWarning] = useState<string>("");
-  const [open, setOpen] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -172,15 +196,21 @@ const ClassAddForm: React.FC = () => {
     }
   }, [dispatch]);
 
-  const handleCheckForm = () => {
-    if (selectTraineeList.length >= parseInt(selectQuantity)) {
-      setWarning("The number of students exceeds the allowable limit");
-    } else if (selectTraineeList.length < selectedCourse?.minQuantity!) {
-      setWarning("The number of students is not enough");
+  const handleCheckForm = async () => {
+    const isValid = await trigger();
+    if (isValid) {
+      if (selectTraineeList.length >= parseInt(selectQuantity)) {
+        setWarning("The number of students exceeds the allowable limit");
+      } else if (selectTraineeList.length < selectedCourse?.minQuantity!) {
+        setWarning("The number of students is not enough");
+      } else {
+        setWarning("");
+      }
+      setOpen(true);
     } else {
-      setWarning("");
+      // Form is not valid, handle the validation errors
+      console.log("Form validation failed");
     }
-    setOpen(true);
   };
 
   //
@@ -191,11 +221,11 @@ const ClassAddForm: React.FC = () => {
       departmentId: selectedCourse?.department?.id,
       trainerId: selectedTrainer?.id,
       programId: selectedCourse?.id,
-      roomId: "b49d2b9c-d8a1-473d-bafe-2207f62a034b",
+      // roomId: "b49d2b9c-d8a1-473d-bafe-2207f62a034b",
       cycleId: selectedCycle?.id,
       quantity: selectTraineeList.length,
-      minQuantity: minQuantity,
-      maxQuantity: maxQuantity,
+      minQuantity: seletcMinQuantity,
+      maxQuantity: seletcMaxQuantity,
       startDate: selectStartDate?.format("YYYY-MM-DD"),
       endDate: selectEndDate?.format("YYYY-MM-DD"),
       traineeIds: selectTraineeList,
@@ -203,16 +233,54 @@ const ClassAddForm: React.FC = () => {
     try {
       console.log(params);
       const response = await classApi.create(params);
-      console.log(response.status);
-      if (response.status === 201) {
-        console.log("SUCCESS");
-        navigate("/class-management");
+      const { data, status } = response;
+      console.log(data);
+
+      if (status === 201) {
+        if (data.overlappedSchedules === null) {
+          // console.log("Post request successful:", response.data);
+          navigate("/class-management");
+        } else {
+          setListOverlap(data.overlappedSchedules);
+          createError(data.overlappedSchedules);
+          handleClose();
+          handleOpenDialogOverlap();
+        }
       }
-      console.log("Post request successful:", response.data);
     } catch (error) {
       console.error("Error posting data:", error);
     }
   };
+
+  const createError = (overlappedSchedules: any[]) => {
+    const { trainers } = createClassData;
+
+    var listError: ErrorItem[] = [];
+
+    overlappedSchedules.forEach((e) => {
+      // if (trainers.find((t) => t.id === e.id) !== null) {
+      //   const errorItem: ErrorItem = {
+      //     email:
+      //       trainers.find((t) => t.id === e.id)!.name +
+      //       " (" +
+      //       trainers.find((t) => t.id === e.id)!.code +
+      //       ")",
+      //     overlappedDayTimes: [...e.overlappedDayTimes],
+      //   };
+      //   listError.push(errorItem);
+      //   setOverlapErrors([...listError]);
+      // }
+      const errorItem: ErrorItem = {
+        id: e.id,
+        email: e.name + " (" + e.code + ")",
+        overlappedDayTimes: [...e.overlappedDayTimes],
+      };
+      listError.push(errorItem);
+      setOverlapErrors([...listError]);
+    });
+  };
+
+  console.log(overlapErrors);
 
   useEffect(() => {
     fetchCreateClassDataForm();
@@ -593,9 +661,8 @@ const ClassAddForm: React.FC = () => {
                     <Grid container>
                       <Grid item sm={3}>
                         <TextField
-                          id="quantity"
+                          id="minQuantity"
                           label="Min"
-                          // fullWidth
                           size="medium"
                           autoComplete="off"
                           variant="outlined"
@@ -604,13 +671,20 @@ const ClassAddForm: React.FC = () => {
                             style: { textAlign: "right" },
                           }}
                           {...register("minQuantity", {
-                            required: true,
+                            required: "This field is required",
                             valueAsNumber: true,
-                            validate: (value) => value > 0,
+                            validate: {
+                              greaterThanZero: (value) => value > 0,
+                              lessThanMaxQuantity: (value) =>
+                                value < watch("maxQuantity"),
+                            },
                           })}
-                          error={errors.minQuantity ? true : false}
-                          // helperText={errors.minQuantity && "This field is required"}
-                          value={minQuantity}
+                          error={!!errors.minQuantity}
+                          helperText={
+                            errors.minQuantity &&
+                            (errors.minQuantity.message as ReactNode)
+                          }
+                          value={seletcMinQuantity}
                           onChange={handleMinQuantityChange}
                         />
                       </Grid>
@@ -618,9 +692,8 @@ const ClassAddForm: React.FC = () => {
                       <Grid item xs={12} sm={2}></Grid>
                       <Grid item sm={3}>
                         <TextField
-                          id="quantity"
+                          id="maxQuantity"
                           label="Max"
-                          // fullWidth
                           size="medium"
                           autoComplete="off"
                           variant="outlined"
@@ -629,13 +702,20 @@ const ClassAddForm: React.FC = () => {
                             style: { textAlign: "right" },
                           }}
                           {...register("maxQuantity", {
-                            required: true,
+                            required: "This field is required",
                             valueAsNumber: true,
-                            validate: (value) => value > 0,
+                            validate: {
+                              greaterThanZero: (value) => value > 0,
+                              greaterThanMinQuantity: (value) =>
+                                value > watch("minQuantity"),
+                            },
                           })}
-                          error={errors.maxQuantity ? true : false}
-                          // helperText={errors.maxQuantity && "This field is required"}
-                          value={maxQuantity}
+                          error={!!errors.maxQuantity}
+                          helperText={
+                            errors.maxQuantity &&
+                            (errors.maxQuantity.message as ReactNode)
+                          }
+                          value={seletcMaxQuantity}
                           onChange={handleMaxQuantityChange}
                         />
                       </Grid>
@@ -643,30 +723,11 @@ const ClassAddForm: React.FC = () => {
                       <Grid item sm={4}></Grid>
                     </Grid>
                   </Grid>
-
-                  {/* <Grid item sm={1}>
-                  to
-                </Grid> */}
-
-                  {/* <Grid item sm={4}>
-                  <Grid container>
-                    
-                  </Grid>
-                </Grid> */}
                 </Grid>
               </Grid>
               {/* List trainee */}
               <Grid item xs={12} sm={2}>
-                <InputLabel
-
-                // sx={{
-                //   display: "flex",
-                //   justifyContent: "center",
-                //   fontWeight: 700,
-                // }}
-                >
-                  Enroll trainee
-                </InputLabel>
+                <InputLabel>Enroll trainee</InputLabel>
               </Grid>
               <Grid item xs={12} sm={5}>
                 <ClassAddFormPopup
@@ -677,7 +738,7 @@ const ClassAddForm: React.FC = () => {
               <Grid item xs={12} sm={5}>
                 Trainee quantity:{" "}
                 {selectTraineeList.length > 0 ? selectTraineeList.length : 0} /{" "}
-                {maxQuantity.length === 0 ? "max" : maxQuantity}
+                {seletcMaxQuantity.length === 0 ? "max" : seletcMaxQuantity}
               </Grid>
 
               {/* Start date */}
@@ -730,6 +791,9 @@ const ClassAddForm: React.FC = () => {
                 <TodoGeneralTimeList
                   generalSchedules={generalSchedules}
                   setGeneralSchedules={setGeneralSchedules}
+                  control={control}
+                  errors={errors}
+                  register={register}
                 />
               </Grid>
 
@@ -781,8 +845,107 @@ const ClassAddForm: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog
+        open={openWarningOverlap}
+        onClose={handleCloseDialogOverlap}
+        fullWidth
+        maxWidth="md"
+      >
+        <div style={styles.dialogWrapper}>
+          <DialogTitle sx={styles.dialogTitle}>Warning</DialogTitle>
+          <DialogContent sx={styles.dialogContent}>
+            <div style={styles.dialogContentScrollable}>
+              {overlapErrors.map((overlap) => (
+                <div key={overlap.id}>
+                  <p style={styles.email}>Email: {overlap.email}</p>
+                  <p style={styles.overlappedTimes}>Overlapped Day Times:</p>
+                  <ul style={styles.overlappedList}>
+                    {overlap.overlappedDayTimes.map((dayTime, index) => (
+                      <li key={index} style={styles.overlappedListItem}>
+                        {dayTime}
+                      </li>
+                    ))}
+                  </ul>
+                  <Divider sx={styles.divider} />
+                </div>
+              ))}
+            </div>
+          </DialogContent>
+          <DialogActions sx={styles.dialogActions}>
+            <Button
+              onClick={handleCloseDialogOverlap}
+              autoFocus
+              variant="contained"
+              color="primary"
+            >
+              Okay
+            </Button>
+          </DialogActions>
+        </div>
+      </Dialog>
     </Box>
   );
 };
 
 export default ClassAddForm;
+
+interface ErrorItem {
+  id: string;
+  email: string;
+  overlappedDayTimes: string[];
+}
+const styles = {
+  dialogWrapper: {
+    backgroundColor: "#f2f2f2",
+    padding: "20px",
+    borderRadius: "4px",
+    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.2)",
+  },
+  dialogTitle: {
+    backgroundColor: "#e0e0e0",
+    fontSize: "20px",
+    padding: "10px",
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "bold",
+  },
+  dialogContent: {
+    margin: "20px 0",
+    padding: "20px", // Increase padding as desired
+    backgroundColor: "#fff",
+    height: "300px", // Set desired height for scrollable content
+    overflow: "auto", // Enable scrollbar when content exceeds height
+  },
+  dialogContentScrollable: {
+    padding: "0",
+  },
+  email: {
+    fontWeight: "bold",
+    paddingBottom: "5px",
+  },
+  overlappedTimes: {
+    fontStyle: "italic",
+    paddingBottom: "5px",
+  },
+  overlappedList: {
+    margin: "10px 0",
+    padding: "0",
+    listStyleType: "disc",
+    fontSize: "14px",
+  },
+  overlappedListItem: {
+    marginBottom: "8px",
+  },
+  divider: {
+    margin: "16px 0",
+    backgroundColor: "#e0e0e0",
+  },
+  dialogActions: {
+    marginTop: "20px",
+    padding: "10px",
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: "10px",
+  },
+};
