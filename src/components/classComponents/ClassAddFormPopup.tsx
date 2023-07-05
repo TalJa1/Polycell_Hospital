@@ -15,6 +15,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { RootState } from "../../reduxs/Root";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fetchImportTraineeSuccess,
   fetchTraineeTotalSuccess,
   fetchTraineesRequest,
   fetchTraineesSuccess,
@@ -55,6 +56,7 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
   const { trainees, allTrainees } = useSelector(
     (state: RootState) => state.trainee
   );
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [rowSelectionModel, setRowSelectionModel] =
     React.useState<GridRowSelectionModel>([]);
@@ -84,6 +86,7 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
       allTrainees.find((i) => i.id === e)
     );
     console.log(item);
+    console.log("SET TRAINEE");
     setSelectedTrainees(item);
     setSelectTraineeList(rowSelectionModel);
     setRowSelectedModel(rowSelectionModel);
@@ -100,6 +103,31 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
     setRowSelectionModel([...list]);
     setIsOpenDrawer(false);
   };
+
+  function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (file) {
+      importTrainee(file);
+    }
+  }
+
+  const importTrainee = async (file: File) => {
+    try {
+      const response = await traineeApi.importTrainee(file);
+      var listItem = response.data as Trainee[];
+      dispatch(fetchImportTraineeSuccess(response.data));
+      // console.log(allTrainees)
+      var newTrainee = response.data.map((e: any) => e?.id) as GridRowSelectionModel;
+      console.log(newTrainee);
+      setRowSelectionModel([...rowSelectionModel, ...newTrainee]);
+      setSelectTraineeList([...newTrainee])
+      setSelectedTrainees(listItem);
+    } catch (error) {
+      console.error("Error fetching trainees:", error);
+    }
+  };
+
+  // console.log(urlFile)
 
   return (
     <div>
@@ -161,7 +189,15 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
                   },
                 }}
               >
-                Import from file
+                <label htmlFor="file-upload" style={{ cursor: "pointer" }}>
+                  Import from file
+                  <input
+                    id="file-upload"
+                    type="file"
+                    style={{ display: "none" }}
+                    onChange={handleFileUpload}
+                  />
+                </label>
               </Button>
 
               {/* <Button autoFocus color="inherit" onClick={handleSave}>
@@ -332,7 +368,7 @@ function TableStudent({
       dispatch(fetchTraineesSuccess(data.items));
       dispatch(fetchTraineeTotalSuccess(data.totalItems));
     },
-    [dispatch, filterParams]
+    [dispatch]
   );
 
   useEffect(() => {

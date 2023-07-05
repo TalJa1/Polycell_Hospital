@@ -17,7 +17,7 @@ const CourseDetailEnrollRight: React.FC = () => {
       <Box
         sx={{
           border: "1px solid rgb(238, 238, 238)",
-          padding: "16px 20px",
+          padding: "16px 20px ",
         }}
       >
         <Typography variant="h5">Courses Details</Typography>
@@ -73,7 +73,7 @@ const CourseDetailEnrollRight: React.FC = () => {
         <GradientButton
           sx={{
             width: "100%",
-            margin: "50px 0",
+            // margin: "50px 0",
             backgroundColor:
               "linear-gradient(90deg, rgb(17, 182, 122) 0%, rgb(0, 148, 68) 100%)",
           }}

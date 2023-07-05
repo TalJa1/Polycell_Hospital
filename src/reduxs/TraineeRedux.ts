@@ -3,6 +3,7 @@
 import { TraineeAction } from "../actions/traineeAction";
 import { Trainee } from "../models/traineeModel";
 import {
+  FETCH_IMPORT_TRAINEES_SUCCESS,
   FETCH_TRAINEES_ERROR,
   FETCH_TRAINEES_REQUEST,
   FETCH_TRAINEES_SUCCESS,
@@ -43,7 +44,7 @@ const traineeReducer = (
         loading: true,
         error: null,
       };
-    case FETCH_TRAINEES_SUCCESS:
+    case FETCH_TRAINEES_SUCCESS: {
       const combinedTrainees = [...state.allTrainees, ...action.payload];
       const uniqueTrainees = combinedTrainees.filter(
         (trainee, index, self) =>
@@ -57,6 +58,14 @@ const traineeReducer = (
         loading: false,
         error: null,
       };
+    }
+
+    case FETCH_IMPORT_TRAINEES_SUCCESS:
+      return {
+        ...state,
+        allTrainees: action.payload,
+        loading: false
+      }
 
     case FETCH_TRAINEES_ERROR:
       return {

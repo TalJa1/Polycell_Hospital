@@ -4,13 +4,16 @@ import {
   FETCH_TRAINEES_ERROR,
   FETCH_TRAINEES_SUCCESS,
   FETCH_TRAINEES_TOTAL_REQUEST,
+  FETCH_IMPORT_TRAINEES_SUCCESS,
+
 } from "../utils/constant";
 
 export type TraineeAction =
   | FetchTraineesRequestAction
   | FetchTraineesSuccessAction
   | FetchTraineesErrorAction
-  | FetchTraineesTotalRequestAction;
+  | FetchTraineesTotalRequestAction
+  | FetchImportTraineesSuccessAction;
 
   export const fetchTraineeTotalSuccess = (
     total: number
@@ -28,6 +31,13 @@ export const fetchTraineesSuccess = (
   trainees: Trainee[]
 ): FetchTraineesSuccessAction => ({
   type: FETCH_TRAINEES_SUCCESS,
+  payload: trainees,
+});
+
+export const fetchImportTraineeSuccess = (
+  trainees: Trainee[]
+): FetchImportTraineesSuccessAction => ({
+  type: FETCH_IMPORT_TRAINEES_SUCCESS,
   payload: trainees,
 });
 
@@ -51,6 +61,11 @@ interface FetchTraineesRequestAction {
 
 interface FetchTraineesSuccessAction {
   type: typeof FETCH_TRAINEES_SUCCESS;
+  payload: Trainee[];
+}
+
+interface FetchImportTraineesSuccessAction {
+  type: typeof FETCH_IMPORT_TRAINEES_SUCCESS;
   payload: Trainee[];
 }
 
