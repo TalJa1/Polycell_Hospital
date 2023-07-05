@@ -9,6 +9,8 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import img1 from "../../assets/imgs/wp6938471.jpg";
 import logo from "../../assets/imgs/logo51.png";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import DeviceHubIcon from "@mui/icons-material/DeviceHub";
+import SecurityIcon from "@mui/icons-material/Security";
 
 const HomeCp: React.FC = () => {
   return (
@@ -178,7 +180,12 @@ const HomeCp: React.FC = () => {
       </Grid>
       <Divider sx={{ width: "95%", height: "1px" }} />
       <Grid container direction="column" sx={{ padding: "10px" }}>
-        <Grid item container direction="column" sx={{ textAlign: "center" }}>
+        <Grid
+          item
+          container
+          direction="column"
+          sx={{ textAlign: "center", paddingBottom: "10px" }}
+        >
           <Grid sx={{ fontSize: "1.5rem" }}>
             Telemedicine Platform for Doctors/Hospitals/Clinics
           </Grid>
@@ -186,14 +193,48 @@ const HomeCp: React.FC = () => {
             Let Covid19 not affect your practice!
           </Grid>
         </Grid>
-        <Grid item container direction="row">
+        <Grid
+          item
+          container
+          direction="row"
+          sx={{ textAlign: "center", paddingBottom: "10px" }}
+        >
           <Grid item container xs={4} direction="column">
             <Grid item>
-              <BarChartIcon />
+              <BarChartIcon sx={{ color: "green" }} />
+            </Grid>
+            <Grid sx={{ fontSize: "1rem", fontWeight: "bold" }}>
+              Scheduling With Payments
+            </Grid>
+            <Grid>
+              Specify your schedule, collect payments. Integrate the widget with
+              your website and your mobile app. It’s that simple!
             </Grid>
           </Grid>
-          <Grid item container xs={4} direction="column"></Grid>
-          <Grid item container xs={4} direction="column"></Grid>
+          <Grid item container xs={4} direction="column">
+            <Grid item>
+              <DeviceHubIcon sx={{ color: "green" }} />
+            </Grid>
+            <Grid sx={{ fontSize: "1rem", fontWeight: "bold" }}>
+              HD Video/Audio
+            </Grid>
+            <Grid>
+              You can have a HD Video/Audio call with your patients - both on
+              web and app.
+            </Grid>
+          </Grid>
+          <Grid item container xs={4} direction="column">
+            <Grid item>
+              <SecurityIcon sx={{ color: "green" }} />
+            </Grid>
+            <Grid sx={{ fontSize: "1rem", fontWeight: "bold" }}>
+              E-Prescription
+            </Grid>
+            <Grid>
+              A powerful but simple e-prescription (EMR) will allow you to
+              prescribe and share medications and advise.
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Box>
