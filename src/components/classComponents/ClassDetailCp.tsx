@@ -103,7 +103,7 @@ const ClassDetailCp: React.FC = () => {
 
   return (
     <Box>
-      <Header title="Class CCL21 details" imageUrl="" />
+      <Header title="Class details" imageUrl="" />
       <Box
         sx={{
           padding: "5px",
@@ -170,7 +170,7 @@ const ClassDetailCp: React.FC = () => {
                       backgroundColor: "white",
                     }}
                   >
-                    {getClassDetail.name}
+                    {getClassDetail.program.name}
                   </Grid>
                   <Grid
                     item
@@ -181,6 +181,22 @@ const ClassDetailCp: React.FC = () => {
                   >
                     Code: {getClassDetail.code}
                   </Grid>
+                </Grid>
+                <Grid item container direction="row">
+                  <Grid item xs={3}>
+                    <strong>Class:</strong>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={4}
+                    sx={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    {getClassDetail.name}
+                  </Grid>
+                  <Grid item xs={5}></Grid>
                 </Grid>
 
                 <Grid item container direction="row">

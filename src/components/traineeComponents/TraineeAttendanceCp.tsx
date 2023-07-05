@@ -16,7 +16,7 @@ const TraineeAttendanceCp: React.FC = () => {
   };
   return (
     <Box>
-      <Header imageUrl="" title="Trainee Schedule" />
+      <Header imageUrl="" title="Trainee Attendance" />
       <Box
         sx={{
           backgroundColor: "white",

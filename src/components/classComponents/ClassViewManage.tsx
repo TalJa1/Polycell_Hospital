@@ -2,9 +2,7 @@
 import "../../styles/Postdata.css";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { fetchClass } from "../../actions/classAction";
-
 import classApi from "../../api/classApi";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
@@ -13,7 +11,6 @@ import Footer from "../layoutComponents/Footer";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import TextField from "@mui/material/TextField";
 import { Autocomplete, Box, Tab, Tabs } from "@mui/material";
-
 import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
