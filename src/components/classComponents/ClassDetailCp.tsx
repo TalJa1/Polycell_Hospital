@@ -218,7 +218,7 @@ const ClassDetailCp: React.FC = () => {
                     {getClassDetail.trainees?.length <= 0
                       ? "0"
                       : getClassDetail?.trainees.length.toString()}
-                    /<strong>{getClassDetail.program.maxQuantity}</strong>
+                    /<strong>{getClassDetail.maxQuantity}</strong>
                   </Grid>
                   <Grid item xs={6}>
                     {getClassDetail.trainees?.length === 0 ? (

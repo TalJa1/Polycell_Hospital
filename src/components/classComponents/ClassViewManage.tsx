@@ -41,10 +41,12 @@ const Postdata: React.FC = () => {
       const param = {
         filterAnd:
           tabsValue === 0
-            ? "classApprovals.status|jn|PENDING"
+            ? "status|eq|PLANNING"
             : tabsValue === 1
-            ? "classApprovals.status|jn|APPROVE"
-            : "classApprovals.status|jn|REJECT",
+            ? "status|eq|PENDING"
+            : tabsValue === 2
+            ? "status|eq|OPENING"
+            : "status|eq|CLOSED",
         page: 0,
         size: 10,
       };
@@ -134,9 +136,10 @@ const Postdata: React.FC = () => {
                     aria-label="basic tabs example"
                   >
                     {/* <Tab label="All" {...a11yProps(0)} /> */}
-                    <Tab label="Pending" {...a11yProps(0)} />
-                    <Tab label="Accepted" {...a11yProps(1)} />
-                    <Tab label="Rejected" {...a11yProps(2)} />
+                    <Tab label="Planning" {...a11yProps(0)} />
+                    <Tab label="Pending" {...a11yProps(1)} />
+                    <Tab label="Opening" {...a11yProps(2)} />
+                    <Tab label="Closed" {...a11yProps(3)} />
                   </Tabs>
                 </Box>
                 {/* </div> */}

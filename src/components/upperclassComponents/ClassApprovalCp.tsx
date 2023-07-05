@@ -57,9 +57,9 @@ const ClassApprovalCp: React.FC = () => {
     const labelContent = event.target.name;
     console.log("Label content:", labelContent);
     if (event.target.checked) {
-      setComment(prevComment => prevComment + labelContent + ", ");
+      setComment((prevComment) => prevComment + labelContent + ", ");
     } else {
-      setComment(prevComment => prevComment.replace(labelContent + ", ", ""));
+      setComment((prevComment) => prevComment.replace(labelContent + ", ", ""));
     }
   };
 
@@ -118,24 +118,50 @@ const ClassApprovalCp: React.FC = () => {
 
   const handleAccept = async () => {
     if (comment !== "") {
-      try {
-        const params = {
-          comment: comment,
-          createdDate: new Date().toLocaleString("en-GB", { timeZone: "UTC" }),
-          status: "REJECT",
-          classId: `${getID.id}`,
-        };
-        console.log(params);
-        const response = await classApi.aprroval(params);
-        console.log("Approval Status accept >> ", response.status);
-        if (response.status === 200) {
-          setDialogAccept(true);
-          setDialogAccept(false);
-          setMess("Accept successfully");
-          setShowSuccessDialog(true);
+      if (getClassDetail.status === "PLANNING") {
+        try {
+          const params = {
+            comment: comment,
+            createdDate: new Date().toLocaleString("en-GB", {
+              timeZone: "UTC",
+            }),
+            status: "REJECT",
+            classId: `${getID.id}`,
+          };
+          console.log(params);
+          const response = await classApi.aprroval(params);
+          console.log("Approval Status accept >> ", response.data.status);
+          if (response.status === 200) {
+            setDialogAccept(true);
+            setDialogAccept(false);
+            setMess("Accept successfully");
+            setShowSuccessDialog(true);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
+      } else {
+        try {
+          const params = {
+            comment: comment,
+            createdDate: new Date().toLocaleString("en-GB", {
+              timeZone: "UTC",
+            }),
+            status: "REJECT",
+            classId: `${getID.id}`,
+          };
+          console.log(params);
+          const response = await classApi.aprroval2(params);
+          console.log("Approval Status accept >> ", response.data.status);
+          if (response.status === 200) {
+            setDialogAccept(true);
+            setDialogAccept(false);
+            setMess("Accept successfully");
+            setShowSuccessDialog(true);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
     } else {
       setDialogAccept(true);
@@ -146,21 +172,40 @@ const ClassApprovalCp: React.FC = () => {
 
   const handleReject = async () => {
     if (comment !== "") {
-      try {
-        const params = {
-          comment: comment,
-          classId: `${getID.id}`,
-        };
-        const response = await classApi.reject(params);
-        console.log("Approval Status reject >> ", response.status);
-        if (response.status === 200) {
-          setDialogReject(true);
-          setDialogReject(false);
-          setMess("Reject successfully");
-          setShowSuccessDialog(true);
+      if (getClassDetail.status === "PLANNING") {
+        try {
+          const params = {
+            comment: comment,
+            classId: `${getID.id}`,
+          };
+          const response = await classApi.reject(params);
+          console.log("Approval Status reject >> ", response.status);
+          if (response.status === 200) {
+            setDialogReject(true);
+            setDialogReject(false);
+            setMess("Reject successfully");
+            setShowSuccessDialog(true);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
+      } else if (getClassDetail.status === "REJECT") {
+        try {
+          const params = {
+            comment: comment,
+            classId: `${getID.id}`,
+          };
+          const response = await classApi.reject2(params);
+          console.log("Approval Status reject >> ", response.status);
+          if (response.status === 200) {
+            setDialogReject(true);
+            setDialogReject(false);
+            setMess("Reject successfully");
+            setShowSuccessDialog(true);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
     } else {
       setDialogReject(true);
@@ -214,11 +259,12 @@ const ClassApprovalCp: React.FC = () => {
     Class: `${getClassDetail.name}`,
     Program: `${getClassDetail.program.code} - ${getClassDetail.program.name}`,
     Schedule: `${convertTimeString(getClassDetail.generalSchedule)}`,
+    // Schedule: `${getClassDetail.generalSchedule}`,
     CreatedDate: `${getClassDetail.createdDate}`,
     Department: `${getClassDetail.program.department?.name}`,
     Cycle: `${getClassDetail.cycle.name} - ${getClassDetail.cycle.duration} months`,
     StartDate: `${getClassDetail.startDate}`,
-    Student: `${getClassDetail.trainees.length}/${getClassDetail.program.maxQuantity}`,
+    Student: `${getClassDetail.trainees.length}/${getClassDetail.maxQuantity}`,
   };
 
   return (

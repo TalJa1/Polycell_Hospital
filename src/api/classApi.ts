@@ -12,15 +12,24 @@ const classApi = {
   },
   create: (params: any) => {
     const url = "/v1/class";
-    return axiosClient.post(url,  params );
+    return axiosClient.post(url, params);
   },
 
   aprroval: (params: any) => {
-    const url = "/v1/class/approve";
+    const url = "/v1/class/approve-for-publishing";
+    return axiosClient.post(url, params);
+  },
+  aprroval2: (params: any) => {
+    const url = "/v1/class/approve-for-opening";
     return axiosClient.post(url, params);
   },
   reject: (params: any) => {
-    const url = "/v1/class/reject";
+    const url = "/v1/class/reject-for-publishing";
+    console.log("URL >> ", url);
+    return axiosClient.post(url, params);
+  },
+  reject2: (params: any) => {
+    const url = "/v1/class/reject-for-opening";
     console.log("URL >> ", url);
     return axiosClient.post(url, params);
   },
