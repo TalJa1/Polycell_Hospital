@@ -46,7 +46,9 @@ const Postdata: React.FC = () => {
             ? "status|eq|PENDING"
             : tabsValue === 2
             ? "status|eq|OPENING"
-            : "status|eq|CLOSED",
+            : tabsValue === 3
+            ? "status|eq|CLOSED"
+            : "status|eq|REJECT",
         page: 0,
         size: 10,
       };
@@ -140,6 +142,7 @@ const Postdata: React.FC = () => {
                     <Tab label="Pending" {...a11yProps(1)} />
                     <Tab label="Opening" {...a11yProps(2)} />
                     <Tab label="Closed" {...a11yProps(3)} />
+                    <Tab label="Rejected" {...a11yProps(3)} />
                   </Tabs>
                 </Box>
                 {/* </div> */}
