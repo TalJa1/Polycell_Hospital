@@ -7,14 +7,16 @@ import type { Dayjs } from "dayjs";
 import type { CalendarMode } from "antd/es/calendar/generateCalendar";
 import ScheduleListData from "./ScheduleListData";
 import ScheduleTraineeListData from "./ScheduleTraineeListData";
-import { EditModeContext } from "../../provider/EditModeProvider";
-import { AppProviderContext } from "../../provider/Provider";
+
+import { RootState } from "../../reduxs/Root";
+import { useSelector } from "react-redux";
 
 const ScheduleCP: React.FC = () => {
   const onPanelChange = (value: Dayjs, mode: CalendarMode) => {
     console.log(value.format("YYYY-MM-DD"), mode);
   };
-  const { role } = useContext(AppProviderContext);
+  const { role } = useSelector((state: RootState) => state.user);
+
 
 
   return (

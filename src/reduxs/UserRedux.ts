@@ -1,4 +1,7 @@
 import { User } from "../models/userModel";
+import { Role } from "../utils/constant";
+
+
 
 interface initState {
   user: User;
@@ -6,6 +9,7 @@ interface initState {
   page: number;
   isLogin: boolean;
   userEmail: string;
+  role: Role;
 }
 
 const initialState: initState = {
@@ -13,6 +17,7 @@ const initialState: initState = {
   page: 0,
   isLogin: false,
   userEmail: "",
+  role: "",
   user: {
     id: 0,
     name: "",
@@ -58,11 +63,11 @@ const UserReducer = (state = initialState, { type, payload }: Props) => {
       };
 
     case "LOGINUSER":
-      console.log("payload.userEmail >> ", payload.userEmail)
       return {
         ...state,
         isLogin: payload.isLogin,
         userEmail: payload.userEmail,
+        role: payload.role
       };
 
     default:

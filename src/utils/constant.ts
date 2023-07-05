@@ -47,3 +47,5 @@ export interface GeneralSchedule {
   time: RangeValue<Dayjs>;
   dayOfWeek: string | null;
 }
+
+export type Role = "TRAINEE" | "TRAINER" | "";

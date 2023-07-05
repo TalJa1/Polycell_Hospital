@@ -21,7 +21,9 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { EditModeContext } from "../../provider/EditModeProvider";
-import { AppProviderContext } from "../../provider/Provider";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../reduxs/Root";
+import { loginUser } from "../../actions/userAction";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -46,7 +48,8 @@ interface HeaderProps {
 const TraineeHeader: React.FC<HeaderProps> = (props) => {
   const navigate = useNavigate();
   const { editMode, handleEditModeChange } = React.useContext(EditModeContext);
-  const { role, setRole } = React.useContext(AppProviderContext);
+  const { role } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -61,7 +64,8 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
   };
 
   const handleLogout = () => {
-    setRole("");
+    const action1 = loginUser(false, "", "");
+    dispatch(action1);
     handleEditModeChange(false);
     navigate("/");
   };
@@ -118,7 +122,6 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
                   navigate("/homeTrainee");
                 } else {
                   navigate("/home");
-
                 }
               }}
               sx={{
