@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAttendanceTraineeSuccess } from "../../actions/attendanceAction";
 import { TraineeAttendance } from "../../models/trainneAttendance";
 import { RootState } from "../../reduxs/Root";
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 
 const TraineeAttendanceCp: React.FC = () => {
   const [clickedIndex, setClickedIndex] = React.useState<number>(0);
@@ -15,12 +14,7 @@ const TraineeAttendanceCp: React.FC = () => {
   const getTraineeAttendance: TraineeAttendance[] = useSelector(
     (state: RootState) => state.attendance.listAttendance
   );
-  const groupName: string = getTraineeAttendance[clickedIndex].className;
-
-  const handleClick = (courseIndex: any) => {
-    console.log("clicked index >> ", clickedIndex);
-    setClickedIndex(courseIndex);
-  };
+  const [groupName, setGroupName] = React.useState<string>("");
 
   const fetchTraineeAttendance = React.useCallback(async () => {
     try {
@@ -40,6 +34,16 @@ const TraineeAttendanceCp: React.FC = () => {
   React.useEffect(() => {
     fetchTraineeAttendance();
   }, [fetchTraineeAttendance]);
+
+  const handleClick = (courseIndex: any) => {
+    console.log("clicked index >> ", clickedIndex);
+    setClickedIndex(courseIndex);
+  };
+
+  const convertObject = (data: TraineeAttendance[]) => {
+    const getdata = data[clickedIndex];
+    return getdata.className;
+  };
 
   return (
     <Box>
@@ -84,7 +88,7 @@ const TraineeAttendanceCp: React.FC = () => {
                   }}
                   onClick={() => handleClick(index)}
                 >
-                  {`${course.programCode}`}
+                  {`${course.programCode}`} - {`${course.programName}`}
                 </Grid>
               ))}
           </Grid>
@@ -173,7 +177,7 @@ const TraineeAttendanceCp: React.FC = () => {
               <Grid>
                 {getTraineeAttendance[clickedIndex].attendances.map(
                   (attendance, index) => (
-                    <Box key={index} sx={{padding: "5px"}}>
+                    <Box key={index} sx={{ padding: "5px" }}>
                       <Grid container direction="row">
                         <Grid item xs={1}>
                           {index + 1}
@@ -189,7 +193,7 @@ const TraineeAttendanceCp: React.FC = () => {
                           {attendance.room.name}
                         </Grid>
                         {attendance.trainer === null ? (
-                          <Grid item xs={1} >
+                          <Grid item xs={1}>
                             empty
                           </Grid>
                         ) : (
@@ -199,7 +203,7 @@ const TraineeAttendanceCp: React.FC = () => {
                         )}
                         <Grid item xs={2}>
                           {/* {attendance.room.name} */}
-                          {groupName}
+                          {convertObject(getTraineeAttendance)}
                         </Grid>
                         {attendance.status === "PRESENT" ? (
                           <Grid
