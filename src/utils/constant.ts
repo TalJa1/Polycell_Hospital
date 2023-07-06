@@ -49,3 +49,9 @@ export interface GeneralSchedule {
 }
 
 export type Role = "TRAINEE" | "TRAINER" | "";
+
+export interface ErrorItem {
+  id: string;
+  email: string;
+  overlappedDayTimes: string[];
+}

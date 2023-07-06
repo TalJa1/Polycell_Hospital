@@ -35,7 +35,6 @@ import React, {
 } from "react";
 import ClassAddFormPopup from "./ClassAddFormPopup";
 import TodoGeneralTimeList from "./ClassAddTodoGeneralTimeList";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reduxs/Root";
 import {
@@ -49,7 +48,7 @@ import {
   fetchCreateClassDataSuccess,
 } from "../../actions/programAction";
 import programApi from "../../api/programApi";
-import { GeneralSchedule } from "../../utils/constant";
+import { ErrorItem, GeneralSchedule } from "../../utils/constant";
 import { formatGeneralSchedule } from "../../utils/formatDay";
 import { GridRowSelectionModel } from "@mui/x-data-grid";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -733,6 +732,8 @@ const ClassAddForm: React.FC = () => {
                 <ClassAddFormPopup
                   setSelectTraineeList={setSelectTraineeList}
                   selectTraineeList={selectTraineeList}
+                  overlapErrors={overlapErrors.map(e => e.id)}
+                  overlapErrorsDescription={overlapErrors}
                 />
               </Grid>
               <Grid item xs={12} sm={5}>
@@ -858,7 +859,7 @@ const ClassAddForm: React.FC = () => {
             <div style={styles.dialogContentScrollable}>
               {overlapErrors.map((overlap) => (
                 <div key={overlap.id}>
-                  <p style={styles.email}>Email: {overlap.email}</p>
+                  <p style={styles.email}>Name: {overlap.email}</p>
                   <p style={styles.overlappedTimes}>Overlapped Day Times:</p>
                   <ul style={styles.overlappedList}>
                     {overlap.overlappedDayTimes.map((dayTime, index) => (
@@ -890,11 +891,7 @@ const ClassAddForm: React.FC = () => {
 
 export default ClassAddForm;
 
-interface ErrorItem {
-  id: string;
-  email: string;
-  overlappedDayTimes: string[];
-}
+
 const styles = {
   dialogWrapper: {
     backgroundColor: "#f2f2f2",

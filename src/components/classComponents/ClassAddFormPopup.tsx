@@ -6,10 +6,12 @@ import {
   DialogContent,
   IconButton,
   Toolbar,
+  Tooltip,
   Typography,
+  makeStyles,
 } from "@mui/material";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { RootState } from "../../reduxs/Root";
@@ -17,42 +19,46 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchImportTraineeSuccess,
   fetchTraineeTotalSuccess,
-  fetchTraineesRequest,
   fetchTraineesSuccess,
 } from "../../actions/traineeAction";
 import traineeApi from "../../api/traineeApi";
 import {
   DataGrid,
+  GRID_CHECKBOX_SELECTION_COL_DEF,
   GridCallbackDetails,
+  GridCellParams,
   GridColDef,
   GridFilterItem,
   GridFilterModel,
-  GridRowId,
+  GridRowClassNameParams,
   GridRowSelectionModel,
-  GridToolbar,
   GridToolbarContainer,
   GridToolbarFilterButton,
   GridToolbarQuickFilter,
-  GridValueGetterParams,
-  GridFilterOperator,
   getGridStringOperators,
 } from "@mui/x-data-grid";
-import ClassAddDrawer from "./ClassAddDrawer";
 import { Trainee } from "../../models/traineeModel";
-import { WidthFull } from "@mui/icons-material";
-import styled from "@emotion/styled";
+import { ErrorItem } from "../../utils/constant";
+import WarningIcon from "@mui/icons-material/Warning";
+import "../../styles/ErrorOverLap.css"; // Import the CSS file
 
 interface ClassAddFormProps {
   selectTraineeList: GridRowSelectionModel;
   setSelectTraineeList: React.Dispatch<
     React.SetStateAction<GridRowSelectionModel>
   >;
+  overlapErrors: GridRowSelectionModel;
+  overlapErrorsDescription: ErrorItem[];
 }
 
 const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
   selectTraineeList,
   setSelectTraineeList,
+  overlapErrors,
+  overlapErrorsDescription,
 }) => {
+  console.log(overlapErrors);
+
   const { trainees, allTrainees } = useSelector(
     (state: RootState) => state.trainee
   );
@@ -117,17 +123,60 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
       var listItem = response.data as Trainee[];
       dispatch(fetchImportTraineeSuccess(response.data));
       // console.log(allTrainees)
-      var newTrainee = response.data.map((e: any) => e?.id) as GridRowSelectionModel;
+      var newTrainee = response.data.map(
+        (e: any) => e?.id
+      ) as GridRowSelectionModel;
       console.log(newTrainee);
       setRowSelectionModel([...rowSelectionModel, ...newTrainee]);
-      setSelectTraineeList([...newTrainee])
+      setSelectTraineeList([...newTrainee]);
       setSelectedTrainees(listItem);
     } catch (error) {
       console.error("Error fetching trainees:", error);
     }
   };
 
-  // console.log(urlFile)
+  const getRowClassName = (params: GridRowClassNameParams): string => {
+    if (overlapErrors.includes(params.id)) {
+      return "selected-row";
+    }
+    return "";
+  };
+
+  const renderCell = (params: GridCellParams): React.ReactNode => {
+    if (overlapErrors.includes(params.id) && params.field === "errorColumn") {
+      const errorItem = overlapErrorsDescription.find(
+        (item) => item.id === params.id
+      );
+      if (errorItem) {
+        return (
+          <>
+            <Tooltip title={"Overlap: " + errorItem.overlappedDayTimes.join(', ')}>
+              <WarningIcon />
+            </Tooltip>
+          </>
+        );
+
+        // <span style={{
+        //   display: "flex"
+        // }}>
+
+        //   {errorItem.overlappedDayTimes.join(', ')}
+        //   </span>;
+      }
+    }
+    return params.value as React.ReactNode;
+  };
+
+  const errorColumn: GridColDef = {
+    field: "errorColumn",
+    headerName: "",
+    width: 300,
+    sortable: false,
+    filterable: false,
+    renderCell: renderCell,
+  };
+
+  const columnsWithErrorMessage: GridColDef[] = [...columns, errorColumn];
 
   return (
     <div>
@@ -208,13 +257,21 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
         </AppBar>
         <DialogContent dividers>
           <Box>
-            {/* <TableStudent
-              rowSelectionModel={rowSelectionModel}
-              setRowSelectionModel={setRowSelectionModel}
-            /> */}
             <DataGrid
+              sx={{
+                "& .MuiDataGrid-columnHeaderCheckbox .MuiDataGrid-columnHeaderTitleContainer":
+                  {
+                    display: "none",
+                  },
+                "& .MuiDataGrid-cellCheckbox > span": {
+                  display: "none",
+                },
+                "& .MuiDataGrid-row.Mui-selected ": {
+                  backgroundColor: "#ffffcc",
+                },
+              }}
               rows={selectedTrainees}
-              columns={columns}
+              columns={columnsWithErrorMessage}
               initialState={{
                 pagination: {
                   paginationModel: {
@@ -224,6 +281,10 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
               }}
               pageSizeOptions={[5]}
               pagination
+              rowSelectionModel={overlapErrors}
+              checkboxSelection
+              keepNonExistentRowsSelected
+              getRowClassName={getRowClassName}
             />
           </Box>
 
@@ -426,7 +487,6 @@ const columns: GridColDef[] = [
     field: "name",
     headerName: "Name",
     width: 200,
-    editable: true,
     filterable: false,
   },
   {
@@ -434,7 +494,6 @@ const columns: GridColDef[] = [
     headerName: "Email",
     width: 200,
     filterable: false,
-    editable: true,
     sortable: false,
   },
   {
@@ -474,9 +533,3 @@ function CustomToolbar({ setFilterButtonEl }: CustomToolbarProps) {
     </GridToolbarContainer>
   );
 }
-
-// interface CustomFilterItem {
-//   columnField: string;
-//   operatorValue: GridFilterOperatorValue;
-//   value: any;
-// }
