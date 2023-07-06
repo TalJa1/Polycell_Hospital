@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Divider, Grid } from "@mui/material";
 import React from "react";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAttendanceTraineeSuccess } from "../../actions/attendanceAction";
 import { TraineeAttendance } from "../../models/trainneAttendance";
 import { RootState } from "../../reduxs/Root";
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 
 const TraineeAttendanceCp: React.FC = () => {
   const [clickedIndex, setClickedIndex] = React.useState<number>(0);
@@ -14,6 +15,7 @@ const TraineeAttendanceCp: React.FC = () => {
   const getTraineeAttendance: TraineeAttendance[] = useSelector(
     (state: RootState) => state.attendance.listAttendance
   );
+  const groupName: string = getTraineeAttendance[clickedIndex].className;
 
   const handleClick = (courseIndex: any) => {
     console.log("clicked index >> ", clickedIndex);
@@ -46,7 +48,7 @@ const TraineeAttendanceCp: React.FC = () => {
         sx={{
           backgroundColor: "white",
           margin: "1rem",
-          height: "700px",
+          minHeight: "700px",
         }}
       >
         <Grid container direction="row">
@@ -82,7 +84,7 @@ const TraineeAttendanceCp: React.FC = () => {
                   }}
                   onClick={() => handleClick(index)}
                 >
-                  {`${course.className} (${course.classCode})`}
+                  {`${course.programCode}`}
                 </Grid>
               ))}
           </Grid>
@@ -171,57 +173,62 @@ const TraineeAttendanceCp: React.FC = () => {
               <Grid>
                 {getTraineeAttendance[clickedIndex].attendances.map(
                   (attendance, index) => (
-                    <Grid container direction="row" key={index}>
-                      <Grid item xs={1}>
-                        {index + 1}
-                      </Grid>
-                      <Grid item xs={2}>
-                        {attendance.date.toString()}
-                      </Grid>
-                      <Grid item xs={2}>
-                        {attendance.startTime.toString()}
-                      </Grid>
-                      <Grid item xs={2}>
-                        {attendance.room.name}
-                      </Grid>
-                      {attendance.trainer === null ? (
+                    <Box key={index} sx={{padding: "5px"}}>
+                      <Grid container direction="row">
                         <Grid item xs={1}>
-                          Empty
+                          {index + 1}
                         </Grid>
-                      ) : (
-                        <Grid item xs={1}>
-                          {attendance.trainer.code}
+                        <Grid item xs={2}>
+                          {attendance.date.toString()}
                         </Grid>
-                      )}
-                      <Grid item xs={2}>
-                        {attendance.room.name}
+                        <Grid item xs={2}>
+                          {attendance.startTime.toString().substring(0, 5)}-
+                          {attendance.endTime.toString().substring(0, 5)}
+                        </Grid>
+                        <Grid item xs={2}>
+                          {attendance.room.name}
+                        </Grid>
+                        {attendance.trainer === null ? (
+                          <Grid item xs={1} >
+                            empty
+                          </Grid>
+                        ) : (
+                          <Grid item xs={1}>
+                            {attendance.trainer.code}
+                          </Grid>
+                        )}
+                        <Grid item xs={2}>
+                          {/* {attendance.room.name} */}
+                          {groupName}
+                        </Grid>
+                        {attendance.status === "PRESENT" ? (
+                          <Grid
+                            item
+                            xs={2}
+                            sx={{ color: "green", textAlign: "center" }}
+                          >
+                            {attendance.status}
+                          </Grid>
+                        ) : attendance.status === "ABSENT" ? (
+                          <Grid
+                            item
+                            xs={2}
+                            sx={{ color: "red", textAlign: "center" }}
+                          >
+                            {attendance.status}
+                          </Grid>
+                        ) : (
+                          <Grid
+                            item
+                            xs={2}
+                            sx={{ color: "blueviolet", textAlign: "center" }}
+                          >
+                            {attendance.status}
+                          </Grid>
+                        )}
                       </Grid>
-                      {attendance.status === "PRESENT" ? (
-                        <Grid
-                          item
-                          xs={2}
-                          sx={{ color: "green", textAlign: "center" }}
-                        >
-                          {attendance.status}
-                        </Grid>
-                      ) : attendance.status === "ABSENT" ? (
-                        <Grid
-                          item
-                          xs={2}
-                          sx={{ color: "red", textAlign: "center" }}
-                        >
-                          {attendance.status}
-                        </Grid>
-                      ) : (
-                        <Grid
-                          item
-                          xs={2}
-                          sx={{ color: "blueviolet", textAlign: "center" }}
-                        >
-                          {attendance.status}
-                        </Grid>
-                      )}
-                    </Grid>
+                      <Divider />
+                    </Box>
                   )
                 )}
               </Grid>
