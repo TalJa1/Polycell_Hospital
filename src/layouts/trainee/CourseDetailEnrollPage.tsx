@@ -4,6 +4,7 @@ import TraineeHeader from "../../components/layoutComponents/TraineeHeader";
 import Footer from "../../components/layoutComponents/Footer";
 import CourseDetailEnrollLeft from "../../components/courseDetaiEnrollOverview/CourseDetailEnrollLeft";
 import CourseDetailEnrollRight from "../../components/courseDetaiEnrollOverview/CourseDetailEnrollRight";
+import CourseDetailEnrollTabbar from "../../components/courseDetaiEnrollOverview/CourseDetailEnrollTabbar";
 
 const CourseDetailEnrollPage: React.FC = () => {
   return (
@@ -11,7 +12,7 @@ const CourseDetailEnrollPage: React.FC = () => {
       <TraineeHeader title="Pollycell" />
       <Box
         sx={{
-            background: "rgb(255, 255, 255)",
+          background: "rgb(255, 255, 255)",
           // display: "flex",
           // justifyContent: "center",
           // height: "100vh",
@@ -43,10 +44,13 @@ const CourseDetailEnrollPage: React.FC = () => {
           >
             <Grid container spacing={5} sx={{ justifyContent: "center" }}>
               <Grid item xs={7}>
-                <CourseDetailEnrollLeft/>
+                <CourseDetailEnrollLeft />
               </Grid>
               <Grid item xs={3}>
-                <CourseDetailEnrollRight/>
+                <CourseDetailEnrollRight />
+              </Grid>
+              <Grid item xs={10}>
+                <CourseDetailEnrollTabbar />
               </Grid>
             </Grid>
           </Box>

@@ -155,13 +155,6 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
             </Tooltip>
           </>
         );
-
-        // <span style={{
-        //   display: "flex"
-        // }}>
-
-        //   {errorItem.overlappedDayTimes.join(', ')}
-        //   </span>;
       }
     }
     return params.value as React.ReactNode;
