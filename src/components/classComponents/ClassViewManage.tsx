@@ -117,7 +117,6 @@ const Postdata: React.FC = () => {
           <div className="class-detail">
             <div className="column-9">
               <div className="tabs-container">
-                {/* <div className="tabs-position"> */}
                 <strong
                   style={{
                     color: "black",
@@ -142,7 +141,6 @@ const Postdata: React.FC = () => {
                     <Tab label="Rejected" {...a11yProps(3)} />
                   </Tabs>
                 </Box>
-                {/* </div> */}
               </div>
               <div className="class-show">
                 <div className="lable-div">

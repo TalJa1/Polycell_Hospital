@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Autocomplete, TextField } from "@mui/material";
+import { Button, Autocomplete, TextField, Box, Tabs, Tab } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
@@ -12,9 +12,8 @@ import classApi from "../../api/classApi";
 import { fetchClass } from "../../actions/classAction";
 
 const ClassAcceptCp: React.FC = () => {
-  const getClass: Class[] = useSelector(
-    (state: RootState) => state.class.list
-  );
+  const getClass: Class[] = useSelector((state: RootState) => state.class.list);
+  const [tabsValue, setTabsValue] = React.useState(0);
   const dispatch = useDispatch();
   const [search, setSearch] = React.useState<string>("");
 
@@ -23,10 +22,25 @@ const ClassAcceptCp: React.FC = () => {
     console.log(input);
   };
 
+  function a11yProps(index: number) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
+  const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
+    setTabsValue(newValue);
+  };
+
   const fetchClassApi = React.useCallback(async () => {
     try {
       const param = {
-        filterAnd: "classApprovals.status|jn|PENDING",
+        filterAnd:
+          tabsValue === 0
+            ? "status|eq|PLANNING"
+            : tabsValue === 1
+            ? "status|eq|PENDING"
+            : "status|eq|REJECTED",
         page: 0,
         size: 10,
       };
@@ -37,7 +51,7 @@ const ClassAcceptCp: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [dispatch]);
+  }, [dispatch, tabsValue]);
 
   React.useEffect(() => {
     fetchClassApi();
@@ -59,6 +73,31 @@ const ClassAcceptCp: React.FC = () => {
         </div>
         <div className="class-detail">
           <div className="column-9">
+            <div className="tabs-container">
+              <strong
+                style={{
+                  color: "black",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Status:{" "}
+              </strong>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={tabsValue}
+                  onChange={handleChangeTabs}
+                  aria-label="basic tabs example"
+                >
+                  <Tab label="Planning" {...a11yProps(0)} />
+                  <Tab label="Pending" {...a11yProps(1)} />
+                  {/* <Tab label="Opening" {...a11yProps(2)} />
+                  <Tab label="Closed" {...a11yProps(3)} /> */}
+                  <Tab label="Rejected" {...a11yProps(2)} />
+                </Tabs>
+              </Box>
+            </div>
             <div className="class-show">
               <div className="lable-div">
                 <span>Courses</span>
