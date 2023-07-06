@@ -2,18 +2,43 @@ import { Box, Grid } from "@mui/material";
 import React from "react";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
+import traineeApi from "../../api/traineeApi";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAttendanceTraineeSuccess } from "../../actions/attendanceAction";
+import { TraineeAttendance } from "../../models/trainneAttendance";
+import { RootState } from "../../reduxs/Root";
 
 const TraineeAttendanceCp: React.FC = () => {
-  const [clickedIndex, setClickedIndex] = React.useState<number>(1);
-  const [clickedIndexTerm, setClickedIndexTerm] = React.useState<number>(1);
+  const [clickedIndex, setClickedIndex] = React.useState<number>(0);
+  const dispatch = useDispatch();
+  const getTraineeAttendance: TraineeAttendance[] = useSelector(
+    (state: RootState) => state.attendance.listAttendance
+  );
 
   const handleClick = (courseIndex: any) => {
+    console.log("clicked index >> ", clickedIndex);
     setClickedIndex(courseIndex);
   };
 
-  const handleClickTerm = (dataIndex: any) => {
-    setClickedIndexTerm(dataIndex);
-  };
+  const fetchTraineeAttendance = React.useCallback(async () => {
+    try {
+      const response = await traineeApi.getTraineeAttendance(
+        {},
+        "673e3d95-bdac-426f-ab4b-4acb0a85554b"
+      );
+      // console.log("Response status >> ", response.status);
+      // console.log("Response >> ", response.data);
+      const action = fetchAttendanceTraineeSuccess(response.data);
+      dispatch(action);
+    } catch (error) {
+      console.log("Error >> ", error);
+    }
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    fetchTraineeAttendance();
+  }, [fetchTraineeAttendance]);
+
   return (
     <Box>
       <Header imageUrl="" title="Trainee Attendance" />
@@ -47,8 +72,8 @@ const TraineeAttendanceCp: React.FC = () => {
             >
               Course
             </Grid>
-            {clickedIndexTerm !== null &&
-              fakeData[clickedIndexTerm].Course.map((course, index) => (
+            {clickedIndex !== null &&
+              getTraineeAttendance.map((course, index) => (
                 <Grid
                   key={index}
                   sx={{
@@ -57,7 +82,7 @@ const TraineeAttendanceCp: React.FC = () => {
                   }}
                   onClick={() => handleClick(index)}
                 >
-                  {`${course.name} (${course.code})`}
+                  {`${course.className} (${course.classCode})`}
                 </Grid>
               ))}
           </Grid>
@@ -120,7 +145,7 @@ const TraineeAttendanceCp: React.FC = () => {
               </Grid>
               <Grid
                 item
-                xs={3}
+                xs={2}
                 sx={{
                   backgroundColor: "#6082B6",
                   border: "0.5px solid white",
@@ -131,7 +156,7 @@ const TraineeAttendanceCp: React.FC = () => {
               </Grid>
               <Grid
                 item
-                xs={1}
+                xs={2}
                 sx={{
                   backgroundColor: "#6082B6",
                   border: "0.5px solid white",
@@ -142,44 +167,58 @@ const TraineeAttendanceCp: React.FC = () => {
                 Status
               </Grid>
             </Grid>
-            {clickedIndexTerm !== null && clickedIndex !== null && (
+            {getTraineeAttendance.length > 0 && clickedIndex !== null && (
               <Grid>
-                {fakeData[clickedIndexTerm].Course[clickedIndex].attendance.map(
+                {getTraineeAttendance[clickedIndex].attendances.map(
                   (attendance, index) => (
                     <Grid container direction="row" key={index}>
                       <Grid item xs={1}>
                         {index + 1}
                       </Grid>
                       <Grid item xs={2}>
-                        {attendance.Date}
+                        {attendance.date.toString()}
                       </Grid>
                       <Grid item xs={2}>
-                        {attendance.Time}
+                        {attendance.startTime.toString()}
                       </Grid>
                       <Grid item xs={2}>
-                        {attendance.Room}
+                        {attendance.room.name}
                       </Grid>
-                      <Grid item xs={1}>
-                        {attendance.Trainer}
-                      </Grid>
-                      <Grid item xs={3}>
-                        {attendance.Group}
-                      </Grid>
-                      {attendance.Status === "present" ? (
-                        <Grid
-                          item
-                          xs={1}
-                          sx={{ color: "green", textAlign: "center" }}
-                        >
-                          {attendance.Status}
+                      {attendance.trainer === null ? (
+                        <Grid item xs={1}>
+                          Empty
                         </Grid>
                       ) : (
+                        <Grid item xs={1}>
+                          {attendance.trainer.code}
+                        </Grid>
+                      )}
+                      <Grid item xs={2}>
+                        {attendance.room.name}
+                      </Grid>
+                      {attendance.status === "PRESENT" ? (
+                        <Grid
+                          item
+                          xs={2}
+                          sx={{ color: "green", textAlign: "center" }}
+                        >
+                          {attendance.status}
+                        </Grid>
+                      ) : attendance.status === "ABSENT" ? (
                         <Grid
                           item
                           xs={2}
                           sx={{ color: "red", textAlign: "center" }}
                         >
-                          {attendance.Status}
+                          {attendance.status}
+                        </Grid>
+                      ) : (
+                        <Grid
+                          item
+                          xs={2}
+                          sx={{ color: "blueviolet", textAlign: "center" }}
+                        >
+                          {attendance.status}
                         </Grid>
                       )}
                     </Grid>
@@ -194,194 +233,5 @@ const TraineeAttendanceCp: React.FC = () => {
     </Box>
   );
 };
-
-const fakeData = [
-  {
-    Term: "Spring2020",
-    Course: [
-      {
-        name: "CourseIndex 1",
-        code: "ABC123",
-        attendance: [
-          {
-            Date: "20/20/2020",
-            Time: "17:00-20:00",
-            Room: "P001",
-            Trainer: "BV",
-            Group: "BVC201_SU20",
-            Status: "present",
-          },
-          {
-            Date: "20/20/2020",
-            Time: "17:00-20:00",
-            Room: "P001",
-            Trainer: "BV",
-            Group: "BVC201_SU20",
-            Status: "present",
-          },
-          {
-            Date: "20/20/2020",
-            Time: "17:00-20:00",
-            Room: "P001",
-            Trainer: "BV",
-            Group: "BVC201_SU20",
-            Status: "present",
-          },
-          {
-            Date: "20/20/2020",
-            Time: "17:00-20:00",
-            Room: "P001",
-            Trainer: "BV",
-            Group: "BVC201_SU20",
-            Status: "absent",
-          },
-        ],
-      },
-      {
-        name: "CourseIndex 2",
-        code: "DEF456",
-        attendance: [
-          {
-            Date: "20/20/2020",
-            Time: "17:00-20:00",
-            Room: "P002",
-            Trainer: "BV",
-            Group: "BVC201_SU20",
-            Status: "present",
-          },
-        ],
-      },
-      {
-        name: "CourseIndex 3",
-        code: "GHI789",
-        attendance: [
-          {
-            Date: "20/20/2020",
-            Time: "17:00-20:00",
-            Room: "P003",
-            Trainer: "BV",
-            Group: "BVC201_SU20",
-            Status: "present",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    Term: "Summer2020",
-    Course: [
-      {
-        name: "CourseIndex 4",
-        code: "ABC123",
-        attendance: [
-          {
-            Date: "20/20/2020",
-            Time: "17:00-20:00",
-            Room: "P004",
-            Trainer: "BV",
-            Group: "BVC201_SU20",
-            Status: "present",
-          },
-        ],
-      },
-      {
-        name: "CourseIndex 5",
-        code: "DEF456",
-        attendance: [
-          {
-            Date: "20/20/2020",
-            Time: "17:00-20:00",
-            Room: "P001",
-            Trainer: "BV",
-            Group: "BVC201_SU20",
-            Status: "present",
-          },
-        ],
-      },
-      {
-        name: "CourseIndex 6",
-        code: "GHI789",
-        attendance: [
-          {
-            Date: "20/20/2020",
-            Time: "17:00-20:00",
-            Room: "P001",
-            Trainer: "BV",
-            Group: "BVC201_SU20",
-            Status: "present",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    Term: "Autumn2020",
-    Course: [
-      {
-        name: "CourseIndex 7",
-        code: "ABC123",
-        attendance: [
-          {
-            Date: "20/20/2020",
-            Time: "17:00-20:00",
-            Room: "P001",
-            Trainer: "BV",
-            Group: "BVC201_SU20",
-            Status: "present",
-          },
-        ],
-      },
-      {
-        name: "CourseIndex 8",
-        code: "DEF456",
-        attendance: [
-          {
-            Date: "20/20/2020",
-            Time: "17:00-20:00",
-            Room: "P001",
-            Trainer: "BV",
-            Group: "BVC201_SU20",
-            Status: "present",
-          },
-        ],
-      },
-      {
-        name: "CourseIndex 9",
-        code: "GHI789",
-        attendance: [
-          {
-            Date: "20/20/2020",
-            Time: "17:00-20:00",
-            Room: "P001",
-            Trainer: "BV",
-            Group: "BVC201_SU20",
-            Status: "present",
-          },
-        ],
-      },
-    ],
-  },
-];
-
-// const fakeData2 = [
-//   {
-//     Term: "Spring2020",
-//     Course: [
-//       {
-//         name: "CourseIndex 1",
-//         code: "ABC123",
-//         attendance: [
-//           {
-//             Date: "20/20/2020",
-//             Time: "17:00-20:00",
-//             Room: "P001",
-//             Trainer: "BV",
-//             Group: "BVC201_SU20",
-//             Status: "absent",
-//           },
-//         ],
-//       },
-//     ],
-//   },]
 
 export default TraineeAttendanceCp;

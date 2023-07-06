@@ -1,5 +1,6 @@
 import { Attendance } from "../models/attendaceModel";
-import { FETCH_ATTENDANCE_ERROR, FETCH_ATTENDANCE_REQUEST, FETCH_ATTENDANCE_SUCCESS } from "../utils/constant";
+import { TraineeAttendance } from "../models/trainneAttendance";
+import { FETCH_ATTENDANCE_ERROR, FETCH_ATTENDANCE_REQUEST, FETCH_ATTENDANCE_SUCCESS, FETCH_TRAINEES_ATTENDANCE } from "../utils/constant";
 
 
 export const fetchAttendanceRequest = (): FetchAttendanceRequestAction => ({
@@ -10,6 +11,13 @@ export const fetchAttendanceRequest = (): FetchAttendanceRequestAction => ({
     attendance: Attendance[]
   ): FetchAttendanceSuccessAction => ({
     type: FETCH_ATTENDANCE_SUCCESS,
+    payload: attendance,
+  });
+
+  export const fetchAttendanceTraineeSuccess = (
+    attendance: TraineeAttendance[]
+  ): FetchAttendanceTraineeAction => ({
+    type: FETCH_TRAINEES_ATTENDANCE,
     payload: attendance,
   });
   
@@ -23,7 +31,8 @@ export const fetchAttendanceRequest = (): FetchAttendanceRequestAction => ({
   export type AttendanceAction =
     | FetchAttendanceRequestAction
     | FetchAttendanceSuccessAction
-    | FetchAttendanceErrorAction;
+    | FetchAttendanceErrorAction
+    | FetchAttendanceTraineeAction;
   
   // INTERFACE
   interface FetchAttendanceRequestAction {
@@ -38,4 +47,9 @@ export const fetchAttendanceRequest = (): FetchAttendanceRequestAction => ({
   interface FetchAttendanceErrorAction {
     type: typeof FETCH_ATTENDANCE_ERROR;
     payload: string;
+  }
+
+  interface FetchAttendanceTraineeAction {
+    type: typeof FETCH_TRAINEES_ATTENDANCE;
+    payload: TraineeAttendance[];
   }

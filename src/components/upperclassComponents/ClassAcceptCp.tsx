@@ -40,7 +40,7 @@ const ClassAcceptCp: React.FC = () => {
             ? "status|eq|PLANNING"
             : tabsValue === 1
             ? "status|eq|PENDING"
-            : "status|eq|REJECTED",
+            : "status|eq|REJECT",
         page: 0,
         size: 10,
       };
