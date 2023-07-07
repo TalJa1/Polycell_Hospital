@@ -6,7 +6,7 @@ export interface Schedule {
   startTime: string;
   endTime: string;
   room: Room;
-  clazz: Class;
+  class: Class;
 }
 
 export interface Room {

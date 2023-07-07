@@ -42,6 +42,7 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
 }) => {
   const navigate = useNavigate();
   const { list } = useSelector((state: RootState) => state.class);
+  const { id } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>();
   const [listOverlap, setListOverlap] = useState<Overlap[]>([]);
@@ -92,7 +93,7 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
     try {
       const param = {
         classId: selectedRow?.at(0),
-        traineeId: "fde8a680-93cc-4f80-9b5d-c70641a17127",
+        traineeId: id,
       };
 
       
@@ -101,10 +102,12 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
       const response = await classApi.enrollToClassByTrainee(param);
       const { data, status } = response;
 
+      
+
       if (status === 200) {
         if (data.overlappedSchedule === null) {
           // console.log("Post request successful:", response.data);
-        //   navigate("/class-management");
+          navigate("/course-list-page");
         handleCloseDialogOverlap();
         } else {
           setListOverlap(data.overlappedSchedule);

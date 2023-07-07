@@ -20,7 +20,7 @@ const initialState: ScheduleState = {
     date: "",
     startTime: "",
     endTime: "",
-    clazz: {} as Class,
+    class: {} as Class,
     room: {} as Room,
   },
   loading: false,

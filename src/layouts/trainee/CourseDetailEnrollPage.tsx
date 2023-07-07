@@ -5,6 +5,7 @@ import Footer from "../../components/layoutComponents/Footer";
 import CourseDetailEnrollLeft from "../../components/courseDetaiEnrollOverview/CourseDetailEnrollLeft";
 import CourseDetailEnrollRight from "../../components/courseDetaiEnrollOverview/CourseDetailEnrollRight";
 import CourseDetailEnrollTabbar from "../../components/courseDetaiEnrollOverview/CourseDetailEnrollTabbar";
+import { useLocation } from "react-router-dom";
 
 const CourseDetailEnrollPage: React.FC = () => {
   return (

@@ -8,50 +8,49 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import CourseCard from "../traineeHomeComponents/CourseCard";
 import CourseCardViewCp from "../traineeHomeComponents/CourseCardViewCp";
+import { Program } from "../../models/programAddModel";
+import { RootState } from "../../reduxs/Root";
+import { useDispatch, useSelector } from "react-redux";
+import programApi from "../../api/programApi";
+import { fetchProgramsSuccess } from "../../actions/programAction";
 
 const TraineCourseListCp: React.FC = () => {
-  const courseData = [
-    {
-      name: "Course 1",
-      image: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-      description:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
-    },
-    {
-      name: "Course 2",
-      image: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-      description:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
-    },
-    {
-      name: "Course 3",
-      image: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-      description:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
-    },
-    {
-      name: "Course 4",
-      image: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-      description:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
-    },
-    {
-      name: "Course 5",
-      image: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-      description:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
-    },
-    {
-      name: "Course 6",
-      image: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-      description:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur accusamus hic ea in autem debitis minima.",
-    },
-    // Add more courses as needed
-  ];
+
+  const programs: Program[] = useSelector(
+    (state: RootState) => state.program.programs
+  );
+  const dispatch = useDispatch();
+
+  const fetchProgram = useCallback(async () => {
+    try {
+
+      const response = await programApi.getProgram();
+
+      dispatch(fetchProgramsSuccess(response.data));
+
+      // programApi
+      //   .getProgram
+      //   .then((response) => {
+      //     const programs = response.data;
+      //     dispatch(fetchProgramsSuccess(programs));
+      //     console.log(response);
+      //   })
+      //   .catch((error) => {
+      //     dispatch(fetchProgramsError(error.message));
+      //   });
+
+      // console.log(topics);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchProgram();
+  }, [fetchProgram]);
 
   return (
     <div>
@@ -151,13 +150,11 @@ const TraineCourseListCp: React.FC = () => {
             </Box>
           </Grid>
           <Grid item xs={7}>
-            <Box sx={{}}>
-              {courseData.map((course, index) => (
+            <Box>
+              {programs.map((program, index) => (
                 <CourseCardViewCp
                   key={index}
-                  name={course.name}
-                  image={course.image}
-                  description={course.description}
+                  program={program}
                 />
               ))}
             </Box>

@@ -3,8 +3,11 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import CourseDetailOverviewCp from "./CourseDetailOverviewCp";
 import CourseDetailSyllabusCp from "./CourseDetailSyllabusCp";
+import { useLocation } from "react-router-dom";
+import { Program } from "../../models/programAddModel";
 
 const CourseDetailEnrollTabbar: React.FC = () => {
+
   const [selectedTab, setSelectedTab] = useState(0);
 
   const handleTabChange = (event: React.SyntheticEvent, newTab: number) => {
@@ -52,7 +55,6 @@ const CourseDetailEnrollTabbar: React.FC = () => {
 
       {selectedTab === 0 && <CourseDetailOverviewCp />}
       {selectedTab === 1 && <CourseDetailSyllabusCp />}
-      {/* {selectedTab === 2 && <CourseDetailInstructorCp />} */}
     </Box>
   );
 };

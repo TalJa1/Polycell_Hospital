@@ -119,7 +119,7 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
             <Typography
               onClick={() => {
                 if (role === "TRAINEE") {
-                  navigate("/homeTrainee");
+                  navigate("/course-list-page");
                 } else {
                   navigate("/home");
                 }

@@ -21,9 +21,14 @@ import {
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { Calendar } from "antd";
+import scheduleApi from "../../api/schedule";
+import { fetchScheduleSuccess } from "../../actions/scheduleAction";
+import { Schedule } from "../../models/scheduleModel";
 
 const ScheduleTraineeListData: React.FC = () => {
-  const { list } = useSelector((state: RootState) => state.attendance);
+  const { list } = useSelector((state: RootState) => state.schedule);
+  const { id } = useSelector((state: RootState) => state.user);
+
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -31,28 +36,28 @@ const ScheduleTraineeListData: React.FC = () => {
 
   const fetchSchedule = useCallback(async () => {
     try {
-      const response = await attendanceApi.getAttendanceOfTrainee(
-        "00bcab59-5ddd-4528-b811-d85a8f0e27f7"
-      );
+      const response = await scheduleApi.getScheduleOfTrainee(id);
       const { data } = response;
 
-      dispatch(fetchAttendanceSuccess(data));
+      console.log(data);
+
+      dispatch(fetchScheduleSuccess(data));
     } catch (error) {
       console.error("Error fetching trainees:", error);
     }
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     fetchSchedule();
   }, [fetchSchedule]);
 
+  console.log(list);
+
   const getList = (value: Dayjs) => {
     const dateStr = value.format("DD/MM/YYYY");
-    const events = list.filter(
-      (item: Attendance) => item.schedule.date === dateStr
-    );
-    const listData: { type: string; content: Attendance }[] = events.map(
-      (item: Attendance) => ({
+    const events = list.filter((item: Schedule) => item.date === dateStr);
+    const listData: { type: string; content: Schedule }[] = events.map(
+      (item: Schedule) => ({
         type: "success",
         content: item,
       })
@@ -66,25 +71,11 @@ const ScheduleTraineeListData: React.FC = () => {
       <Box>
         {listData.map((item, index) => (
           <Box key={index}>
-            <Typography variant="body1">
-              {item.content.schedule.clazz.code}
+            <Typography variant="body1">{item.content.class.code}</Typography>
+            <Typography variant="caption">
+              ({dayjs(item.content.startTime, "HH:mm:ss").format("HH:mm")}-
+              {dayjs(item.content.endTime, "HH:mm:ss").format("HH:mm")})
             </Typography>
-            <Box>
-              <Typography variant="caption">{item.content.status}</Typography>
-            </Box>
-            <Box>
-              <Typography variant="caption">
-                (
-                {dayjs(item.content.schedule.startTime, "HH:mm:ss").format(
-                  "HH:mm"
-                )}
-                -
-                {dayjs(item.content.schedule.endTime, "HH:mm:ss").format(
-                  "HH:mm"
-                )}
-                )
-              </Typography>
-            </Box>
           </Box>
         ))}
       </Box>
@@ -140,98 +131,66 @@ const ScheduleTraineeListData: React.FC = () => {
         <DialogContent>
           {selectedDate && (
             <Box>
-              {getList(selectedDate).length > 0 ? (
-                getList(selectedDate).map((item, index) => (
-                  <>
-                    <Box
-                      key={index}
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
+              {getList(selectedDate).map((item, index) => (
+                <Box key={index}>
+                  <Box
+                    key={index}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
 
-                        paddingBottom: "10px",
+                      paddingBottom: "10px",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        paddingRight: "20px",
                       }}
                     >
-                      <Box
-                        sx={{
-                          paddingRight: "20px",
-                        }}
-                      >
-                        <AccessTimeIcon />
-                      </Box>
-                      <Typography color="GrayText">
-                        {dayjs(item.content.schedule.date, "DD/MM/YYYY").format(
-                          "dddd, D MMMM"
-                        )}{" "}
-                        (
-                        {dayjs(
-                          item.content.schedule.startTime,
-                          "HH:mm:ss"
-                        ).format("HH:mm")}{" "}
-                        -{" "}
-                        {dayjs(
-                          item.content.schedule.endTime,
-                          "HH:mm:ss"
-                        ).format("HH:mm")}
-                        )
+                      <AccessTimeIcon />
+                    </Box>
+                    <Typography color="GrayText">
+                      {dayjs(item.content.date, "DD/MM/YYYY").format(
+                        "dddd, D MMMM"
+                      )}{" "}
+                      (
+                      {dayjs(item.content.startTime, "HH:mm:ss").format(
+                        "HH:mm"
+                      )}{" "}
+                      -{" "}
+                      {dayjs(item.content.endTime, "HH:mm:ss").format("HH:mm")})
+                    </Typography>
+                  </Box>
+                  <Box
+                    key={index}
+                    sx={{
+                      display: "flex",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        paddingRight: "20px",
+                      }}
+                    >
+                      <CalendarMonthIcon />
+                    </Box>
+
+                    <Box
+                      sx={
+                        {
+                          // display: "flex",
+                          // alignItems: "center",
+                        }
+                      }
+                    >
+                      <Typography>{item.content.class.code} </Typography>
+                      <Typography variant="caption">
+                        at {item.content.room.name}
                       </Typography>
                     </Box>
-                    <Box
-                      key={index}
-                      sx={{
-                        display: "flex",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          paddingRight: "20px",
-                        }}
-                      >
-                        <CalendarMonthIcon />
-                      </Box>
-
-                      <Box
-                        sx={
-                          {
-                            // display: "flex",
-                            // alignItems: "center",
-                          }
-                        }
-                      >
-                        <Typography>
-                          {item.content.schedule.clazz.code} (
-                          <Typography variant="caption">
-                            {item.content.status}
-                          </Typography>
-                          )
-                        </Typography>
-                        <Box>
-                          <Typography variant="caption">
-                            Lecture: {item.content.schedule.clazz.trainer.name}
-                          </Typography>
-                        </Box>
-
-                        <Typography variant="caption">
-                          at {item.content.schedule.room.name}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    {getList(selectedDate).length > 1 ? (
-                      <Divider
-                        sx={{ marginTop: "10px", marginBottom: "10px" }}
-                      />
-                    ) : (
-                      <></>
-                    )}
-                  </>
-                ))
-              ) : (
-                <>
-                <Typography>
-                    No event
-                </Typography>
-                </>
-              )}
+                  </Box>
+                </Box>
+              ))}
             </Box>
           )}
         </DialogContent>
