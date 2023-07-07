@@ -1,7 +1,11 @@
 import { Class } from "../models/classManagementModel";
 import { Cycle, Program, Trainer } from "../models/programAddModel";
 import { Trainees } from "../models/traineeModel";
-import { CREATE_CLASS_REQUEST, CREATE_CLASS_SUCCESS } from "../utils/constant";
+import {
+  CREATE_CLASS_REQUEST,
+  CREATE_CLASS_SUCCESS,
+  FETCH_CLASS_BY_PROGRAMID,
+} from "../utils/constant";
 
 interface initState {
   class: Class;
@@ -84,6 +88,11 @@ const ClassReducer = (state = initialState, { type, payload }: Props) => {
       return {
         ...state,
         class: payload,
+      };
+    case FETCH_CLASS_BY_PROGRAMID:
+      return {
+        ...state,
+        list: payload,
       };
 
     default:

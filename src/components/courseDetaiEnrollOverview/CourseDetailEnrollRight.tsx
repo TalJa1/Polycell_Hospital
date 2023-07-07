@@ -1,86 +1,55 @@
+import React, { useState } from "react";
 import {
+  AppBar,
   Box,
   Button,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControlLabel,
   FormGroup,
+  IconButton,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import React from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import styled from "@emotion/styled";
+import ChooseClassEnroll from "./ChooseClassEnroll";
+import { GridToolbarContainer, GridToolbarFilterButton, GridToolbarQuickFilter } from "@mui/x-data-grid";
 
 const CourseDetailEnrollRight: React.FC = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleOpenDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
   return (
     <div>
-      <Box
+      <GradientButton
         sx={{
-          border: "1px solid rgb(238, 238, 238)",
-          padding: "16px 20px",
-          marginBottom: "30px"
+          width: "100%",
+          padding: "20px 0",
+          backgroundColor:
+            "linear-gradient(90deg, rgb(17, 182, 122) 0%, rgb(0, 148, 68) 100%)",
         }}
+        onClick={handleOpenDialog}
       >
-        <Typography variant="h5">Choose class to enroll</Typography>
-
-        <Box
-          sx={{
-            borderBottom: "2px solid rgb(17, 182, 122)",
-            width: "50px",
-            marginBottom: "20px",
-          }}
-        />
-
-        <FormGroup>
-          <FormControlLabel
-            sx={{
-              borderTop: "1px dashed rgb(221, 221, 221)",
-              padding: "10px 0px",
-            }}
-            control={<Checkbox />}
-            label="Class 1"
-          />
-          <FormControlLabel
-            sx={{
-              borderTop: "1px dashed rgb(221, 221, 221)",
-              padding: "10px 0px",
-            }}
-            control={<Checkbox />}
-            label="Class 1"
-          />
-          <FormControlLabel
-            sx={{
-              borderTop: "1px dashed rgb(221, 221, 221)",
-              padding: "10px 0px",
-            }}
-            control={<Checkbox />}
-            label="Class 1"
-          />
-          <FormControlLabel
-            sx={{
-              borderTop: "1px dashed rgb(221, 221, 221)",
-              padding: "10px 0px",
-            }}
-            control={<Checkbox />}
-            label="Class 1"
-          />
-        </FormGroup>
-        <GradientButton
-          sx={{
-            width: "100%",
-            // margin: "50px 0",
-            backgroundColor:
-              "linear-gradient(90deg, rgb(17, 182, 122) 0%, rgb(0, 148, 68) 100%)",
-          }}
-        >
-          Enroll
-        </GradientButton>
-      </Box>
+        Enroll
+      </GradientButton>
       <Box
         sx={{
           border: "1px solid rgb(238, 238, 238)",
           padding: "16px 20px ",
-          marginBottom: "30px",
+          margin: "30px 0",
         }}
       >
         <Typography variant="h5">Courses Details</Typography>
@@ -134,6 +103,11 @@ const CourseDetailEnrollRight: React.FC = () => {
           </Box>
         </Box>
       </Box>
+
+      <ChooseClassEnroll
+        dialogOpen={dialogOpen}
+        handleCloseDialog={handleCloseDialog}
+      />
     </div>
   );
 };
@@ -148,3 +122,4 @@ const GradientButton = styled(Button)`
   );
   color: white;
 `;
+

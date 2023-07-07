@@ -252,23 +252,10 @@ const ClassAddForm: React.FC = () => {
   };
 
   const createError = (overlappedSchedules: any[]) => {
-    const { trainers } = createClassData;
 
     var listError: ErrorItem[] = [];
 
     overlappedSchedules.forEach((e) => {
-      // if (trainers.find((t) => t.id === e.id) !== null) {
-      //   const errorItem: ErrorItem = {
-      //     email:
-      //       trainers.find((t) => t.id === e.id)!.name +
-      //       " (" +
-      //       trainers.find((t) => t.id === e.id)!.code +
-      //       ")",
-      //     overlappedDayTimes: [...e.overlappedDayTimes],
-      //   };
-      //   listError.push(errorItem);
-      //   setOverlapErrors([...listError]);
-      // }
       const errorItem: ErrorItem = {
         id: e.id,
         email: e.name + " (" + e.code + ")",
