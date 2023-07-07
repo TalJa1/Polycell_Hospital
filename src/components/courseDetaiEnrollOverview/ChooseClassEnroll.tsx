@@ -92,7 +92,7 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
     try {
       const param = {
         classId: selectedRow?.at(0),
-        traineeId: "524a14d5-2cd4-48fb-b66a-fd195823a1b6",
+        traineeId: "fde8a680-93cc-4f80-9b5d-c70641a17127",
       };
 
       
