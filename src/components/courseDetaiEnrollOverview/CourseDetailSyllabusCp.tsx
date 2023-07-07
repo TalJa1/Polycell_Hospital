@@ -168,13 +168,13 @@ const CourseDetailSyllabusCp: React.FC = () => {
                   Assessment Schemes
                 </Box>
               </TableCell>
-              {syllabus.assessmentSchemes.map((e: AssessmentScheme) => (
-                <>
-                  <TableCell>
+              {syllabus.assessmentSchemes.map(
+                (e: AssessmentScheme, index: number) => (
+                  <TableCell key={index}>
                     {e.category}: {e.weight}
                   </TableCell>
-                </>
-              ))}
+                )
+              )}
             </TableRow>
           </TableBody>
         </Table>
@@ -221,15 +221,13 @@ const CourseDetailSyllabusCp: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {syllabus.materials.map((e: Material) => (
-              <>
-                <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell>{e.name}</TableCell>
-                  <TableCell>{e.description}</TableCell>
-                  <TableCell>{e.link}</TableCell>
-                </TableRow>
-              </>
+            {syllabus.materials.map((e: Material, index: number) => (
+              <TableRow key={index}>
+                <TableCell></TableCell>
+                <TableCell>{e.name}</TableCell>
+                <TableCell>{e.description}</TableCell>
+                <TableCell>{e.link}</TableCell>
+              </TableRow>
             ))}
           </TableBody>
         </Table>
@@ -245,56 +243,55 @@ const CourseDetailSyllabusCp: React.FC = () => {
         }}
       />
       <Box>
-        {syllabus.modules.map((e: Module) => (
-          <>
+        {syllabus.modules.map((e: Module, index: number) => (
+          <Box key={index}>
             <Box>
               <Box>
-                <Box>
-                  {e.sessions.map((e: Session) => (
-                    <Box>
-                      <Box sx={{
+                {e.sessions.map((e: Session, index: number) => (
+                  <Box key={index}>
+                    <Box
+                      sx={{
                         display: "flex",
-                        justifyContent: "space-between"
-                      }}>
-                        <Typography variant="h6">
-                          Session {e.sessionNo}
-                        </Typography>
-                        
-                        <Typography variant="body1">
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Typography variant="h6">
+                        Session {e.sessionNo}
+                      </Typography>
+
+                      <Typography variant="body1">
                         {e.units.length} Lectures
-
-                        </Typography>
-                      </Box>
-
-                      <Box sx={{ paddingLeft: "30px" }}>
-                        {e.units.map((e: Unit) => (
-                          <Box>
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItem: "center",
-                                padding: "20px 0",
-                              }}
-                            >
-                              <ArticleIcon
-                                sx={{
-                                  color: "rgb(17, 182, 122)",
-                                  paddingRight: "10px",
-                                }}
-                              />
-                              <Typography variant="body1">{e.name}</Typography>
-                            </Box>
-
-                            <Divider />
-                          </Box>
-                        ))}
-                      </Box>
+                      </Typography>
                     </Box>
-                  ))}
-                </Box>
+
+                    <Box sx={{ paddingLeft: "30px" }}>
+                      {e.units.map((e: Unit, index: number) => (
+                        <Box key={index}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItem: "center",
+                              padding: "20px 0",
+                            }}
+                          >
+                            <ArticleIcon
+                              sx={{
+                                color: "rgb(17, 182, 122)",
+                                paddingRight: "10px",
+                              }}
+                            />
+                            <Typography variant="body1">{e.name}</Typography>
+                          </Box>
+
+                          <Divider />
+                        </Box>
+                      ))}
+                    </Box>
+                  </Box>
+                ))}
               </Box>
             </Box>
-          </>
+          </Box>
         ))}
       </Box>
     </Box>
