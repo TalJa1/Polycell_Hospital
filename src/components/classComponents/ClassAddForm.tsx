@@ -80,8 +80,8 @@ const ClassAddForm: React.FC = () => {
   const [selectedTrainer, setselectedTrainer] = useState<Trainer | null>(null);
   const [selectedCycle, setSelectedCyle] = useState<Cycle | null>(null);
   const [selectCard, setSelectedCard] = useState<any | null>(null);
-  const [selectStartDate, setSelectedStartDate] = useState<Dayjs | null>();
-  const [selectEndDate, setSelectedEndDate] = useState<Dayjs>();
+  const [selectStartDate, setSelectedStartDate] = useState<Dayjs | null>(null);
+  const [selectEndDate, setSelectedEndDate] = useState<Dayjs | null>(null);
   const [selectQuantity, setSelectedQuantity] = useState<string>("");
   const [seletcMaxQuantity, setMaxQuantity] = useState<string>("");
   const [seletcMinQuantity, setMinQuantity] = useState<string>("");
@@ -165,15 +165,23 @@ const ClassAddForm: React.FC = () => {
     event: React.ChangeEvent<{}>,
     value: Cycle | null
   ) => {
+    console.log(value);
+
     setSelectedCyle(value);
     setSelectedCard(value);
-    setSelectedStartDate(dayjs());
-    setSelectedEndDate(dayjs().add(value?.duration as number, "month"));
+
+    if (value === null) {
+      setSelectedStartDate(null);
+      setSelectedEndDate(null);
+    } else {
+      setSelectedStartDate(dayjs());
+      setSelectedEndDate(dayjs().add(value?.duration as number, "month"));
+    }
   };
 
   const handleStartDateChange = (date: Dayjs | null) => {
     setSelectedStartDate(date);
-    setSelectedEndDate(date?.add(selectedCycle?.duration as number, "month"));
+    setSelectedEndDate(date!.add(selectedCycle?.duration as number, "month"));
   };
 
   const fetchCreateClassDataForm = useCallback(async () => {
@@ -252,7 +260,6 @@ const ClassAddForm: React.FC = () => {
   };
 
   const createError = (overlappedSchedules: any[]) => {
-
     var listError: ErrorItem[] = [];
 
     overlappedSchedules.forEach((e) => {
@@ -719,7 +726,7 @@ const ClassAddForm: React.FC = () => {
                 <ClassAddFormPopup
                   setSelectTraineeList={setSelectTraineeList}
                   selectTraineeList={selectTraineeList}
-                  overlapErrors={overlapErrors.map(e => e.id)}
+                  overlapErrors={overlapErrors.map((e) => e.id)}
                   overlapErrorsDescription={overlapErrors}
                 />
               </Grid>
@@ -877,7 +884,6 @@ const ClassAddForm: React.FC = () => {
 };
 
 export default ClassAddForm;
-
 
 const styles = {
   dialogWrapper: {
