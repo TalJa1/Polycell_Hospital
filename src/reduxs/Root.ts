@@ -5,6 +5,7 @@ import ProgramReducer from "./ProgramRedux";
 import traineeReducer from "./TraineeRedux";
 import scheduleReducer from "./ScheduleRedux";
 import attendanceReducer from "./AttendanceRedux";
+import SyllabusReducer from "./SyllabusRedux";
 
 const rootReducer = combineReducers({
   user: UserReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   program: ProgramReducer,
   trainee: traineeReducer,
   schedule: scheduleReducer,
-  attendance: attendanceReducer
+  attendance: attendanceReducer,
+  syllabus: SyllabusReducer
 });
 
 

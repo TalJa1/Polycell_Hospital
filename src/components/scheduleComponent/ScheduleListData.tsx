@@ -65,7 +65,7 @@ const ScheduleListData: React.FC = () => {
         {listData.map((item, index) => (
           <Box key={index}>
             <Typography variant="body1">
-              {item.content.clazz.code}
+              {item.content.class.code}
             </Typography>
             <Typography variant="caption">
               ({dayjs(item.content.startTime, "HH:mm:ss").format("HH:mm")}-
@@ -180,7 +180,7 @@ const ScheduleListData: React.FC = () => {
                         }
                       }
                     >
-                      <Typography>{item.content.clazz.code} </Typography>
+                      <Typography>{item.content.class.code} </Typography>
                       <Typography variant="caption">
                         at {item.content.room.name}
                       </Typography>

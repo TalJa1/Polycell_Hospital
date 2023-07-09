@@ -1,6 +1,7 @@
 import { Dispatch } from "react";
 import classApi from "../api/classApi";
-import { CREATE_CLASS_REQUEST } from "../utils/constant";
+import { CREATE_CLASS_REQUEST, FETCH_CLASS_BY_PROGRAMID } from "../utils/constant";
+import { Class } from "../models/classManagementModel";
 
 //payload : list post
 export const fetchClass = (payload: any) => ({
@@ -27,6 +28,11 @@ export const paging = (payload: number) => {
     payload: payload,
   };
 };
+
+export const fetchClassByProgramId = (payload: Class) => ({
+  type: FETCH_CLASS_BY_PROGRAMID,
+  payload: payload,
+});
 
 // -----------
 export const createClassRequest = (): CreateClassRequestAction => ({

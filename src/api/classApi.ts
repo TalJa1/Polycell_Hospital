@@ -33,6 +33,14 @@ const classApi = {
     console.log("URL >> ", url);
     return axiosClient.post(url, params);
   },
+  getClassesByProgramId: (params: any) => {
+    const url = "/v1/class/page";
+    return axiosClient.get(url, params);
+  },
+  enrollToClassByTrainee: (params: any) => {
+    const url = "/v1/enrollment";
+    return axiosClient.post(url, params);
+  },
   // deleteBy: (param: any) => {
   //   const url = `/posts/${param}`;
   //   return axiosClient.delete(url);

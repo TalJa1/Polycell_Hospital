@@ -1,6 +1,11 @@
 import axiosClient from "./axiosClient";
 
 const programApi = {
+  getProgram: () => {
+    const url: string =
+      "/v1/program";
+    return axiosClient.get(url);
+  },
   getAllByTraineeId: (params: any) => {
     const url: string =
       "/v1/program/trainee/fce12db6-ebcc-4d60-bc6b-a357e8a96114";

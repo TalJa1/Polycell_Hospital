@@ -7,13 +7,15 @@ import TraineeHome from "./trainee/TraineeHome";
 import TraineeHeader from "../components/layoutComponents/TraineeHeader";
 import { Box } from "@mui/material";
 import Footer from "../components/layoutComponents/Footer";
-import { AppProviderContext } from "../provider/Provider";
-import Header from "../components/layoutComponents/Header";
-import TraineeHomeComponent from "../components/traineeHomeComponents/TraineeHomeComponent";
 import HomeCp from "../components/classComponents/HomeCp";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../reduxs/Root";
 
 const Home: React.FC = () => {
-  const { role, setRole } = React.useContext(AppProviderContext);
+  const { role } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+
+console.log(role)
 
   return (
     <div className="container">

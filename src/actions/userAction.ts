@@ -1,3 +1,5 @@
+import { Role } from "../utils/constant";
+
 //payload : list user
 export const fetchUser = (payload: any) => ({
   type: "FETCHUSER",
@@ -10,10 +12,11 @@ export const fetchUserbyID = (payload: number) => ({
   payload: payload,
 });
 
-export const loginUser = (isLogin: boolean, user: string) => ({  
+export const loginUser = (isLogin: boolean, user: string, role: Role) => ({  
   type: "LOGINUSER",
   payload: {
     isLogin : isLogin,
-    userEmail : user
+    userEmail : user,
+    role: role
   },
 });

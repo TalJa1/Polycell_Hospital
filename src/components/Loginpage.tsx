@@ -25,7 +25,7 @@ function isValidEmail(email: any) {
 function Loginpage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { setRole } = useContext(AppProviderContext);
+  // const { setRole } = useContext(AppProviderContext);
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -55,23 +55,23 @@ function Loginpage() {
     }
 
     if (email === "admin@polycell.com" && password === "1") {
-      const action1 = loginUser(true, email);
+      const action1 = loginUser(true, email, "");
       dispatch(action1);
       navigate("/home");
     } else if (email === "upper@polycell.com" && password === "1") {
-      const action1 = loginUser(true, email);
+      const action1 = loginUser(true, email, "");
       dispatch(action1);
       navigate("/home");
     } else if (email === "trainer@polycell.com" && password === "1") {
-      const action1 = loginUser(true, email);
+      const action1 = loginUser(true, email, "TRAINER");
       dispatch(action1);
-      setRole("TRAINER");
+
       navigate("/home");
     } else if (email === "trainee@polycell.com" && password === "1") {
-      const action1 = loginUser(true, email);
+      const action1 = loginUser(true, email, "TRAINEE");
       dispatch(action1);
-      setRole("TRAINEE");
-      navigate("/homeTrainee");
+
+      navigate("/course-list-page");
     }
   };
 

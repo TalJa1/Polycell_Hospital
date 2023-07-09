@@ -22,6 +22,14 @@ export interface Class {
   program: Program;
   cycle: Cycle;
   trainer: Trainer;
+  trainees: Trainees[];
+  department: Department
+  // overlappedSchedules: Overlap[];
+}
+
+export interface Overlap {
+  id: string;
+  overlappedDayTimes: string[];
   trainees: Trainees[],
   department: Department
 }

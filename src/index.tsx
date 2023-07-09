@@ -21,11 +21,9 @@ root.render(
     <BrowserRouter>
       <ProSidebarProvider>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <AppProvider>
-            <EditModeProvider>
-              <App />
-            </EditModeProvider>
-          </AppProvider>
+          <EditModeProvider>
+            <App />
+          </EditModeProvider>
         </LocalizationProvider>
       </ProSidebarProvider>
     </BrowserRouter>
