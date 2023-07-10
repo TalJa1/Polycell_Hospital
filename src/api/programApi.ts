@@ -6,9 +6,9 @@ const programApi = {
       "/v1/program";
     return axiosClient.get(url);
   },
-  getAllByTraineeId: (params: any) => {
+  getProgramByTraineeId: (params: string) => {
     const url: string =
-      "/v1/program/trainee/fce12db6-ebcc-4d60-bc6b-a357e8a96114";
+      `/v1/program/trainee/${params}`;
     return axiosClient.get(url);
   },
   getProgramContent: (programId: string, trainerId: string) => {
@@ -20,5 +20,6 @@ const programApi = {
     return axiosClient.get(url);
   },
 };
+//fce12db6-ebcc-4d60-bc6b-a357e8a96114
 
 export default programApi;

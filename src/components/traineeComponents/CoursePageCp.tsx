@@ -26,13 +26,18 @@ const CoursePageCp: React.FC = () => {
   const programs: Program[] = useSelector(
     (state: RootState) => state.program.programs
   );
+  const {id} = useSelector(
+    (state: RootState) => state.user
+  );
   const dispatch = useDispatch();
+
+  console.log(id)
 
   const fetchTraineeProgram = useCallback(async () => {
     try {
       dispatch(fetchPrograms());
       programApi
-        .getAllByTraineeId({})
+        .getProgramByTraineeId(id)
         .then((response) => {
           const programs = response.data;
           dispatch(fetchProgramsSuccess(programs));
