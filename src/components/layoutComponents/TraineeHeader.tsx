@@ -53,6 +53,7 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
   const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [windowTop, setWindowTop] = React.useState<number>(0);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -95,9 +96,21 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
     </Menu>
   );
 
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      setWindowTop(scrollTop);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1}}>
+      <AppBar position={windowTop === 0 ? "static" : "fixed"}>
         <Toolbar
           sx={{
             backgroundColor: "#E6E6E6",
