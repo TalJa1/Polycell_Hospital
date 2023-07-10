@@ -150,7 +150,9 @@ const ClassAddFormPopup: React.FC<ClassAddFormProps> = ({
       if (errorItem) {
         return (
           <>
-            <Tooltip title={"Overlap: " + errorItem.overlappedDayTimes.join(', ')}>
+            <Tooltip
+              title={"Overlap: " + errorItem.overlappedDayTimes.join(", ")}
+            >
               <WarningIcon />
             </Tooltip>
           </>
@@ -380,10 +382,12 @@ function TableStudent({
       // const filterParams: any = {};
       var tmpParam: any = {};
 
+      console.log(quickFilterValues);
+
       // Iterate over the filter items and add the filter parameters to the filterParams object
-      if (items.length > 0) {
+      if (items.length > 0 || quickFilterValues!.length > 0) {
         items.forEach((filterItem: GridFilterItem) => {
-          const { field, operator, value } = filterItem;
+          const { field, value } = filterItem;
           console.log(filterItem);
           // var filterKey = "";
           // `filter[${field}][${operator}]`;
@@ -398,13 +402,20 @@ function TableStudent({
 
           // filterParams[filterKey] = value;
         });
+
+        quickFilterValues?.forEach((filterItem: GridFilterItem) => {
+          console.log(filterItem);
+
+          tmpParam = {
+            ...tmpParam,
+            q: filterItem,
+          };
+        });
       } else {
         tmpParam = {};
       }
-      setFilterParams(tmpParam);
 
-      // console.log(filterParams);
-      console.log(items);
+      setFilterParams(tmpParam);
 
       // Apply the filter parameters to the server-side API call and update the trainees list
       const param = {
