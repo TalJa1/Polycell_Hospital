@@ -35,6 +35,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import QuizIcon from "@mui/icons-material/Quiz";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import ArticleIcon from "@mui/icons-material/Article";
+import { Link } from "react-router-dom";
 
 const CourseDetailSyllabusCp: React.FC = () => {
   const { syllabus } = useSelector((state: RootState) => state.syllabus);
@@ -81,7 +82,7 @@ const CourseDetailSyllabusCp: React.FC = () => {
         <Table
           sx={{
             // minWidth: 300,
-            // width: "50%",
+            // width: "70%",
             "& .MuiTableCell-root": {
               border: "1px solid rgba(224, 224, 224, 1);",
             },
@@ -91,7 +92,7 @@ const CourseDetailSyllabusCp: React.FC = () => {
             <TableRow>
               <TableCell
                 sx={{
-                  width: "50%",
+                  width: "30%",
                   background:
                     "linear-gradient(90deg, rgb(17, 182, 122) 0%, rgb(0, 148, 68) 100%)",
                 }}
@@ -141,7 +142,7 @@ const CourseDetailSyllabusCp: React.FC = () => {
         <Table
           sx={{
             // minWidth: 300,
-            // width: "50%",
+            // width: "70%",
             "& .MuiTableCell-root": {
               border: "1px solid rgba(224, 224, 224, 1);",
             },
@@ -151,7 +152,7 @@ const CourseDetailSyllabusCp: React.FC = () => {
             <TableRow>
               <TableCell
                 sx={{
-                  width: "50%",
+                  width: "30%",
 
                   background:
                     "linear-gradient(90deg, rgb(17, 182, 122) 0%, rgb(0, 148, 68) 100%)",
@@ -198,7 +199,7 @@ const CourseDetailSyllabusCp: React.FC = () => {
             <TableRow>
               <TableCell
                 sx={{
-                  width: "50%",
+                  width: "30%",
 
                   background:
                     "linear-gradient(90deg, rgb(17, 182, 122) 0%, rgb(0, 148, 68) 100%)",
@@ -226,7 +227,9 @@ const CourseDetailSyllabusCp: React.FC = () => {
                 <TableCell></TableCell>
                 <TableCell>{e.name}</TableCell>
                 <TableCell>{e.description}</TableCell>
-                <TableCell>{e.link}</TableCell>
+                <TableCell>
+                  <Link to={e.link}>{e.link}</Link>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

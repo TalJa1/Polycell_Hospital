@@ -31,6 +31,7 @@ const CourseDetailEnrollLeft: React.FC = () => {
             backgroundRepeat: "no-repeat",
           }}
         ></Box>
+        <CourseDetailEnrollTabbar />
       </Box>
     </div>
   );

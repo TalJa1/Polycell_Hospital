@@ -50,9 +50,8 @@ const CourseDetailEnrollPage: React.FC = () => {
               <Grid item xs={3}>
                 <CourseDetailEnrollRight />
               </Grid>
-              <Grid item xs={10}>
-                <CourseDetailEnrollTabbar />
-              </Grid>
+              {/* <Grid item xs={10}>
+              </Grid> */}
             </Grid>
           </Box>
         </div>

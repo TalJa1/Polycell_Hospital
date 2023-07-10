@@ -12,6 +12,7 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import { Button } from "@mui/joy";
 import { useNavigate } from "react-router-dom";
 import { Program } from "../../models/programAddModel";
+import GroundImg from "../../assets/imgs/background.png";
 
 const CourseCardViewCp: React.FC<CourseCardProps> = ({
   program
@@ -24,6 +25,8 @@ const CourseCardViewCp: React.FC<CourseCardProps> = ({
         component="img"
         sx={{ width: 200 }}
         alt="Live from space album cover"
+        image={GroundImg}
+        
       />
       <Box sx={{ display: "flex", flexDirection: "column", padding: "10px 30px" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>

@@ -43,7 +43,7 @@ const CourseDetailEnrollRight: React.FC = () => {
         }}
         onClick={handleOpenDialog}
       >
-        Enroll
+        Choose class enroll
       </GradientButton>
       <Box
         sx={{

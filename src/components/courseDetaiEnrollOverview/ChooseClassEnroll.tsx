@@ -91,33 +91,29 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
     };
   });
 
-  const handleSave = async () => {
+  const handleSave = async (classId: string) => {
     try {
       const param = {
-        classId: selectedRow?.at(0),
+        classId: classId,
         traineeId: id,
       };
-
-      //   console.log(param);
 
       const response = await classApi.enrollToClassByTrainee(param);
       const { data, status } = response;
 
       if (status === 200) {
         if (data.overlappedSchedule === null) {
-          // console.log("Post request successful:", response.data);
           navigate("/course-list-page");
           handleCloseDialogOverlap();
         } else {
           setListOverlap(data.overlappedSchedule);
-          //   console.log(data.overlappedSchedule)
           createError(data.overlappedSchedule);
           handleOpenDialogOverlap();
         }
       }
       console.log(response);
     } catch (error) {
-      console.error("Error fetching trainees:", error);
+      console.error("Error enrolling in class:", error);
     }
   };
 
@@ -141,9 +137,48 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
     setOpenWarningOverlap(false);
   };
 
+  const columns: GridColDef[] = [
+    { field: "code", headerName: "Code", width: 100 },
+    { field: "name", headerName: "Name", width: 100 },
+    { field: "trainerName", headerName: "Trainer", width: 100 },
+    {
+      field: "generalSchedule",
+      headerName: "General Schedule",
+      width: 200,
+      renderCell: (params: GridCellParams) => (
+        <div style={{ whiteSpace: "pre-wrap" }}>{params.value as string}</div>
+      ),
+    },
+    { field: "programName", headerName: "Program Name", width: 300 },
+    { field: "startDate", headerName: "Start Date", width: 100 },
+    { field: "endDate", headerName: "End Date", width: 100 },
+    {
+      field: "enroll",
+      headerName: "Enroll",
+      width: 100,
+      disableColumnMenu: true,
+      sortable: false,
+      renderCell: (params: GridCellParams) => (
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={() => handleSave(params.row.id)}
+        >
+          Enroll
+        </Button>
+      ),
+    },
+  ];
+
   return (
     <Box>
-      <Dialog open={dialogOpen} onClose={handleCloseDialog} fullScreen>
+      <Dialog
+        open={dialogOpen}
+        onClose={handleCloseDialog}
+        maxWidth="lg"
+        fullWidth
+      >
         <AppBar sx={{ position: "relative" }}>
           <Toolbar>
             <IconButton
@@ -157,9 +192,9 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Enroll to class
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleSave}>
+            {/* <Button autoFocus color="inherit" onClick={handleSave}>
               Save
-            </Button>
+            </Button> */}
           </Toolbar>
         </AppBar>
         <DialogContent>
@@ -170,9 +205,10 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
             slots={{
               toolbar: CustomToolbar,
             }}
-            onRowSelectionModelChange={(newRowSelectionModel) => {
-              setSelectedRow(newRowSelectionModel);
-            }}
+            // onRowSelectionModelChange={(newRowSelectionModel) => {
+            //   setSelectedRow(newRowSelectionModel);
+            // }}
+            disableRowSelectionOnClick
           />
         </DialogContent>
       </Dialog>
@@ -204,23 +240,6 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
 };
 
 export default ChooseClassEnroll;
-
-const columns: GridColDef[] = [
-  { field: "code", headerName: "Code", width: 100 },
-  { field: "name", headerName: "Name", width: 100 },
-  { field: "trainerName", headerName: "Trainer", width: 100 },
-  {
-    field: "generalSchedule",
-    headerName: "General Schedule",
-    width: 200,
-    renderCell: (params: GridCellParams) => (
-      <div style={{ whiteSpace: "pre-wrap" }}>{params.value as string}</div>
-    ),
-  },
-  { field: "programName", headerName: "Program Name", width: 300 },
-  { field: "startDate", headerName: "Start Date", width: 100 },
-  { field: "endDate", headerName: "End Date", width: 100 },
-];
 
 interface CustomToolbarProps {
   setFilterButtonEl: React.Dispatch<
