@@ -19,6 +19,7 @@ import { RootState } from "../../reduxs/Root";
 import { fetchClassByProgramId } from "../../actions/classAction";
 import {
   DataGrid,
+  GridCellParams,
   GridColDef,
   GridRowSelectionModel,
   GridToolbar,
@@ -28,8 +29,9 @@ import {
 } from "@mui/x-data-grid";
 import { Class, Overlap } from "../../models/classManagementModel";
 import { formatTimeSlot } from "../../utils/formatDay";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ErrorItem } from "../../utils/constant";
+import { Program } from "../../models/programAddModel";
 
 type ChooseClassEnrollProps = {
   dialogOpen: boolean;
@@ -44,22 +46,23 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
   const { list } = useSelector((state: RootState) => state.class);
   const { id } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
+  const location = useLocation();
+  const program: Program = location.state?.program;
+
   const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>();
   const [listOverlap, setListOverlap] = useState<Overlap[]>([]);
   const [overlapErrors, setOverlapErrors] = useState<ErrorItem[]>([]);
   const [openWarningOverlap, setOpenWarningOverlap] = useState(false);
 
-
-
-
+  console.log(program);
+  console.log(list);
 
   const fetchClass = useCallback(async () => {
     try {
       const param = {
         page: 0,
         size: 999,
-        filterAnd:
-          "status|eq|PENDING&program.id|jn|73574861-62eb-4965-9ebc-cecbb50ea11f",
+        filterAnd: `status|eq|PENDING&program.id|jn|${program.id}`,
       };
 
       const response = await classApi.getClassesByProgramId(param);
@@ -70,16 +73,15 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
     } catch (error) {
       console.error("Error fetching trainees:", error);
     }
-  }, [dispatch]);
-
-  console.log(list);
+  }, [dispatch, program.id]);
 
   useEffect(() => {
     fetchClass();
   }, [fetchClass]);
 
   const processedList = list.map((item: Class) => {
-    console.log(formatTimeSlot(item.generalSchedule));
+    // console.log(list);
+    console.log(item.generalSchedule);
     return {
       ...item,
       trainerName: item.trainer?.name || "",
@@ -96,44 +98,39 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
         traineeId: id,
       };
 
-      
-    //   console.log(param);
+      //   console.log(param);
 
       const response = await classApi.enrollToClassByTrainee(param);
       const { data, status } = response;
-
-      
 
       if (status === 200) {
         if (data.overlappedSchedule === null) {
           // console.log("Post request successful:", response.data);
           navigate("/course-list-page");
-        handleCloseDialogOverlap();
+          handleCloseDialogOverlap();
         } else {
           setListOverlap(data.overlappedSchedule);
-        //   console.log(data.overlappedSchedule)
+          //   console.log(data.overlappedSchedule)
           createError(data.overlappedSchedule);
           handleOpenDialogOverlap();
         }
       }
-      console.log(response)
+      console.log(response);
     } catch (error) {
       console.error("Error fetching trainees:", error);
     }
   };
 
-
   const createError = (overlappedSchedules: any) => {
-
     var listError: ErrorItem[] = [];
     console.log(overlappedSchedules);
     const errorItem: ErrorItem = {
-        id: "",
-        email: "",
-        overlappedDayTimes: [overlappedSchedules.overlappedDayTimes],
-      };
-      listError.push(errorItem);
-      setOverlapErrors([...listError]);
+      id: "",
+      email: "",
+      overlappedDayTimes: [overlappedSchedules.overlappedDayTimes],
+    };
+    listError.push(errorItem);
+    setOverlapErrors([...listError]);
   };
 
   const handleOpenDialogOverlap = () => {
@@ -146,40 +143,40 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
 
   return (
     <Box>
-        <Dialog open={dialogOpen} onClose={handleCloseDialog} fullScreen>
-      <AppBar sx={{ position: "relative" }}>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={handleCloseDialog}
-            aria-label="close"
-          >
-            <CloseIcon />
-          </IconButton>
-          <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-            Enroll to class
-          </Typography>
-          <Button autoFocus color="inherit" onClick={handleSave}>
-            Save
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <DialogContent>
-        <DataGrid
-          rows={processedList}
-          columns={columns}
-          disableDensitySelector
-          slots={{
-            toolbar: CustomToolbar,
-          }}
-          onRowSelectionModelChange={(newRowSelectionModel) => {
-            setSelectedRow(newRowSelectionModel);
-          }}
-        />
-      </DialogContent>
-    </Dialog>
-    <Dialog
+      <Dialog open={dialogOpen} onClose={handleCloseDialog} fullScreen>
+        <AppBar sx={{ position: "relative" }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleCloseDialog}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              Enroll to class
+            </Typography>
+            <Button autoFocus color="inherit" onClick={handleSave}>
+              Save
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <DialogContent>
+          <DataGrid
+            rows={processedList}
+            columns={columns}
+            disableDensitySelector
+            slots={{
+              toolbar: CustomToolbar,
+            }}
+            onRowSelectionModelChange={(newRowSelectionModel) => {
+              setSelectedRow(newRowSelectionModel);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
+      <Dialog
         open={openWarningOverlap}
         onClose={handleCloseDialogOverlap}
         fullWidth
@@ -188,9 +185,7 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
         <div style={styles.dialogWrapper}>
           <DialogTitle sx={styles.dialogTitle}>Warning</DialogTitle>
           <DialogContent sx={styles.dialogContent}>
-            <div style={styles.dialogContentScrollable}>
-              You are overlapped
-            </div>
+            <div style={styles.dialogContentScrollable}>You are overlapped</div>
           </DialogContent>
           <DialogActions sx={styles.dialogActions}>
             <Button
@@ -203,10 +198,8 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
             </Button>
           </DialogActions>
         </div>
-
       </Dialog>
     </Box>
-    
   );
 };
 
@@ -216,7 +209,14 @@ const columns: GridColDef[] = [
   { field: "code", headerName: "Code", width: 100 },
   { field: "name", headerName: "Name", width: 100 },
   { field: "trainerName", headerName: "Trainer", width: 100 },
-  { field: "generalSchedule", headerName: "General Schedule", width: 200 },
+  {
+    field: "generalSchedule",
+    headerName: "General Schedule",
+    width: 200,
+    renderCell: (params: GridCellParams) => (
+      <div style={{ whiteSpace: "pre-wrap" }}>{params.value as string}</div>
+    ),
+  },
   { field: "programName", headerName: "Program Name", width: 300 },
   { field: "startDate", headerName: "Start Date", width: 100 },
   { field: "endDate", headerName: "End Date", width: 100 },
@@ -243,56 +243,56 @@ function CustomToolbar({ setFilterButtonEl }: CustomToolbarProps) {
 }
 
 const styles = {
-    dialogWrapper: {
-      backgroundColor: "#f2f2f2",
-      padding: "20px",
-      borderRadius: "4px",
-      boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.2)",
-    },
-    dialogTitle: {
-      backgroundColor: "#e0e0e0",
-      fontSize: "20px",
-      padding: "10px",
-      textAlign: "center",
-      color: "#333",
-      fontWeight: "bold",
-    },
-    dialogContent: {
-      margin: "20px 0",
-      padding: "20px", // Increase padding as desired
-      backgroundColor: "#fff",
-      height: "300px", // Set desired height for scrollable content
-      overflow: "auto", // Enable scrollbar when content exceeds height
-    },
-    dialogContentScrollable: {
-      padding: "0",
-    },
-    email: {
-      fontWeight: "bold",
-      paddingBottom: "5px",
-    },
-    overlappedTimes: {
-      fontStyle: "italic",
-      paddingBottom: "5px",
-    },
-    overlappedList: {
-      margin: "10px 0",
-      padding: "0",
-      listStyleType: "disc",
-      fontSize: "14px",
-    },
-    overlappedListItem: {
-      marginBottom: "8px",
-    },
-    divider: {
-      margin: "16px 0",
-      backgroundColor: "#e0e0e0",
-    },
-    dialogActions: {
-      marginTop: "20px",
-      padding: "10px",
-      display: "flex",
-      justifyContent: "flex-end",
-      gap: "10px",
-    },
-  };
+  dialogWrapper: {
+    backgroundColor: "#f2f2f2",
+    padding: "20px",
+    borderRadius: "4px",
+    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.2)",
+  },
+  dialogTitle: {
+    backgroundColor: "#e0e0e0",
+    fontSize: "20px",
+    padding: "10px",
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "bold",
+  },
+  dialogContent: {
+    margin: "20px 0",
+    padding: "20px", // Increase padding as desired
+    backgroundColor: "#fff",
+    height: "300px", // Set desired height for scrollable content
+    overflow: "auto", // Enable scrollbar when content exceeds height
+  },
+  dialogContentScrollable: {
+    padding: "0",
+  },
+  email: {
+    fontWeight: "bold",
+    paddingBottom: "5px",
+  },
+  overlappedTimes: {
+    fontStyle: "italic",
+    paddingBottom: "5px",
+  },
+  overlappedList: {
+    margin: "10px 0",
+    padding: "0",
+    listStyleType: "disc",
+    fontSize: "14px",
+  },
+  overlappedListItem: {
+    marginBottom: "8px",
+  },
+  divider: {
+    margin: "16px 0",
+    backgroundColor: "#e0e0e0",
+  },
+  dialogActions: {
+    marginTop: "20px",
+    padding: "10px",
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: "10px",
+  },
+};

@@ -12,19 +12,30 @@ export const formatGeneralSchedule = (schedules: GeneralSchedule[]): string => {
 };
 
 export function formatTimeSlot(input: string): string {
-  const regex = /Start\{(\d{2}:\d{2}),(\w+)\};Stop\{(\d{2}:\d{2}),(\w+)\}/;
-  const match = input.match(regex);
+  const regex = /Start\{(\d{2}:\d{2}),(\w+)\};Stop\{(\d{2}:\d{2}),(\w+)\}/g;
+  const matches = input.match(regex);
 
-  if (!match) {
+  if (!matches) {
     throw new Error('Invalid input format');
   }
 
-  const [, startTime, startDay, stopTime, stopDay] = match;
-  const formattedStartTime = formatTime(startTime);
-  const formattedStopTime = formatTime(stopTime);
+  const formattedTimeSlots: string[] = [];
 
-  return `${startDay}(${formattedStartTime} - ${formattedStopTime})`;
+  matches.forEach((match) => {
+    const [, startTime, day, stopTime] = match.match(/Start\{(\d{2}:\d{2}),(\w+)\};Stop\{(\d{2}:\d{2}),(\w+)\}/)!;
+    
+    const formattedStartTime = formatTime(startTime);
+    const formattedStopTime = formatTime(stopTime);
+
+    const timeSlot = `${day}(${formattedStartTime} - ${formattedStopTime})`;
+    formattedTimeSlots.push(timeSlot);
+  });
+
+  return formattedTimeSlots.join("\n");
 }
+
+
+
 
 function formatTime(time: string): string {
   const [hours, minutes] = time.split(':');

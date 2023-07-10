@@ -35,7 +35,7 @@ const classApi = {
   },
   getClassesByProgramId: (params: any) => {
     const url = "/v1/class/page";
-    return axiosClient.get(url, params);
+    return axiosClient.get(url, {params});
   },
   enrollToClassByTrainee: (params: any) => {
     const url = "/v1/enrollment";

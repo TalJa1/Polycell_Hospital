@@ -17,6 +17,7 @@ import {
   MenuItem,
   Paper,
   Switch,
+  Tab,
   Typography,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
@@ -116,7 +117,8 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
                 </strong>
               </Box>
             ) : null}
-            <Typography
+            <Tab
+              label="Home"
               onClick={() => {
                 if (role === "TRAINEE") {
                   navigate("/course-list-page");
@@ -127,28 +129,22 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
               sx={{
                 color: "black",
               }}
-            >
-              Home
-            </Typography>
-            <Typography
+            />
+            <Tab
+              label="My courses"
               onClick={() => navigate("/trainee-course-page")}
               sx={{
                 color: "black",
               }}
-            >
-              My courses
-            </Typography>
-            {role === "TRAINEE" ? (
-              <Typography
+            />
+            {role === "TRAINEE" && (
+              <Tab
+                label="Attendance"
                 onClick={() => navigate("/trainee-attendance")}
                 sx={{
                   color: "black",
                 }}
-              >
-                Attendance
-              </Typography>
-            ) : (
-              <></>
+              />
             )}
           </Box>
           <Box sx={{ flexGrow: 1 }} />
@@ -234,3 +230,5 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
 };
 
 export default TraineeHeader;
+
+
