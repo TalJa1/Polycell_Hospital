@@ -26,7 +26,8 @@ const CourseCp: React.FC = () => {
           backgroundColor: "white",
           display: "flex",
           justifyContent: "center",
-          maxHeight: "100%",
+          minHeight: "1000px",
+          height: "fit-content",
           position: "relative",
         }}
       >

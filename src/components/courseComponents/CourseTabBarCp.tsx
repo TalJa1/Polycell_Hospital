@@ -24,7 +24,7 @@ const CourseTabBarCp: React.FC<CourseTabBarProps> = ({ editMode }) => {
   };
 
   return (
-    <Box sx={{ width: "70%" }}>
+    <Box sx={{ width: "100%", padding: "0 200px" }}>
       <Typography
         variant="h4"
         sx={{

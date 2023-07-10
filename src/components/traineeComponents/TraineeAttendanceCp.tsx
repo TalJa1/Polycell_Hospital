@@ -1,4 +1,4 @@
-import { Box, Divider, Grid } from "@mui/material";
+import { Box, Divider, Grid, Typography } from "@mui/material";
 import React from "react";
 import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
@@ -47,7 +47,24 @@ const TraineeAttendanceCp: React.FC = () => {
 
   return (
     <Box>
-      <Header imageUrl="" title="Trainee Attendance" />
+      {/* <Header imageUrl="" title="Trainee Attendance" /> */}
+      <Box sx={boxStyle}>
+        <div style={overlayStyle}></div>
+        <Box
+          sx={{
+            position: "absolute",
+            background: "rgb(24, 43, 73)",
+            color: "white",
+            padding: "30px",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h4">Attendance</Typography>
+        </Box>
+      </Box>
       <Box
         sx={{
           backgroundColor: "white",
@@ -246,3 +263,25 @@ const TraineeAttendanceCp: React.FC = () => {
 };
 
 export default TraineeAttendanceCp;
+
+const boxStyle: React.CSSProperties = {
+  backgroundImage: `url(https://www.thetahmid.com/themes/edulyn-v1.0/assets/images/breadcrumb-bg.jpg)`,
+  backgroundSize: "cover",
+  backgroundPosition: "center center",
+  backgroundRepeat: "no-repeat",
+  padding: "60px 0px",
+  position: "relative",
+  height: "25vh",
+  width: "100%",
+};
+
+const overlayStyle: React.CSSProperties = {
+  position: "absolute",
+  content: '""',
+  background: "rgb(24, 43, 73)",
+  opacity: 0.5,
+  width: "100%",
+  height: "100%",
+  top: 0,
+  left: 0,
+};

@@ -56,12 +56,31 @@ const CoursePageCp: React.FC = () => {
   return (
     <Box>
       <TraineeHeader title="Pollycell" />
+      <Box sx={boxStyle}>
+        <div style={overlayStyle}></div>
+        <Box
+          sx={{
+            position: "absolute",
+            background: "rgb(24, 43, 73)",
+            color: "white",
+            padding: "30px",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h4">My Course</Typography>
+        </Box>
+      </Box>
       <Grid
         container
         direction="row"
         sx={{
           height: "fit-content",
           backgroundColor: "white",
+          padding: "100px 0",
+          justifyContent: 'center'
         }}
       >
         {programs.map((program, index) => (
@@ -109,29 +128,24 @@ const CoursePageCp: React.FC = () => {
 
 export default CoursePageCp;
 
-const myCourse = [
-  {
-    courseName: "Medical Terminology Specialization",
-    course: "MTS221",
-    description:
-      "Develop your skills in medical terminology. Identify word parts (prefixes, suffixes, and roots) and abbreviations commonly used in the medical field, read and understand health records, and identify terms associated with all 10 major organ systems.",
-  },
-  {
-    courseName: "Medical Terminology Specialization",
-    course: "MTS221",
-    description:
-      "Develop your skills in medical terminology. Identify word parts (prefixes, suffixes, and roots) and abbreviations commonly used in the medical field, read and understand health records, and identify terms associated with all 10 major organ systems.",
-  },
-  {
-    courseName: "Medical Terminology Specialization",
-    course: "MTS221",
-    description:
-      "Develop your skills in medical terminology. Identify word parts (prefixes, suffixes, and roots) and abbreviations commonly used in the medical field, read and understand health records, and identify terms associated with all 10 major organ systems.",
-  },
-  {
-    courseName: "Medical Terminology Specialization",
-    course: "MTS221",
-    description:
-      "Develop your skills in medical terminology. Identify word parts (prefixes, suffixes, and roots) and abbreviations commonly used in the medical field, read and understand health records, and identify terms associated with all 10 major organ systems.",
-  },
-];
+const boxStyle: React.CSSProperties = {
+  backgroundImage: `url(https://www.thetahmid.com/themes/edulyn-v1.0/assets/images/breadcrumb-bg.jpg)`,
+  backgroundSize: "cover",
+  backgroundPosition: "center center",
+  backgroundRepeat: "no-repeat",
+  padding: "60px 0px",
+  position: "relative",
+  height: "25vh",
+  width: "100%",
+};
+
+const overlayStyle: React.CSSProperties = {
+  position: "absolute",
+  content: '""',
+  background: "rgb(24, 43, 73)",
+  opacity: 0.5,
+  width: "100%",
+  height: "100%",
+  top: 0,
+  left: 0,
+};
