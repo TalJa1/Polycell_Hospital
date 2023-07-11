@@ -257,7 +257,7 @@ const TraineeAttendanceCp: React.FC = () => {
           </Grid>
         </Grid>
       </Box>
-      <Footer />
+
     </Box>
   );
 };
