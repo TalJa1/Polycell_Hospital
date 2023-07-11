@@ -21,7 +21,7 @@ const ScheduleCP: React.FC = () => {
 
   return (
     <div className="class-container">
-      <TraineeHeader title="Course" />
+      <TraineeHeader title="Pollycell" />
       <Box
         bgcolor="white"
         sx={{

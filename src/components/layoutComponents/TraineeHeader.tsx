@@ -25,6 +25,7 @@ import { EditModeContext } from "../../provider/EditModeProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reduxs/Root";
 import { loginUser } from "../../actions/userAction";
+import { setCurrentPage } from "../../actions/currentPageAction";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -50,8 +51,11 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
   const navigate = useNavigate();
   const { editMode, handleEditModeChange } = React.useContext(EditModeContext);
   const { role } = useSelector((state: RootState) => state.user);
+  const {currentPage} = useSelector((state: RootState) => state.currentPage);
+
   const dispatch = useDispatch();
 
+  const [isSchedulePage, setIsSchedulePage] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [windowTop, setWindowTop] = React.useState<number>(0);
   const [showAppBar, setShowAppBar] = React.useState<boolean>(true);
@@ -121,9 +125,6 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
         position={showAppBar ? "static" : "fixed"}
         sx={{
           transition: "transform 0.3s ease-in-out",
-          // "&.MuiAppBar-fixed": {
-          //   transform: "translateY(0)",
-          // },
         }}
       >
         <Toolbar
@@ -148,6 +149,7 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
             <Tab
               label="Home"
               onClick={() => {
+                dispatch(setCurrentPage('home'));
                 if (role === "TRAINEE") {
                   navigate("/course-list-page");
                 } else {
@@ -155,22 +157,33 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
                 }
               }}
               sx={{
-                color: "black",
+                color: currentPage === "home" ? "blue" : "black",
+                borderBottom: currentPage === "home" ? "2px solid blue" : "none",
               }}
             />
             <Tab
               label="My courses"
-              onClick={() => navigate("/trainee-course-page")}
+              onClick={() => {
+                dispatch(setCurrentPage("myCourses"));
+
+                navigate("/trainee-course-page");
+              }}
               sx={{
-                color: "black",
+                color: currentPage === "myCourses" ? "blue" : "black",
+                borderBottom: currentPage === "myCourses" ? "2px solid blue" : "none",
               }}
             />
             {role === "TRAINEE" && (
               <Tab
                 label="Attendance"
-                onClick={() => navigate("/trainee-attendance")}
+                onClick={() => {
+                  
+                  dispatch(setCurrentPage("attendance"));
+                  navigate("/trainee-attendance");
+                }}
                 sx={{
-                  color: "black",
+                  color: currentPage === "attendance" ? "blue" : "black",
+                  borderBottom: currentPage === "attendance" ? "2px solid blue" : "none",
                 }}
               />
             )}
@@ -197,11 +210,17 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
                 </IconButton>
               </Paper>
             </Search>
-            <Link to="/schedule-page">
+            <Link
+              to="/schedule-page"
+              onClick={() => {
+                dispatch(setCurrentPage("schedule"))
+              }}
+            >
               <IconButton size="large">
                 <CalendarMonthIcon
                   sx={{
-                    color: "#1B5461",
+                    color:  currentPage === "schedule" ? "blue" : "#1B5461",
+                    borderBottom: currentPage === "schedule" ? "2px solid blue" : "none",
                   }}
                 />
               </IconButton>
@@ -247,12 +266,6 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
         </Toolbar>
       </AppBar>
       {renderMenu}
-      {/* {props.title !== "" ? (
-        <Box>
-          <h1 className="header-title">{props.title}</h1>
-          <hr className="hr-style" />
-        </Box>
-      ) : null} */}
     </Box>
   );
 };
