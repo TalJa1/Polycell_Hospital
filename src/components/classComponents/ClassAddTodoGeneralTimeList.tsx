@@ -38,6 +38,8 @@ const GeneralScheduleGeneralTimeList: React.FC<
   ];
   const [nextId, setNextId] = useState(1);
 
+  console.log(generalSchedules);
+
   const handleAddGeneralSchedule = () => {
     const newGeneralSchedule: GeneralSchedule = {
       id: nextId,
@@ -86,7 +88,7 @@ const GeneralScheduleGeneralTimeList: React.FC<
   return (
     <>
       {generalSchedules.map((generalSchedule) => (
-        <Grid container key={generalSchedule.id}>
+        <Grid container key={generalSchedule.id} >
           <Grid item sm={5}>
             <Controller
               name={"generalTime" + generalSchedule.id.toString()}

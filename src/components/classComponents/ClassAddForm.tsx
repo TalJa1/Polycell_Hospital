@@ -85,9 +85,9 @@ const ClassAddForm: React.FC = () => {
   const [selectQuantity, setSelectedQuantity] = useState<string>("");
   const [seletcMaxQuantity, setMaxQuantity] = useState<string>("");
   const [seletcMinQuantity, setMinQuantity] = useState<string>("");
-  const [generalSchedules, setGeneralSchedules] = useState<GeneralSchedule[]>(
-    []
-  );
+  const [generalSchedules, setGeneralSchedules] = useState<GeneralSchedule[]>([
+    { id: 0, time: null, dayOfWeek: null },
+  ]);
   const [selectClassName, setSelectClassName] = useState<string>("");
   const [selectRoom, setSelectRoom] = useState<string>("");
 
@@ -487,6 +487,8 @@ const ClassAddForm: React.FC = () => {
               spacing={3}
               sx={{
                 padding: "32px",
+                display: "flex",
+                alignItems: "center",
               }}
             >
               <Grid item xs={12} sm={2}>
@@ -779,17 +781,24 @@ const ClassAddForm: React.FC = () => {
               </Grid>
 
               {/* Due time */}
-              <Grid item xs={12} sm={2}>
+              {/* <Grid item xs={12} sm={2}>
                 <InputLabel>General time*</InputLabel>
-              </Grid>
-              <Grid item xs={12} sm={10}>
-                <TodoGeneralTimeList
-                  generalSchedules={generalSchedules}
-                  setGeneralSchedules={setGeneralSchedules}
-                  control={control}
-                  errors={errors}
-                  register={register}
-                />
+              </Grid> */}
+              <Grid item xs={12} sm={12}>
+                <Grid container>
+                  <Grid item xs={12} sm={2}>
+                    <InputLabel>General time*</InputLabel>
+                  </Grid>
+                  <Grid item xs={12} sm={10}>
+                    <TodoGeneralTimeList
+                      generalSchedules={generalSchedules}
+                      setGeneralSchedules={setGeneralSchedules}
+                      control={control}
+                      errors={errors}
+                      register={register}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
 
               {/* Button */}
