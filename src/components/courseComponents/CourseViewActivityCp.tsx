@@ -2,14 +2,10 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { Topic } from "../../models/programAddModel";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import LinkIcon from "@mui/icons-material/Link";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
+import QuizIcon from "@mui/icons-material/Quiz";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -66,22 +62,71 @@ const CourseViewActivityCp: React.FC<{ activity: Topic }> = ({ activity }) => {
                   display: "flex",
                 }}
               >
-                <Box
-                  sx={{
-                    width: "50px",
-                    height: "50px",
-
-                    border: "1px solid #E6E6E6",
-                    backgroundColor: "#fff",
-                    marginRight: "10px",
-                    borderRadius: "5px",
-                  }}
-                />
-
+                {value.type === "RESOURCE" ? (
+                  <Box
+                    sx={{
+                      width: "50px",
+                      height: "50px",
+                      display: "flex",
+                      border: "1px solid #E6E6E6",
+                      backgroundColor: "#fb4aa6",
+                      marginRight: "10px",
+                      borderRadius: "5px",
+                      textAlign: "center",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "white",
+                    }}
+                  >
+                    <LinkIcon />
+                  </Box>
+                ) : (
+                  <Box
+                    sx={{
+                      width: "50px",
+                      height: "50px",
+                      display: "flex",
+                      border: "1px solid #E6E6E6",
+                      backgroundColor: "#8245fb",
+                      marginRight: "10px",
+                      borderRadius: "5px",
+                      textAlign: "center",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "white",
+                    }}
+                  >
+                    <QuizIcon />
+                  </Box>
+                )}
                 <Box>
-                  <Typography variant="subtitle1">{value.type}</Typography>
+                  {value.type === "RESOURCE" ? (
+                    <>
+                      <Typography variant="subtitle1">
+                        <strong>{value.externalResource?.name}</strong>
+                      </Typography>
+                      <Typography>
+                        <a
+                          href={value.externalResource?.externalUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {value.externalResource?.description}
+                        </a>
+                      </Typography>
+                    </>
+                  ) : value.type === "QUIZ" ? (
+                    <Typography variant="subtitle1">
+                      <strong>Quiz</strong>
+                    </Typography>
+                  ) : (
+                    <Typography variant="subtitle1">
+                      Alternate content
+                    </Typography>
+                  )}
                 </Box>
-                <Dialog
+
+                {/* <Dialog
                   open={openDialogs[index]}
                   TransitionComponent={Transition}
                   keepMounted
@@ -106,7 +151,7 @@ const CourseViewActivityCp: React.FC<{ activity: Topic }> = ({ activity }) => {
                   <DialogActions>
                     <Button onClick={() => handleClose(index)}>Close</Button>
                   </DialogActions>
-                </Dialog>
+                </Dialog> */}
               </Box>
             </div>
 
