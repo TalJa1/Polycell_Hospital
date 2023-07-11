@@ -45,7 +45,7 @@ const CourseDetailEnrollRight: React.FC = () => {
       >
         Choose class enroll
       </GradientButton>
-      <Box
+      {/* <Box
         sx={{
           border: "1px solid rgb(238, 238, 238)",
           padding: "16px 20px ",
@@ -102,7 +102,7 @@ const CourseDetailEnrollRight: React.FC = () => {
             <Box>18 months</Box>
           </Box>
         </Box>
-      </Box>
+      </Box> */}
 
       <ChooseClassEnroll
         dialogOpen={dialogOpen}

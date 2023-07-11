@@ -1,9 +1,10 @@
-import { Box, Typography } from "@mui/material";
-import React from "react";
+import { Box, Button, Grid, Typography, styled } from "@mui/material";
+import React, { useState } from "react";
 import CourseDetailOverview from "./CourseDetailOverview";
 import CourseDetailEnrollTabbar from "./CourseDetailEnrollTabbar";
 import { useLocation } from "react-router-dom";
 import { Program } from "../../models/programAddModel";
+import ChooseClassEnroll from "./ChooseClassEnroll";
 
 const CourseDetailEnrollLeft: React.FC = () => {
   const item =
@@ -14,11 +15,42 @@ const CourseDetailEnrollLeft: React.FC = () => {
 
   console.log(program);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleOpenDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
   return (
     <div>
-      <Typography variant="h5" fontWeight="bold">
-        {program.name}
-      </Typography>
+      <Grid container spacing={5} sx={{
+        display: "flex",
+        alignItems: "center"
+      }}>
+        <Grid item xs={8}>
+          <Typography variant="h5" fontWeight="bold">
+            {program.name}
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <GradientButton
+            sx={{
+              width: "100%",
+              padding: "20px 0",
+              backgroundColor:
+                "linear-gradient(90deg, rgb(17, 182, 122) 0%, rgb(0, 148, 68) 100%)",
+            }}
+            onClick={handleOpenDialog}
+          >
+            Choose class enroll
+          </GradientButton>
+        </Grid>
+      </Grid>
+
       <Box>
         <CourseDetailOverview />
         <Box
@@ -33,8 +65,21 @@ const CourseDetailEnrollLeft: React.FC = () => {
         ></Box>
         <CourseDetailEnrollTabbar />
       </Box>
+      <ChooseClassEnroll
+        dialogOpen={dialogOpen}
+        handleCloseDialog={handleCloseDialog}
+      />
     </div>
   );
 };
 
 export default CourseDetailEnrollLeft;
+
+const GradientButton = styled(Button)`
+  background: linear-gradient(
+    90deg,
+    rgb(17, 182, 122) 0%,
+    rgb(0, 148, 68) 100%
+  );
+  color: white;
+`;
