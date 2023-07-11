@@ -44,7 +44,7 @@ const CourseDetailEnrollPage: React.FC = () => {
             }}
           >
             <Grid container spacing={5} sx={{ justifyContent: "center" }}>
-              <Grid item xs={8}>
+              <Grid item xs={9}>
                 <CourseDetailEnrollLeft />
               </Grid>
               {/* <Grid item xs={3}>
