@@ -90,6 +90,9 @@ const CourseViewActivityCp: React.FC<{ activity: Topic }> = ({ activity }) => {
                 >
                   <DialogTitle>{value.externalResource?.name}</DialogTitle>
                   <DialogContent>
+                    <DialogContentText>
+                      {value.externalResource?.description}
+                    </DialogContentText>
                     <DialogContentText id="alert-dialog-slide-description">
                       <a
                         href={value.externalResource?.externalUrl}
@@ -100,7 +103,6 @@ const CourseViewActivityCp: React.FC<{ activity: Topic }> = ({ activity }) => {
                       </a>
                     </DialogContentText>
                   </DialogContent>
-
                   <DialogActions>
                     <Button onClick={() => handleClose(index)}>Close</Button>
                   </DialogActions>
