@@ -18,7 +18,6 @@ import {
   Paper,
   Switch,
   Tab,
-  Typography,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { EditModeContext } from "../../provider/EditModeProvider";
@@ -51,7 +50,7 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
   const navigate = useNavigate();
   const { editMode, handleEditModeChange } = React.useContext(EditModeContext);
   const { role } = useSelector((state: RootState) => state.user);
-  const {currentPage} = useSelector((state: RootState) => state.currentPage);
+  const { currentPage } = useSelector((state: RootState) => state.currentPage);
 
   const dispatch = useDispatch();
 
@@ -59,6 +58,7 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [windowTop, setWindowTop] = React.useState<number>(0);
   const [showAppBar, setShowAppBar] = React.useState<boolean>(true);
+  const [prevScrollTop, setPrevScrollTop] = React.useState<number>(0);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -105,26 +105,28 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
     const handleScroll = () => {
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop;
-      setWindowTop(scrollTop);
-      if (scrollTop > 100) {
+      if (scrollTop > prevScrollTop && showAppBar) {
         setShowAppBar(false);
-      } else {
+      } else if (scrollTop <= prevScrollTop && !showAppBar) {
         setShowAppBar(true);
       }
+      setPrevScrollTop(scrollTop);
+      setWindowTop(scrollTop);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [prevScrollTop, showAppBar]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        position={showAppBar ? "static" : "fixed"}
+        position={windowTop === 0 ? "static" : "fixed"}
         sx={{
           transition: "transform 0.3s ease-in-out",
+          transform: showAppBar ? "translateY(0)" : "translateY(-100%)",
         }}
       >
         <Toolbar
@@ -149,7 +151,7 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
             <Tab
               label="Home"
               onClick={() => {
-                dispatch(setCurrentPage('home'));
+                dispatch(setCurrentPage("home"));
                 if (role === "TRAINEE") {
                   navigate("/course-list-page");
                 } else {
@@ -158,32 +160,33 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
               }}
               sx={{
                 color: currentPage === "home" ? "blue" : "black",
-                borderBottom: currentPage === "home" ? "2px solid blue" : "none",
+                borderBottom:
+                  currentPage === "home" ? "2px solid blue" : "none",
               }}
             />
             <Tab
               label="My courses"
               onClick={() => {
                 dispatch(setCurrentPage("myCourses"));
-
                 navigate("/trainee-course-page");
               }}
               sx={{
                 color: currentPage === "myCourses" ? "blue" : "black",
-                borderBottom: currentPage === "myCourses" ? "2px solid blue" : "none",
+                borderBottom:
+                  currentPage === "myCourses" ? "2px solid blue" : "none",
               }}
             />
             {role === "TRAINEE" && (
               <Tab
                 label="Attendance"
                 onClick={() => {
-                  
                   dispatch(setCurrentPage("attendance"));
                   navigate("/trainee-attendance");
                 }}
                 sx={{
                   color: currentPage === "attendance" ? "blue" : "black",
-                  borderBottom: currentPage === "attendance" ? "2px solid blue" : "none",
+                  borderBottom:
+                    currentPage === "attendance" ? "2px solid blue" : "none",
                 }}
               />
             )}
@@ -213,14 +216,15 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
             <Link
               to="/schedule-page"
               onClick={() => {
-                dispatch(setCurrentPage("schedule"))
+                dispatch(setCurrentPage("schedule"));
               }}
             >
               <IconButton size="large">
                 <CalendarMonthIcon
                   sx={{
-                    color:  currentPage === "schedule" ? "blue" : "#1B5461",
-                    borderBottom: currentPage === "schedule" ? "2px solid blue" : "none",
+                    color: currentPage === "schedule" ? "blue" : "#1B5461",
+                    borderBottom:
+                      currentPage === "schedule" ? "2px solid blue" : "none",
                   }}
                 />
               </IconButton>
