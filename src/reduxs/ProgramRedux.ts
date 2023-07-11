@@ -26,7 +26,7 @@ const initialState: initState = {
   createClassData: {
     programs: [],
     cycles: [],
-    trainers: []
+    trainers: [],
   },
   loading: false,
   error: null,
@@ -87,6 +87,7 @@ const ProgramReducer = (
         error: null,
       };
     case FETCH_PROGRAM_CONTENT_SUCCESS:
+      // console.log("action >> ", action.payload);
       return {
         ...state,
 
