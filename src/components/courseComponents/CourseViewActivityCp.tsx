@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { Topic } from "../../models/programAddModel";
@@ -20,14 +21,20 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const CourseViewActivityCp: React.FC<{ activity: Topic }> = ({ activity }) => {
-  const [open, setOpen] = React.useState(false);
+  const [openDialogs, setOpenDialogs] = React.useState<boolean[]>(
+    Array(activity.slots?.length).fill(false)
+  );
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpen = (index: number) => {
+    const newOpenDialogs = [...openDialogs];
+    newOpenDialogs[index] = true;
+    setOpenDialogs(newOpenDialogs);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClose = (index: number) => {
+    const newOpenDialogs = [...openDialogs];
+    newOpenDialogs[index] = false;
+    setOpenDialogs(newOpenDialogs);
   };
 
   // console.log("External >> ", activity);
@@ -53,7 +60,7 @@ const CourseViewActivityCp: React.FC<{ activity: Topic }> = ({ activity }) => {
               alignItems: "center",
             }}
           >
-            <div onClick={handleClickOpen}>
+            <div onClick={() => handleClickOpen(index)}>
               <Box
                 style={{
                   display: "flex",
@@ -74,22 +81,28 @@ const CourseViewActivityCp: React.FC<{ activity: Topic }> = ({ activity }) => {
                 <Box>
                   <Typography variant="subtitle1">{value.type}</Typography>
                 </Box>
-
                 <Dialog
-                  open={open}
+                  open={openDialogs[index]}
                   TransitionComponent={Transition}
                   keepMounted
-                  onClose={handleClose}
+                  onClose={() => handleClose(index)}
                   aria-describedby="alert-dialog-slide-description"
                 >
-                  <DialogTitle>{value.id}</DialogTitle>
+                  <DialogTitle>{value.externalResource?.name}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                      {value.externalResource?.name}
+                      <a
+                        href={value.externalResource?.externalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {value.externalResource?.externalUrl}
+                      </a>
                     </DialogContentText>
                   </DialogContent>
+
                   <DialogActions>
-                    <Button onClick={handleClose}>Close</Button>
+                    <Button onClick={() => handleClose(index)}>Close</Button>
                   </DialogActions>
                 </Dialog>
               </Box>
