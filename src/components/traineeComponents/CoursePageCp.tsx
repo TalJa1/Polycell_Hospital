@@ -16,7 +16,7 @@ import GroundImg from "../../assets/imgs/background.png";
 import { Link } from "react-router-dom";
 import programApi from "../../api/programApi";
 import { useDispatch, useSelector } from "react-redux";
-import { Program, Topic } from "../../models/programAddModel";
+import { Program } from "../../models/programAddModel";
 import { RootState } from "../../reduxs/Root";
 import { fetchPrograms, fetchProgramsError, fetchProgramsSuccess } from "../../actions/programAction";
 
@@ -31,7 +31,7 @@ const CoursePageCp: React.FC = () => {
   );
   const dispatch = useDispatch();
 
-  console.log(id)
+  console.log("user id >> ", id)
 
   const fetchTraineeProgram = useCallback(async () => {
     try {
@@ -40,6 +40,7 @@ const CoursePageCp: React.FC = () => {
         .getProgramByTraineeId(id)
         .then((response) => {
           const programs = response.data;
+          console.log("program id >> ", response.data)
           dispatch(fetchProgramsSuccess(programs));
           console.log(response);
         })
@@ -51,7 +52,7 @@ const CoursePageCp: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [dispatch]);
+  }, [dispatch , id]);
 
   useEffect(() => {
     console.log("Hello");

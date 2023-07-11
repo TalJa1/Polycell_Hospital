@@ -45,12 +45,33 @@ export interface CreateClassFormData {
   }
   
 
-  export interface Topic {
-    id: string
-    name: string
-    description: string
-    activities: Activity[]
-  }
+  export interface Slot {
+    id:               string;
+    position:         number;
+    type:             string;
+    isHidden:         boolean;
+    externalResource: Topic;
+    quiz:             Quiz;
+}
+
+export interface Topic {
+    id:           string;
+    name:         string;
+    description:  string;
+    slots?:       Slot[];
+    createdDate:  Date;
+    modifiedDate: Date;
+    externalUrl?: string;
+}
+
+export interface Quiz {
+    id:            string;
+    name:          string;
+    closeTime:     Date;
+    gradingMethod: string;
+    createdDate:   Date;
+    modifiedDate:  Date;
+}
   
   export interface Activity {
     id: string

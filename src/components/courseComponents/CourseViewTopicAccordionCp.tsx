@@ -13,9 +13,10 @@ import {
 } from "../../actions/programAction";
 import programApi from "../../api/programApi";
 import { useDispatch, useSelector } from "react-redux";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Program, Topic } from "../../models/programAddModel";
 import { RootState } from "../../reduxs/Root";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import CourseViewActivityCp from "./CourseViewActivityCp";
 
 const CourseViewTopicAccordionCp: React.FC = () => {
@@ -23,13 +24,13 @@ const CourseViewTopicAccordionCp: React.FC = () => {
     (state: RootState) => state.program.topics
   );
 
-  const [activities, setActivities] = useState<Array<Array<JSX.Element>>>(
-    Array.from({ length: topics.length }, () => [])
-  );
+  // const [activities, setActivities] = useState<Array<Array<JSX.Element>>>(
+  //   Array.from({ length: topics.length }, () => [])
+  // );
 
   const dispatch = useDispatch();
 
-  const { programId, trainerId } = useParams();
+  // const { programId, trainerId } = useParams();
 
   const fetchTopics = useCallback(async () => {
     try {
@@ -60,9 +61,9 @@ const CourseViewTopicAccordionCp: React.FC = () => {
   const renderAccordions = () => {
     return topics.map((topic, i) => {
       const accordionIndex = i + 1;
-      const accordionActivities = activities[i] || [];
+      // const accordionActivities = activities[i] || [];
       return (
-        <Accordion key={accordionIndex} >
+        <Accordion key={accordionIndex}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls={`panel${accordionIndex}-content`}
@@ -71,11 +72,10 @@ const CourseViewTopicAccordionCp: React.FC = () => {
           >
             {topic.name}
           </AccordionSummary>
-          {topic.activities.map((activity, index) => (
-            <div key={index}>
-              <CourseViewActivityCp activity={activity} />
-            </div>
-          ))}
+
+          <div key={i}>
+            <CourseViewActivityCp activity={topic} />
+          </div>
         </Accordion>
       );
     });
