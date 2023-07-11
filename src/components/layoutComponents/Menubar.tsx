@@ -114,7 +114,7 @@ const Menubar: React.FC = () => {
             </MenuItem>
           ) : (
             <MenuItem icon={<LogoutIcon />} component={<Link to="/" />}>
-              logout
+              Log out
             </MenuItem>
           )}
         </Menu>

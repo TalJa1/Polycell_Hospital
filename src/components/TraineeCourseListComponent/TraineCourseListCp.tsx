@@ -165,7 +165,7 @@ const TraineCourseListCp: React.FC = () => {
                 marginTop: "20px",
               }}
             >
-              <Pagination count={10} size="large" />
+              <Pagination count={1} size="large" />
             </Box>
           </Grid>
         </Grid>

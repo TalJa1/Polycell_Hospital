@@ -70,7 +70,6 @@ function Loginpage() {
     } else if (email === "trainee@polycell.com" && password === "1") {
       const action1 = loginUser(true, email, "TRAINEE");
       dispatch(action1);
-
       navigate("/course-list-page");
     }
   };

@@ -11,6 +11,7 @@ import type { CellRenderInfo } from "rc-picker/lib/interface";
 import {
   Box,
   Button,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -71,11 +72,36 @@ const ScheduleTraineeListData: React.FC = () => {
       <Box>
         {listData.map((item, index) => (
           <Box key={index}>
-            <Typography variant="body1">{item.content.class.code}</Typography>
-            <Typography variant="caption">
-              ({dayjs(item.content.startTime, "HH:mm:ss").format("HH:mm")}-
-              {dayjs(item.content.endTime, "HH:mm:ss").format("HH:mm")})
+            <Typography variant="body1">
+              {item.content.class.code + " "}
+              {/* <Chip label={item.content.class.trainer.name} color="default" size="small" /> */}
+              <Typography variant="caption">at </Typography>
+              {/* <Chip
+                label={item.content.room.name}
+                color="success"
+                size="small"
+              /> */}
+
+              <Typography variant="caption">
+                {" "}
+                ({item.content.room.name})
+              </Typography>
             </Typography>
+            <Box>
+              <Chip
+                label={
+                  dayjs(item.content.startTime, "HH:mm:ss").format("HH:mm") +
+                  " - " +
+                  dayjs(item.content.endTime, "HH:mm:ss").format("HH:mm")
+                }
+                color="default"
+                size="small"
+              />
+              {/* <Typography variant="caption">
+                ({dayjs(item.content.startTime, "HH:mm:ss").format("HH:mm")}-
+                {dayjs(item.content.endTime, "HH:mm:ss").format("HH:mm")})
+              </Typography> */}
+            </Box>
           </Box>
         ))}
       </Box>
@@ -183,10 +209,23 @@ const ScheduleTraineeListData: React.FC = () => {
                         }
                       }
                     >
-                      <Typography>{item.content.class.code} </Typography>
-                      <Typography variant="caption">
-                        at {item.content.room.name}
+                      <Typography>
+                        {item.content.class.code}{" "}
+                        <Chip
+                          label={item.content.class.trainer.name}
+                          color="primary"
+                          size="small"
+                        />
+                        {/* <Typography variant="caption">
+                          ({item.content.class.trainer.name})
+                        </Typography> */}
                       </Typography>
+                      <Typography variant="caption">at </Typography>
+                      <Chip
+                        label={item.content.room.name}
+                        color="success"
+                        size="small"
+                      />
                     </Box>
                   </Box>
                 </Box>

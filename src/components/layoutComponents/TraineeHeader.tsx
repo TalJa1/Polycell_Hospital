@@ -52,6 +52,8 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
   const { role } = useSelector((state: RootState) => state.user);
   const { currentPage } = useSelector((state: RootState) => state.currentPage);
 
+  console.log(role);
+
   const dispatch = useDispatch();
 
   const [isSchedulePage, setIsSchedulePage] = React.useState(false);
