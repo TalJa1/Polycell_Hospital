@@ -1,4 +1,5 @@
 import {
+  Alert,
   Autocomplete,
   Box,
   Button,
@@ -15,12 +16,14 @@ import {
   Grid,
   IconButton,
   InputLabel,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -48,14 +51,18 @@ import {
   fetchCreateClassDataSuccess,
 } from "../../actions/programAction";
 import programApi from "../../api/programApi";
-import { ErrorItem, GeneralSchedule } from "../../utils/constant";
+import {
+  ErrorItem,
+  GeneralSchedule,
+  SnackbarState,
+} from "../../utils/constant";
 import { formatGeneralSchedule } from "../../utils/formatDay";
 import { GridRowSelectionModel } from "@mui/x-data-grid";
 import { useForm, SubmitHandler } from "react-hook-form";
 import classApi from "../../api/classApi";
 import { useNavigate } from "react-router-dom";
 import { Overlap } from "../../models/classManagementModel";
-import { create } from "domain";
+import ErrorIcon from "@mui/icons-material/Error";
 
 const ClassAddForm: React.FC = () => {
   const createClassData: CreateClassFormData = useSelector(
@@ -101,6 +108,22 @@ const ClassAddForm: React.FC = () => {
   const [overlapErrors, setOverlapErrors] = useState<ErrorItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [showSnackbar, setShowSnackbar] = useState<SnackbarState>({
+    open: false,
+    status: "SUCCESS",
+    message: "",
+  });
+
+  const handleCloseSnackbar = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    setShowSnackbar({
+      open: false,
+      status: "",
+      message: "",
+    });
+  };
 
   const handleOpenDialogOverlap = () => {
     setOpenWarningOverlap(true);
@@ -222,6 +245,12 @@ const ClassAddForm: React.FC = () => {
     }
   };
 
+  console.log(
+    listOverlap.map((e) =>
+      createClassData.trainers.filter((i) => i.id === e.id)
+    ).length
+  );
+
   //
   const handlePostData = async () => {
     const params = {
@@ -248,12 +277,19 @@ const ClassAddForm: React.FC = () => {
       if (status === 201) {
         if (data.overlappedSchedules === null) {
           // console.log("Post request successful:", response.data);
-          navigate("/class-management", { state: { message: "Create class success" } });
+          navigate("/class-management", {
+            state: { message: "Create class success" },
+          });
         } else {
           setListOverlap(data.overlappedSchedules);
-          createError(data.overlappedSchedules);
-          handleClose();
-          handleOpenDialogOverlap();
+          // createError(data.overlappedSchedules);
+          // handleClose();
+          // handleOpenDialogOverlap();
+          setShowSnackbar({
+            open: true,
+            status: "ERROR",
+            message: "Fail to create",
+          });
         }
       }
     } catch (error) {
@@ -590,8 +626,32 @@ const ClassAddForm: React.FC = () => {
               </Grid> */}
 
               {/* Trainer */}
-              <Grid item xs={12} sm={2}>
+              <Grid
+                item
+                xs={12}
+                sm={2}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
                 <InputLabel>Trainer*</InputLabel>
+                {listOverlap.length === 0 &&
+                listOverlap.map((e) =>
+                  createClassData.trainers.filter((i) => i.id === e.id)
+                ).length === 0 ? (
+                  <></>
+                ) : (
+                  <Tooltip title="This trainer is overlap">
+                    <ErrorIcon
+                      color="error"
+                      sx={{
+                        marginLeft: "10px",
+                      }}
+                    />
+                  </Tooltip>
+                )}
               </Grid>
               <Grid item xs={12} sm={selectedTrainer != null ? 5 : 9}>
                 <Autocomplete
@@ -723,8 +783,31 @@ const ClassAddForm: React.FC = () => {
                 </Grid>
               </Grid>
               {/* List trainee */}
-              <Grid item xs={12} sm={2}>
+              <Grid
+                item
+                xs={12}
+                sm={2}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 <InputLabel>Enroll trainee</InputLabel>
+                {listOverlap.length === 0 ||
+                listOverlap.map((e) =>
+                  createClassData.trainers.filter((i) => i.id === e.id)
+                ).length !== 0 ? (
+                  <></>
+                ) : (
+                  <Tooltip title="Some student is overlap">
+                    <ErrorIcon
+                      color="error"
+                      sx={{
+                        marginLeft: "10px",
+                      }}
+                    />
+                  </Tooltip>
+                )}
               </Grid>
               <Grid item xs={12} sm={5}>
                 <ClassAddFormPopup
@@ -854,7 +937,7 @@ const ClassAddForm: React.FC = () => {
         </DialogActions>
       </Dialog>
 
-      <Dialog
+      {/* <Dialog
         open={openWarningOverlap}
         onClose={handleCloseDialogOverlap}
         fullWidth
@@ -891,7 +974,23 @@ const ClassAddForm: React.FC = () => {
             </Button>
           </DialogActions>
         </div>
-      </Dialog>
+      </Dialog> */}
+      <Snackbar
+        open={showSnackbar.open}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        {showSnackbar.status === "SUCCESS" ? (
+          <Alert variant="filled" severity="success">
+            {showSnackbar.message}
+          </Alert>
+        ) : (
+          <Alert variant="filled" severity="error">
+            {showSnackbar.message}
+          </Alert>
+        )}
+      </Snackbar>
     </Box>
   );
 };

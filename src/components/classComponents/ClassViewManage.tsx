@@ -14,7 +14,7 @@ import { Alert, Autocomplete, Box, Snackbar, Tab, Tabs } from "@mui/material";
 import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Class } from "../../models/classManagementModel";
 import { RootState } from "../../reduxs/Root";
 import { SnackbarState } from "../../utils/constant";
@@ -27,6 +27,7 @@ const Postdata: React.FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const message: string = location.state?.message;
+  const navigate = useNavigate();
   // const TotalPage: number = useSelector(
   //   (state: RootState) => state.post.totalpage
   // );
@@ -54,14 +55,16 @@ const Postdata: React.FC = () => {
   };
 
   useEffect(() => {
-    if (message.length > 0) {
+
+    if (message?.length > 0) {
       setShowSnackbar({
         open: true,
         status: "SUCCESS",
         message: message,
       });
+      navigate(location.pathname, { replace: true });
     }
-  }, [message]);
+  }, [location.pathname, message, navigate]);
 
   const fetchClassApi = React.useCallback(async () => {
     try {
