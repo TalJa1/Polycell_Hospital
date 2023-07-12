@@ -91,7 +91,7 @@ const ClassReducer = (state = initialState, { type, payload }: Props) => {
         class: payload,
       };
     case FETCH_CLASS_BY_PROGRAMID:
-      console.log("total page redux >> ", payload.totalPages)
+      // console.log("total page redux >> ", payload.totalPages)
       return {
         ...state,
         page: payload.currentPage,

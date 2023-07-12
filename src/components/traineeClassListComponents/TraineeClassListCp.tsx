@@ -55,7 +55,7 @@ const TraineeClassListToEnrollCp: React.FC = () => {
       };
       const response = await classApi.getClassesByProgramId(param);
 
-      console.log("response data >> ", response.data);
+      // console.log("response data >> ", response.data);
 
       dispatch(fetchClassForTrainee(response.data));
     } catch (error) {
@@ -81,8 +81,8 @@ const TraineeClassListToEnrollCp: React.FC = () => {
     fetchProgram();
   }, [fetchProgram]);
 
-  console.log("programs >> ", programs);
-  console.log("total page >> ", getTotalPage);
+  // console.log("programs >> ", programs);
+  // console.log("total page >> ", getTotalPage);
 
   return (
     <div>
