@@ -99,6 +99,8 @@ const ClassAddForm: React.FC = () => {
   const [listOverlap, setListOverlap] = useState<Overlap[]>([]);
   const [openWarningOverlap, setOpenWarningOverlap] = useState(false);
   const [overlapErrors, setOverlapErrors] = useState<ErrorItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleOpenDialogOverlap = () => {
     setOpenWarningOverlap(true);
@@ -246,7 +248,7 @@ const ClassAddForm: React.FC = () => {
       if (status === 201) {
         if (data.overlappedSchedules === null) {
           // console.log("Post request successful:", response.data);
-          navigate("/class-management");
+          navigate("/class-management", { state: { message: "Create class success" } });
         } else {
           setListOverlap(data.overlappedSchedules);
           createError(data.overlappedSchedules);
@@ -804,9 +806,19 @@ const ClassAddForm: React.FC = () => {
               {/* Button */}
               <Grid
                 item
-                xs={12}
-                sx={{ display: "flex", justifyContent: "space-evenly" }}
+                xs={11}
+                sx={{ display: "flex", justifyContent: "end" }}
               >
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#000",
+                    marginRight: "20px",
+                  }}
+                  onClick={handleSubmit(handleCheckForm)}
+                >
+                  Create
+                </Button>
                 <Button
                   variant="contained"
                   sx={{
@@ -816,15 +828,7 @@ const ClassAddForm: React.FC = () => {
                 >
                   Cancel
                 </Button>
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: "#000",
-                  }}
-                  onClick={handleSubmit(handleCheckForm)}
-                >
-                  Create
-                </Button>
+
                 {/* <ClassAddFormPopup /> */}
               </Grid>
             </Grid>

@@ -1,6 +1,6 @@
 /* eslint-disable no-lone-blocks */
 import "../../styles/Postdata.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchClass } from "../../actions/classAction";
 import classApi from "../../api/classApi";
@@ -10,13 +10,14 @@ import Header from "../layoutComponents/Header";
 import Footer from "../layoutComponents/Footer";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import TextField from "@mui/material/TextField";
-import { Autocomplete, Box, Tab, Tabs } from "@mui/material";
+import { Alert, Autocomplete, Box, Snackbar, Tab, Tabs } from "@mui/material";
 import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Class } from "../../models/classManagementModel";
 import { RootState } from "../../reduxs/Root";
+import { SnackbarState } from "../../utils/constant";
 
 const Postdata: React.FC = () => {
   // const [page, setPage] = React.useState<number>(1);
@@ -24,6 +25,8 @@ const Postdata: React.FC = () => {
   const getClass: Class[] = useSelector((state: RootState) => state.class.list);
   // const getUser: User[] = useSelector((state: any) => state.user.list);
   const dispatch = useDispatch();
+  const location = useLocation();
+  const message: string = location.state?.message;
   // const TotalPage: number = useSelector(
   //   (state: RootState) => state.post.totalpage
   // );
@@ -32,6 +35,33 @@ const Postdata: React.FC = () => {
   const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
     setTabsValue(newValue);
   };
+
+  const [showSnackbar, setShowSnackbar] = React.useState<SnackbarState>({
+    open: false,
+    status: "SUCCESS",
+    message: "",
+  });
+
+  const handleCloseSnackbar = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    setShowSnackbar({
+      open: false,
+      status: "",
+      message: "",
+    });
+  };
+
+  useEffect(() => {
+    if (message.length > 0) {
+      setShowSnackbar({
+        open: true,
+        status: "SUCCESS",
+        message: message,
+      });
+    }
+  }, [message]);
 
   const fetchClassApi = React.useCallback(async () => {
     try {
@@ -199,6 +229,22 @@ const Postdata: React.FC = () => {
         </div>
       </div>
       <Footer />
+      <Snackbar
+        open={showSnackbar.open}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        {showSnackbar.status === "SUCCESS" ? (
+          <Alert variant="filled" severity="success">
+            {showSnackbar.message}
+          </Alert>
+        ) : (
+          <Alert variant="filled" severity="error">
+            {showSnackbar.message}
+          </Alert>
+        )}
+      </Snackbar>
     </div>
   );
 };

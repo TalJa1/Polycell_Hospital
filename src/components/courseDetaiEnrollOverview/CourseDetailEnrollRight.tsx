@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Alert,
-  AlertTitle,
   Box,
   Button,
   CircularProgress,
@@ -31,7 +30,7 @@ const CourseDetailEnrollRight: React.FC = () => {
     status: "SUCCESS",
     message: "",
   });
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCloseSnackbar = (
     event: React.SyntheticEvent | Event,
