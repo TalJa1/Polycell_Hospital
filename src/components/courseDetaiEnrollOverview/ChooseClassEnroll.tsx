@@ -16,7 +16,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import classApi from "../../api/classApi";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reduxs/Root";
-import { fetchClassByProgramId } from "../../actions/classAction";
+import { fetchClassForTrainee } from "../../actions/classAction";
 import {
   DataGrid,
   GridCellParams,
@@ -69,7 +69,7 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
       const { data } = response;
 
       //   console.log(data);
-      dispatch(fetchClassByProgramId(data.items));
+      dispatch(fetchClassForTrainee(data.items));
     } catch (error) {
       console.error("Error fetching trainees:", error);
     }

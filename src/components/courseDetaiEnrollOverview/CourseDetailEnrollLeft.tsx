@@ -5,15 +5,16 @@ import CourseDetailEnrollTabbar from "./CourseDetailEnrollTabbar";
 import { useLocation } from "react-router-dom";
 import { Program } from "../../models/programAddModel";
 import ChooseClassEnroll from "./ChooseClassEnroll";
+import { Class } from "../../models/classManagementModel";
 
 const CourseDetailEnrollLeft: React.FC = () => {
   const item =
     "https://www.thetahmid.com/themes/edulyn-v1.0/assets/images/details-banner.jpg";
 
   const location = useLocation();
-  const program: Program = location.state?.program;
+  const classData: Class = location.state?.classData;
 
-  console.log(program);
+  console.log(classData);
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -33,7 +34,7 @@ const CourseDetailEnrollLeft: React.FC = () => {
       }}>
         <Grid item xs={8}>
           <Typography variant="h5" fontWeight="bold">
-            {program.name}
+            {classData.name}
           </Typography>
         </Grid>
         <Grid item xs={4}>
@@ -65,10 +66,10 @@ const CourseDetailEnrollLeft: React.FC = () => {
         ></Box>
         <CourseDetailEnrollTabbar />
       </Box>
-      <ChooseClassEnroll
+      {/* <ChooseClassEnroll
         dialogOpen={dialogOpen}
         handleCloseDialog={handleCloseDialog}
-      />
+      /> */}
     </div>
   );
 };

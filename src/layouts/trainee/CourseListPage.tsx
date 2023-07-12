@@ -1,9 +1,9 @@
 import React from "react";
 import TraineeHeader from "../../components/layoutComponents/TraineeHeader";
 import { Box } from "@mui/material";
-
-import TraineCourseListCp from "../../components/TraineeCourseListComponent/TraineCourseListCp";
 import Footer from "../../components/layoutComponents/Footer";
+import TraineeClassListToEnrollCp from "../../components/traineeClassListComponents/TraineeClassListCp";
+import TraineCourseListCp from "../../components/TraineeCourseListComponent/TraineCourseListCp";
 
 const CourseListPage: React.FC = () => {
   return (
@@ -18,7 +18,8 @@ const CourseListPage: React.FC = () => {
           position: "relative",
         }}
       >
-        <TraineCourseListCp />
+        {/* <TraineCourseListCp /> */}
+        <TraineeClassListToEnrollCp/>
       </Box>
       <Footer />
     </div>

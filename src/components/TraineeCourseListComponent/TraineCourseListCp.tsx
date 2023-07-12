@@ -31,18 +31,6 @@ const TraineCourseListCp: React.FC = () => {
 
       dispatch(fetchProgramsSuccess(response.data));
 
-      // programApi
-      //   .getProgram
-      //   .then((response) => {
-      //     const programs = response.data;
-      //     dispatch(fetchProgramsSuccess(programs));
-      //     console.log(response);
-      //   })
-      //   .catch((error) => {
-      //     dispatch(fetchProgramsError(error.message));
-      //   });
-
-      // console.log(topics);
     } catch (error) {
       console.log(error);
     }

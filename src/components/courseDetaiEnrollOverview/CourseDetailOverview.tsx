@@ -2,11 +2,12 @@ import { Avatar, Box, Rating, Typography, styled } from "@mui/material";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { Program } from "../../models/programAddModel";
+import { Class } from "../../models/classManagementModel";
 
 const CourseDetailOverview: React.FC = () => {
 
   const location = useLocation();
-  const program: Program = location.state?.program;
+  const classData: Class = location.state?.classData;
 
   return (
     <div
@@ -19,12 +20,12 @@ const CourseDetailOverview: React.FC = () => {
       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         <AuthorName>
           <Typography variant="h6">Code</Typography>
-          <Typography variant="body1" color="ActiveBorder">{program.code}</Typography>
+          <Typography variant="body1" color="ActiveBorder">{classData.code}</Typography>
         </AuthorName>
       </AuthorBox>
       <CategoryBox className="category">
         <Typography variant="h6">Department</Typography>
-        <Typography variant="body1" color="ActiveBorder">{program.department?.name}</Typography>
+        <Typography variant="body1" color="ActiveBorder">{classData.trainer.name}</Typography>
       </CategoryBox>
       
     </div>

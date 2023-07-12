@@ -2,12 +2,13 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { Program } from "../../models/programAddModel";
+import { Class } from "../../models/classManagementModel";
 
 
 
 const CourseDetailOverviewCp: React.FC = () => {
   const location = useLocation();
-  const program: Program = location.state?.program;
+  const classData: Class = location.state?.classData;
 
   return (
     <Box className="course-desc">
@@ -22,7 +23,7 @@ const CourseDetailOverviewCp: React.FC = () => {
         }}
       />
       <Typography color="ActiveBorder">
-        {program.description}
+        {classData.program.description}
       </Typography>
     </Box>
   );

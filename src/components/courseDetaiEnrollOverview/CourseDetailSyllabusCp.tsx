@@ -35,17 +35,21 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import QuizIcon from "@mui/icons-material/Quiz";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import ArticleIcon from "@mui/icons-material/Article";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { Class } from "../../models/classManagementModel";
 
 const CourseDetailSyllabusCp: React.FC = () => {
   const { syllabus } = useSelector((state: RootState) => state.syllabus);
 
   const dispatch = useDispatch();
 
+  const location = useLocation();
+  const classData: Class = location.state?.classData;
+
   const fetchSyllabus = useCallback(async () => {
     try {
       const response = await syllabusApi.getSyllabusByProgramId(
-        "73574861-62eb-4965-9ebc-cecbb50ea11f"
+        classData.programId
       );
       const { data } = response;
 
@@ -53,7 +57,7 @@ const CourseDetailSyllabusCp: React.FC = () => {
     } catch (error) {
       console.error("Error fetching trainees:", error);
     }
-  }, [dispatch]);
+  }, [classData.programId, dispatch]);
 
   useEffect(() => {
     fetchSyllabus();

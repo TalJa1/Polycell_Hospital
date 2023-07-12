@@ -1,6 +1,9 @@
 import { Dispatch } from "react";
 import classApi from "../api/classApi";
-import { CREATE_CLASS_REQUEST, FETCH_CLASS_BY_PROGRAMID } from "../utils/constant";
+import {
+  CREATE_CLASS_REQUEST,
+  FETCH_CLASS_BY_PROGRAMID,
+} from "../utils/constant";
 import { Class } from "../models/classManagementModel";
 
 //payload : list post
@@ -29,7 +32,7 @@ export const paging = (payload: number) => {
   };
 };
 
-export const fetchClassByProgramId = (payload: Class) => ({
+export const fetchClassForTrainee = (payload: any) => ({
   type: FETCH_CLASS_BY_PROGRAMID,
   payload: payload,
 });
@@ -39,17 +42,18 @@ export const createClassRequest = (): CreateClassRequestAction => ({
   type: CREATE_CLASS_REQUEST,
 });
 
-export const createClassSuccess = (response: any): CreateClassSuccessAction => ({
+export const createClassSuccess = (
+  response: any
+): CreateClassSuccessAction => ({
   type: CREATE_CLASS_REQUEST,
-  payload: response
+  payload: response,
 });
 
-export const createClass = (
-  param: any
-) => {
+export const createClass = (param: any) => {
   return (dispatch: Dispatch<ClassAction>) => {
     dispatch(createClassRequest());
-    classApi.create(param)
+    classApi
+      .create(param)
       .then((response) => {
         // Handle success if needed
         dispatch(createClassSuccess(response.data));
@@ -60,7 +64,6 @@ export const createClass = (
   };
 };
 
-
 interface CreateClassRequestAction {
   type: string;
 }
@@ -70,5 +73,4 @@ interface CreateClassSuccessAction {
   payload: any;
 }
 
-export type ClassAction =
-  | CreateClassRequestAction;
+export type ClassAction = CreateClassRequestAction;

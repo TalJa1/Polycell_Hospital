@@ -92,7 +92,9 @@ const ClassReducer = (state = initialState, { type, payload }: Props) => {
     case FETCH_CLASS_BY_PROGRAMID:
       return {
         ...state,
-        list: payload,
+        page: payload.currentPage,
+        totalPage: payload.totalPages,
+        list: payload.items,
       };
 
     default:
