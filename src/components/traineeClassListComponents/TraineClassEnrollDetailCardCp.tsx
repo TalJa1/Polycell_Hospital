@@ -6,36 +6,35 @@ import { Button } from "@mui/joy";
 import { Class } from "../../models/classManagementModel";
 import { useNavigate } from "react-router-dom";
 
-
-
-
 const TraineClassEnrollDetailCardCp: React.FC<ClassEnrollCardProps> = ({
-    classData
-  }) => {
-
-    const navigate = useNavigate();
+  classData,
+}) => {
+  const navigate = useNavigate();
 
   return (
-    <Card sx={{ display: "flex", marginBottom: "30px", width: "100%"}}>
+    <Card sx={{ display: "flex", marginBottom: "30px", width: "100%" }}>
       <CardMedia
         component="img"
         sx={{ width: 200 }}
         alt="Live from space album cover"
         image={GroundImg}
-        
       />
-      <Box sx={{ display: "flex", flexDirection: "column", padding: "10px 30px" }}>
+      <Box
+        sx={{ display: "flex", flexDirection: "column", padding: "10px 30px" }}
+      >
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
             {classData.name}
           </Typography>
           <Box
-                  sx={{
-                    borderBottom: "2px solid rgb(17, 182, 122)",
-                    width: "50px",
-                    marginBottom: "10px",
-                  }}
-                />
+            sx={{
+              borderBottom: "2px solid rgb(17, 182, 122)",
+              width: "50px",
+              marginBottom: "10px",
+              marginTop: "5px",
+              
+            }}
+          />
           <Typography
             variant="subtitle1"
             color="text.secondary"
@@ -43,7 +42,6 @@ const TraineClassEnrollDetailCardCp: React.FC<ClassEnrollCardProps> = ({
           >
             {classData.program.name}
           </Typography>
-          
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
           <Button
@@ -51,15 +49,18 @@ const TraineClassEnrollDetailCardCp: React.FC<ClassEnrollCardProps> = ({
             size="md"
             sx={{
               bgcolor: "transparent",
-              border: "solid 2px ActiveBorder",
+              border: "solid 1px rgb(221, 221, 221)",
               color: "ActiveBorder",
               "&:hover": {
                 color: "white",
-                bgcolor: "ActiveBorder",
+                background:
+                  "linear-gradient(90deg, rgb(17, 182, 122) 0%, rgb(0, 148, 68) 100%)",
                 // Replace "NewColor" with the desired color on hover
               },
             }}
-            onClick={() => navigate("/course-detail-view-enroll", { state: { classData } })}
+            onClick={() =>
+              navigate("/course-detail-view-enroll", { state: { classData } })
+            }
           >
             View details
           </Button>
@@ -72,5 +73,5 @@ const TraineClassEnrollDetailCardCp: React.FC<ClassEnrollCardProps> = ({
 export default TraineClassEnrollDetailCardCp;
 
 interface ClassEnrollCardProps {
-    classData: Class
-  }
+  classData: Class;
+}

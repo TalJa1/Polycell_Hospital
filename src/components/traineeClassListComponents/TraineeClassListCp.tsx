@@ -48,7 +48,7 @@ const TraineeClassListToEnrollCp: React.FC = () => {
     try {
       const param = {
         page: page,
-        size: 10,
+        size: 4,
         filterAnd: `status|eq|PENDING`,
       };
       const response = await classApi.getClassesByProgramId(param);
@@ -124,6 +124,7 @@ const TraineeClassListToEnrollCp: React.FC = () => {
                       borderBottom: "2px solid rgb(17, 182, 122)",
                       width: "50px",
                       marginBottom: "20px",
+                      marginTop: "5px",
                     }}
                   />
 
@@ -143,6 +144,7 @@ const TraineeClassListToEnrollCp: React.FC = () => {
                       borderBottom: "2px solid rgb(17, 182, 122)",
                       width: "50px",
                       marginBottom: "20px",
+                      marginTop: "5px",
                     }}
                   />
 
@@ -175,6 +177,7 @@ const TraineeClassListToEnrollCp: React.FC = () => {
                       borderBottom: "2px solid rgb(17, 182, 122)",
                       width: "50px",
                       marginBottom: "20px",
+                      marginTop: "5px",
                     }}
                   />
 
