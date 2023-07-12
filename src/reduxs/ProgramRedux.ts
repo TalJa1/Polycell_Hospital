@@ -68,6 +68,7 @@ const ProgramReducer = (
         error: null,
       };
     case FETCH_PROGRAMS_SUCCESS:
+      console.log("program redux >> ", action.payload);
       return {
         ...state,
         programs: action.payload,

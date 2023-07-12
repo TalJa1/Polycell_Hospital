@@ -52,11 +52,11 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
   const { role } = useSelector((state: RootState) => state.user);
   const { currentPage } = useSelector((state: RootState) => state.currentPage);
 
-  console.log(role);
+  // console.log(role);
 
   const dispatch = useDispatch();
 
-  const [isSchedulePage, setIsSchedulePage] = React.useState(false);
+  // const [isSchedulePage, setIsSchedulePage] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [windowTop, setWindowTop] = React.useState<number>(0);
   const [showAppBar, setShowAppBar] = React.useState<boolean>(true);

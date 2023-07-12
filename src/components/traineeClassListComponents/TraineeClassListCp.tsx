@@ -29,31 +29,39 @@ const TraineeClassListToEnrollCp: React.FC = () => {
     "Saturday",
     "Sunday",
   ];
+  const [page, setPage] = React.useState(1);
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    // console.log("page number >> ", value)
+    setPage(value);
+  };
 
   const { list } = useSelector((state: RootState) => state.class);
   const programs: Program[] = useSelector(
     (state: RootState) => state.program.programs
   );
+  const getTotalPage = useSelector(
+    (state: RootState) => state.class.totalpage
+  );
   const dispatch = useDispatch();
 
-  const params = useState<any>();
+  // const params = useState<any>();
 
   const fetchClass = useCallback(async () => {
     try {
       const param = {
-        page: 0,
-        size: 999,
+        page: page,
+        size: 10,
         filterAnd: `status|eq|PENDING`,
       };
       const response = await classApi.getClassesByProgramId(param);
 
-      console.log(response.data.items);
+      console.log("response data >> ", response.data);
 
       dispatch(fetchClassForTrainee(response.data));
     } catch (error) {
       console.log(error);
     }
-  }, [dispatch]);
+  }, [dispatch, page]);
 
   const fetchProgram = useCallback(async () => {
     try {
@@ -68,12 +76,13 @@ const TraineeClassListToEnrollCp: React.FC = () => {
   useEffect(() => {
     fetchClass();
   }, [fetchClass]);
-  
+
   useEffect(() => {
     fetchProgram();
   }, [fetchProgram]);
 
-  console.log(programs);
+  console.log("programs >> ", programs);
+  console.log("total page >> ", getTotalPage);
 
   return (
     <div>
@@ -203,7 +212,12 @@ const TraineeClassListToEnrollCp: React.FC = () => {
                 marginTop: "20px",
               }}
             >
-              <Pagination count={1} size="large" />
+              <Pagination
+                count={getTotalPage}
+                page={page}
+                onChange={handleChange}
+                size="large"
+              />
             </Box>
           </Grid>
         </Grid>
