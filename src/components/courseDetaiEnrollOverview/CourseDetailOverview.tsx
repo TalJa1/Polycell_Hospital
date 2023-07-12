@@ -17,15 +17,15 @@ const CourseDetailOverview: React.FC = () => {
       }}
     >
       <AuthorBox className="author">
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+      <Avatar alt={classData.trainer.name} src="/static/images/avatar/1.jpg" />
         <AuthorName>
-          <Typography variant="h6">Code</Typography>
-          <Typography variant="body1" color="ActiveBorder">{classData.code}</Typography>
+          <Typography variant="h6">Trainer</Typography>
+          <Typography variant="body1" color="ActiveBorder">{classData.trainer.name}</Typography>
         </AuthorName>
       </AuthorBox>
       <CategoryBox className="category">
-        <Typography variant="h6">Department</Typography>
-        <Typography variant="body1" color="ActiveBorder">{classData.trainer.name}</Typography>
+        <Typography variant="h6">Trainer Code</Typography>
+        <Typography variant="body1" color="ActiveBorder">{classData.trainer.code}</Typography>
       </CategoryBox>
       
     </div>

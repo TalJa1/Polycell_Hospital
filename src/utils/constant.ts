@@ -64,3 +64,9 @@ export interface ErrorItem {
   email: string;
   overlappedDayTimes: string[];
 }
+
+export interface SnackbarState{
+  open: boolean;
+  status: "SUCCESS" | "ERROR" | "WARNING" | "";
+  message: string
+}

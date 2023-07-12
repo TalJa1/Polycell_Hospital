@@ -1,35 +1,86 @@
 import React, { useState } from "react";
 import {
-  AppBar,
+  Alert,
+  AlertTitle,
   Box,
   Button,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControlLabel,
-  FormGroup,
-  IconButton,
-  Toolbar,
+  CircularProgress,
+  Snackbar,
   Typography,
 } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import CloseIcon from "@mui/icons-material/Close";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import styled from "@emotion/styled";
-import ChooseClassEnroll from "./ChooseClassEnroll";
-import { GridToolbarContainer, GridToolbarFilterButton, GridToolbarQuickFilter } from "@mui/x-data-grid";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Class } from "../../models/classManagementModel";
+import classApi from "../../api/classApi";
+import { RootState } from "../../reduxs/Root";
+import { useSelector } from "react-redux";
+import { SnackbarState } from "../../utils/constant";
 
 const CourseDetailEnrollRight: React.FC = () => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const location = useLocation();
+  const classData: Class = location.state?.classData;
+  const navigate = useNavigate();
+  const { id } = useSelector((state: RootState) => state.user);
 
-  const handleOpenDialog = () => {
-    setDialogOpen(true);
+  const [showSnackbar, setShowSnackbar] = useState<SnackbarState>({
+    open: false,
+    status: "SUCCESS",
+    message: "",
+  });
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+
+  const handleCloseSnackbar = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    setShowSnackbar({
+      open: false,
+      status: "",
+      message: "",
+    });
   };
 
-  const handleCloseDialog = () => {
-    setDialogOpen(false);
+  const handleSave = async () => {
+    try {
+      setIsLoading(true); // Set loading state
+
+      const param = {
+        classId: classData.id,
+        traineeId: id,
+      };
+
+      const response = await classApi.enrollToClassByTrainee(param);
+      const { data, status } = response;
+
+      console.log(response);
+
+      // Simulate loading delay
+      setTimeout(() => {
+        if (status === 200) {
+          if (data.overlappedSchedule === null) {
+            setShowSnackbar({
+              open: true,
+              status: "SUCCESS",
+              message: "Join class success",
+            });
+          } else {
+            setShowSnackbar({
+              open: true,
+              status: "WARNING",
+              message: "You are overlapping",
+            });
+          }
+        }
+        setIsLoading(false); // Set loading state
+      }, 2000);
+    } catch (error) {
+      console.error("Error enrolling in class:", error);
+      setIsLoading(false); // Set loading state
+    }
   };
 
   return (
@@ -41,18 +92,28 @@ const CourseDetailEnrollRight: React.FC = () => {
           backgroundColor:
             "linear-gradient(90deg, rgb(17, 182, 122) 0%, rgb(0, 148, 68) 100%)",
         }}
-        onClick={handleOpenDialog}
+        onClick={handleSave}
+        disabled={isLoading} // Disable button during loading
       >
-        Choose class enroll
+        {isLoading ? (
+          <CircularProgress
+            size={24}
+            sx={{
+              color: "white",
+            }}
+          /> // Show loading indicator
+        ) : (
+          <Typography>Enroll</Typography>
+        )}
       </GradientButton>
-      {/* <Box
+      <Box
         sx={{
           border: "1px solid rgb(238, 238, 238)",
           padding: "16px 20px ",
           margin: "30px 0",
         }}
       >
-        <Typography variant="h5">Courses Details</Typography>
+        <Typography variant="h5">Class Details</Typography>
 
         <Box
           sx={{
@@ -77,10 +138,31 @@ const CourseDetailEnrollRight: React.FC = () => {
                 display: "flex",
               }}
             >
-              <CalendarMonthIcon />
-              <Typography>Start date:</Typography>
+              <CalendarMonthIcon
+                fontSize="small"
+                sx={{
+                  color: "rgb(17, 182, 122)",
+                }}
+              />
+              <Typography
+                variant="body2"
+                sx={{
+                  paddingLeft: "5px",
+                }}
+              >
+                Start date:
+              </Typography>
             </Box>
-            <Box>Aug 21, 2020</Box>
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "rgb(150, 150, 150)",
+                }}
+              >
+                {classData.startDate.toString()}
+              </Typography>
+            </Box>
           </Box>
           <Box
             sx={{
@@ -96,18 +178,131 @@ const CourseDetailEnrollRight: React.FC = () => {
                 display: "flex",
               }}
             >
-              <AccessTimeIcon />
-              <Typography>Duration:</Typography>
+              <AccessTimeIcon
+                fontSize="small"
+                sx={{
+                  color: "rgb(17, 182, 122)",
+                }}
+              />
+              <Typography
+                variant="body2"
+                sx={{
+                  paddingLeft: "5px",
+                }}
+              >
+                Duration:
+              </Typography>
             </Box>
-            <Box>18 months</Box>
+
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "rgb(150, 150, 150)",
+                }}
+              >
+                {classData.cycle.duration} months
+              </Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              borderTop: "1px dashed rgb(221, 221, 221)",
+              padding: "10px 0px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+              }}
+            >
+              <BookmarkIcon
+                fontSize="small"
+                sx={{
+                  color: "rgb(17, 182, 122)",
+                }}
+              />
+              <Typography
+                variant="body2"
+                sx={{
+                  paddingLeft: "5px",
+                }}
+              >
+                Enrolled:
+              </Typography>
+            </Box>
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "rgb(150, 150, 150)",
+                }}
+              >
+                {classData.trainees === null ? "0" : classData.trainees.length}
+              </Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              borderTop: "1px dashed rgb(221, 221, 221)",
+              padding: "10px 0px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+              }}
+            >
+              <MedicalServicesIcon
+                fontSize="small"
+                sx={{
+                  color: "rgb(17, 182, 122)",
+                }}
+              />
+              <Typography
+                variant="body2"
+                sx={{
+                  paddingLeft: "5px",
+                }}
+              >
+                Department:
+              </Typography>
+            </Box>
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "rgb(150, 150, 150)",
+                }}
+              >
+                {classData.program.department!.name}
+              </Typography>
+            </Box>
           </Box>
         </Box>
-      </Box> */}
-
-      <ChooseClassEnroll
-        dialogOpen={dialogOpen}
-        handleCloseDialog={handleCloseDialog}
-      />
+      </Box>
+      <Snackbar
+        open={showSnackbar.open}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        {showSnackbar.status === "SUCCESS" ? (
+          <Alert variant="filled" severity="success">
+            {showSnackbar.message}
+          </Alert>
+        ) : (
+          <Alert variant="filled" severity="error">
+            {showSnackbar.message}
+          </Alert>
+        )}
+      </Snackbar>
     </div>
   );
 };
@@ -122,4 +317,3 @@ const GradientButton = styled(Button)`
   );
   color: white;
 `;
-

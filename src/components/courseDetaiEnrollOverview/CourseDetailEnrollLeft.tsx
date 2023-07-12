@@ -32,12 +32,12 @@ const CourseDetailEnrollLeft: React.FC = () => {
         display: "flex",
         alignItems: "center"
       }}>
-        <Grid item xs={8}>
+        <Grid item xs={12}>
           <Typography variant="h5" fontWeight="bold">
             {classData.name}
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        {/* <Grid item xs={4}>
           <GradientButton
             sx={{
               width: "100%",
@@ -49,7 +49,7 @@ const CourseDetailEnrollLeft: React.FC = () => {
           >
             Choose class enroll
           </GradientButton>
-        </Grid>
+        </Grid> */}
       </Grid>
 
       <Box>

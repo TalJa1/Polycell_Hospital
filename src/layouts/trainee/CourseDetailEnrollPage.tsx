@@ -35,7 +35,7 @@ const CourseDetailEnrollPage: React.FC = () => {
                 textAlign: "center",
               }}
             >
-              <Typography variant="h4">COURSE DETAILS</Typography>
+              <Typography variant="h4">ClASS DETAILS</Typography>
             </Box>
           </Box>
           <Box
@@ -43,15 +43,19 @@ const CourseDetailEnrollPage: React.FC = () => {
               padding: "100px 0",
             }}
           >
-            <Grid container spacing={5} sx={{ justifyContent: "center" }}>
+            <Grid container sx={{ justifyContent: "center" }}>
               <Grid item xs={9}>
-                <CourseDetailEnrollLeft />
+                <Grid container spacing={5}>
+                  <Grid item xs={9}>
+                    <CourseDetailEnrollLeft />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <CourseDetailEnrollRight />
+                  </Grid>
+                  {/* <Grid item xs={10}>
+              </Grid> */}
+                </Grid>
               </Grid>
-              {/* <Grid item xs={3}>
-                <CourseDetailEnrollRight />
-              </Grid> */}
-              {/* <Grid item xs={10}>
-              </Grid> */}
             </Grid>
           </Box>
         </div>

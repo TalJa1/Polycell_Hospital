@@ -39,9 +39,7 @@ const TraineeClassListToEnrollCp: React.FC = () => {
   const programs: Program[] = useSelector(
     (state: RootState) => state.program.programs
   );
-  const getTotalPage = useSelector(
-    (state: RootState) => state.class.totalpage
-  );
+  const getTotalPage = useSelector((state: RootState) => state.class.totalpage);
   const dispatch = useDispatch();
 
   // const params = useState<any>();
@@ -108,117 +106,121 @@ const TraineeClassListToEnrollCp: React.FC = () => {
           padding: "100px 0",
         }}
       >
-        <Grid container spacing={5} sx={{ justifyContent: "center" }}>
-          <Grid item xs={2}>
-            <Box
-              sx={{
-                border: "1px solid rgb(238, 238, 238)",
-                padding: "16px 20px",
-                marginBottom: "40px",
-              }}
-            >
-              <Typography variant="h5">Search Classes</Typography>
+        <Grid container sx={{ justifyContent: "center" }}>
+          <Grid item xs={9}>
+            <Grid container spacing={5}>
+              <Grid item xs={3}>
+                <Box
+                  sx={{
+                    border: "1px solid rgb(238, 238, 238)",
+                    padding: "16px 20px",
+                    marginBottom: "40px",
+                  }}
+                >
+                  <Typography variant="h5">Search Classes</Typography>
 
-              <Box
-                sx={{
-                  borderBottom: "2px solid rgb(17, 182, 122)",
-                  width: "50px",
-                  marginBottom: "20px",
-                }}
-              />
+                  <Box
+                    sx={{
+                      borderBottom: "2px solid rgb(17, 182, 122)",
+                      width: "50px",
+                      marginBottom: "20px",
+                    }}
+                  />
 
-              <TextField placeholder="Search" size="small" fullWidth />
-            </Box>
-            <Box
-              sx={{
-                border: "1px solid rgb(238, 238, 238)",
-                padding: "16px 20px",
-                marginBottom: "40px",
-              }}
-            >
-              <Typography variant="h5">Program</Typography>
+                  <TextField placeholder="Search" size="small" fullWidth />
+                </Box>
+                <Box
+                  sx={{
+                    border: "1px solid rgb(238, 238, 238)",
+                    padding: "16px 20px",
+                    marginBottom: "40px",
+                  }}
+                >
+                  <Typography variant="h5">Program</Typography>
 
-              <Box
-                sx={{
-                  borderBottom: "2px solid rgb(17, 182, 122)",
-                  width: "50px",
-                  marginBottom: "20px",
-                }}
-              />
+                  <Box
+                    sx={{
+                      borderBottom: "2px solid rgb(17, 182, 122)",
+                      width: "50px",
+                      marginBottom: "20px",
+                    }}
+                  />
 
-              <FormGroup>
-                {programs.map((program, index) => (
-                  <Box key={index}>
-                    <FormControlLabel
-                      sx={{
-                        borderTop: "1px dashed rgb(221, 221, 221)",
-                        padding: "10px 0px",
-                        color: "rgb(150, 150, 150)",
-                      }}
-                      control={<Checkbox size="small" />}
-                      label={program.name}
+                  <FormGroup>
+                    {programs.map((program, index) => (
+                      <Box key={index}>
+                        <FormControlLabel
+                          sx={{
+                            borderTop: "1px dashed rgb(221, 221, 221)",
+                            padding: "10px 0px",
+                            color: "rgb(150, 150, 150)",
+                          }}
+                          control={<Checkbox size="small" />}
+                          label={program.name}
+                        />
+                      </Box>
+                    ))}
+                  </FormGroup>
+                </Box>
+                <Box
+                  sx={{
+                    border: "1px solid rgb(238, 238, 238)",
+                    padding: "16px 20px",
+                  }}
+                >
+                  <Typography variant="h5">Days Study</Typography>
+
+                  <Box
+                    sx={{
+                      borderBottom: "2px solid rgb(17, 182, 122)",
+                      width: "50px",
+                      marginBottom: "20px",
+                    }}
+                  />
+
+                  <FormGroup>
+                    {daysOfWeek.map((day, index) => (
+                      <Box key={index}>
+                        <FormControlLabel
+                          sx={{
+                            borderTop: "1px dashed rgb(221, 221, 221)",
+                            padding: "10px 0px",
+                            color: "rgb(150, 150, 150)",
+                            width: "100%",
+                          }}
+                          control={<Checkbox size="small" />}
+                          label={day}
+                        />
+                      </Box>
+                    ))}
+                  </FormGroup>
+                </Box>
+              </Grid>
+              <Grid item xs={9}>
+                <Box>
+                  {list.map((classData: Class, index: number) => (
+                    <TraineClassEnrollDetailCardCp
+                      key={index}
+                      classData={classData}
                     />
-                  </Box>
-                ))}
-              </FormGroup>
-            </Box>
-            <Box
-              sx={{
-                border: "1px solid rgb(238, 238, 238)",
-                padding: "16px 20px",
-              }}
-            >
-              <Typography variant="h5">Days Study</Typography>
-
-              <Box
-                sx={{
-                  borderBottom: "2px solid rgb(17, 182, 122)",
-                  width: "50px",
-                  marginBottom: "20px",
-                }}
-              />
-
-              <FormGroup>
-                {daysOfWeek.map((day, index) => (
-                  <Box key={index}>
-                    <FormControlLabel
-                      sx={{
-                        borderTop: "1px dashed rgb(221, 221, 221)",
-                        padding: "10px 0px",
-                        color: "rgb(150, 150, 150)",
-                        width: "100%",
-                      }}
-                      control={<Checkbox size="small" />}
-                      label={day}
-                    />
-                  </Box>
-                ))}
-              </FormGroup>
-            </Box>
-          </Grid>
-          <Grid item xs={8}>
-            <Box>
-              {list.map((classData: Class, index: number) => (
-                <TraineClassEnrollDetailCardCp
-                  key={index}
-                  classData={classData}
-                />
-              ))}
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "20px",
-              }}
-            >
-              <Pagination
-                count={getTotalPage}
-                page={page}
-                onChange={handleChange}
-                size="large"
-              />
-            </Box>
+                  ))}
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "20px",
+                  }}
+                >
+                  <Pagination
+                    count={getTotalPage}
+                    page={page}
+                    onChange={handleChange}
+                    size="large"
+                  />
+                </Box>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Box>

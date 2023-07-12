@@ -46,10 +46,12 @@ const CourseDetailSyllabusCp: React.FC = () => {
   const location = useLocation();
   const classData: Class = location.state?.classData;
 
+  // console.log(classData.programId)
+
   const fetchSyllabus = useCallback(async () => {
     try {
       const response = await syllabusApi.getSyllabusByProgramId(
-        classData.programId
+        classData.program.id
       );
       const { data } = response;
 
@@ -57,7 +59,7 @@ const CourseDetailSyllabusCp: React.FC = () => {
     } catch (error) {
       console.error("Error fetching trainees:", error);
     }
-  }, [classData.programId, dispatch]);
+  }, [classData.programId, dispatch])
 
   useEffect(() => {
     fetchSyllabus();
