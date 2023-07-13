@@ -14,8 +14,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../actions/userAction";
-import { useNavigate } from "react-router-dom";
-import { AppProviderContext } from "../provider/Provider";
+import { redirect, useNavigate } from "react-router-dom";
+import { SessionData } from "../utils/constant";
 
 function isValidEmail(email: any) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,19 +57,39 @@ function Loginpage() {
     if (email === "admin@polycell.com" && password === "1") {
       const action1 = loginUser(true, email, "");
       dispatch(action1);
+      const sessionData: SessionData = {
+        isLoggedIn: true,
+        id: "",
+        role: "ADMIN",
+      };
+      localStorage.setItem("sessionData", JSON.stringify(sessionData));
+
       navigate("/home");
     } else if (email === "upper@polycell.com" && password === "1") {
       const action1 = loginUser(true, email, "");
       dispatch(action1);
+      const sessionData: SessionData = {
+        isLoggedIn: true,
+        id: "",
+        role: "UPPERCLASS",
+      };
+      localStorage.setItem("sessionData", JSON.stringify(sessionData));
       navigate("/home");
     } else if (email === "trainer@polycell.com" && password === "1") {
-      const action1 = loginUser(true, email, "TRAINER");
-      dispatch(action1);
-
+      const sessionData: SessionData = {
+        isLoggedIn: true,
+        id: "",
+        role: "TRAINER",
+      };
+      localStorage.setItem("sessionData", JSON.stringify(sessionData));
       navigate("/home");
     } else if (email === "trainee@polycell.com" && password === "1") {
-      const action1 = loginUser(true, email, "TRAINEE");
-      dispatch(action1);
+      const sessionData: SessionData = {
+        isLoggedIn: true,
+        id: "673e3d95-bdac-426f-ab4b-4acb0a85554b",
+        role: "TRAINEE",
+      };
+      localStorage.setItem("sessionData", JSON.stringify(sessionData));
       navigate("/course-list-page");
     }
   };

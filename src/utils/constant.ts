@@ -70,3 +70,9 @@ export interface SnackbarState{
   status: "SUCCESS" | "ERROR" | "WARNING" | "";
   message: string
 }
+
+export interface SessionData {
+  isLoggedIn: boolean;
+  id: string;
+  role: "TRAINER" | "TRAINEE" | "ADMIN" | "UPPERCLASS" | "";
+}

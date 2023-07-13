@@ -180,7 +180,6 @@ const TraineeClassListToEnrollCp: React.FC = () => {
                       marginTop: "5px",
                     }}
                   />
-
                   <FormGroup>
                     {daysOfWeek.map((day, index) => (
                       <Box key={index}>

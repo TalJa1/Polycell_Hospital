@@ -17,13 +17,22 @@ import { Class } from "../../models/classManagementModel";
 import classApi from "../../api/classApi";
 import { RootState } from "../../reduxs/Root";
 import { useSelector } from "react-redux";
-import { SnackbarState } from "../../utils/constant";
+import { SessionData, SnackbarState } from "../../utils/constant";
 
 const CourseDetailEnrollRight: React.FC = () => {
   const location = useLocation();
   const classData: Class = location.state?.classData;
-  const navigate = useNavigate();
-  const { id } = useSelector((state: RootState) => state.user);
+  // const { id } = useSelector((state: RootState) => state.user);
+
+  const [sessionData, setSessionData] = React.useState<SessionData | null>(
+    localStorage.getItem("sessionData")
+      ? JSON.parse(localStorage.getItem("sessionData") || "")
+      : null
+  );
+
+  console.log(sessionData);
+
+  const { id } = sessionData!;
 
   const [showSnackbar, setShowSnackbar] = useState<SnackbarState>({
     open: false,

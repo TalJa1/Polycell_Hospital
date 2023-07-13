@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import { ClientSessionProvider } from "react-client-session";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { Provider } from "react-redux";
@@ -11,7 +12,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { EditModeProvider } from "./provider/EditModeProvider";
-import { AppProvider } from "./provider/Provider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

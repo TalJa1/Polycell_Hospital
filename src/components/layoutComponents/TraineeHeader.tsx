@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reduxs/Root";
 import { loginUser } from "../../actions/userAction";
 import { setCurrentPage } from "../../actions/currentPageAction";
+import { SessionData } from "../../utils/constant";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -49,10 +50,18 @@ interface HeaderProps {
 const TraineeHeader: React.FC<HeaderProps> = (props) => {
   const navigate = useNavigate();
   const { editMode, handleEditModeChange } = React.useContext(EditModeContext);
-  const { role } = useSelector((state: RootState) => state.user);
+  // const { id } = useSelector((state: RootState) => state.user);
   const { currentPage } = useSelector((state: RootState) => state.currentPage);
 
-  // console.log(role);
+  const [sessionData, setSessionData] = React.useState<SessionData | null>(
+    localStorage.getItem("sessionData")
+      ? JSON.parse(localStorage.getItem("sessionData") || "")
+      : null
+  );
+
+  console.log(sessionData);
+
+  const { role } = sessionData!;
 
   const dispatch = useDispatch();
 
@@ -73,8 +82,7 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
   };
 
   const handleLogout = () => {
-    const action1 = loginUser(false, "", "");
-    dispatch(action1);
+    localStorage.removeItem("sessionData");
     handleEditModeChange(false);
     navigate("/");
   };
@@ -99,7 +107,13 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <Divider />
-      <MenuItem onClick={handleLogout}>Log out</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleLogout();
+        }}
+      >
+        Log out
+      </MenuItem>
     </Menu>
   );
 

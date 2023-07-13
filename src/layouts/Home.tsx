@@ -10,24 +10,28 @@ import Footer from "../components/layoutComponents/Footer";
 import HomeCp from "../components/classComponents/HomeCp";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reduxs/Root";
+import { SessionData } from "../utils/constant";
 
 const Home: React.FC = () => {
-  const { role } = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch();
+  const [sessionData, setSessionData] = React.useState<SessionData | null>(
+    localStorage.getItem("sessionData")
+      ? JSON.parse(localStorage.getItem("sessionData") || "")
+      : null
+  );
 
-console.log(role)
+  const { role } = sessionData!;
 
   return (
     <div className="container">
-      {role === "" ? <Menubar /> : <></>}
+      {role !== "TRAINEE" && role !== "TRAINER"  ? <Menubar /> : <></>}
       {/* <Menubar /> */}
       <main className="rightlayout">
         <div className="class-container">
-          {role === "" ? (
+          {role === "TRAINER" || role === "TRAINEE" ? (
             // <Header title="Home" imageUrl="" />
-            <></>
-          ) : (
             <TraineeHeader title="Pollycell" />
+          ) : (
+            <></>
           )}
 
           <Box
@@ -39,7 +43,7 @@ console.log(role)
               position: "relative",
             }}
           >
-            <HomeCp/>
+            <HomeCp />
           </Box>
           <Footer />
         </div>

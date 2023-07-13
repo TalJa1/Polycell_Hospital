@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reduxs/Root";
 import attendanceApi from "../../api/attendanceApi";
-import { FETCH_ATTENDANCE_SUCCESS } from "../../utils/constant";
+import { FETCH_ATTENDANCE_SUCCESS, SessionData } from "../../utils/constant";
 import { fetchAttendanceSuccess } from "../../actions/attendanceAction";
 import { Attendance } from "../../models/attendaceModel";
 import type { CellRenderInfo } from "rc-picker/lib/interface";
@@ -28,7 +28,15 @@ import { Schedule } from "../../models/scheduleModel";
 
 const ScheduleTraineeListData: React.FC = () => {
   const { list } = useSelector((state: RootState) => state.schedule);
-  const { id } = useSelector((state: RootState) => state.user);
+  const [sessionData, setSessionData] = React.useState<SessionData | null>(
+    localStorage.getItem("sessionData")
+      ? JSON.parse(localStorage.getItem("sessionData") || "")
+      : null
+  );
+
+  console.log(sessionData);
+
+  const { id } = sessionData!;
 
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);

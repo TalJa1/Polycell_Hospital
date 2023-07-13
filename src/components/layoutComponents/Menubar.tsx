@@ -17,11 +17,23 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useDispatch, useSelector } from "react-redux";
+import { SessionData } from "../../utils/constant";
+import { useState } from "react";
 
 const Menubar: React.FC = () => {
   const { collapseSidebar, broken, toggleSidebar, collapsed } = useProSidebar();
   const isLogined = useSelector((state: any) => state.user.isLogin);
   const userEmail = useSelector((state: any) => state.user.userEmail);
+
+  const [sessionData, setSessionData] = useState<SessionData | null>(
+    localStorage.getItem("sessionData")
+      ? JSON.parse(localStorage.getItem("sessionData") || "")
+      : null
+  );
+
+  console.log(sessionData);
+
+  const { role } = sessionData!;
 
   return (
     <div style={{ display: "flex" }}>
@@ -56,49 +68,51 @@ const Menubar: React.FC = () => {
           >
             Home
           </MenuItem>
-          {userEmail === "admin@polycell.com" ? (
+          {role === "ADMIN" ? (
             <MenuItem
               icon={<SchoolIcon />}
               component={<Link to="/class-management" />}
             >
               Class
             </MenuItem>
-          ) : userEmail === "upper@polycell.com" ? (
+          ) : role === "UPPERCLASS" ? (
             <MenuItem
               icon={<SchoolIcon />}
               component={<Link to="/class-acceptance" />}
             >
               Class Acceptance
             </MenuItem>
-          ) : userEmail === "trainer@polycell.com" ? (
-            <MenuItem
-              icon={<SchoolIcon />}
-              component={<Link to="/trainee-course-page" />}
-            >
-              My Course
-            </MenuItem>
-          ) : userEmail === "trainee@polycell.com" ? (
-            <>
-              <MenuItem
-                icon={<SchoolIcon />}
-                component={<Link to="/trainee-management" />}
-              >
-                Trainee List
-              </MenuItem>
-              <MenuItem
-                icon={<SchoolIcon />}
-                component={<Link to="/course-view" />}
-              >
-                Courses
-              </MenuItem>
-              <MenuItem
-                icon={<ForumIcon />}
-                component={<Link to="/trainee-attendance" />}
-              >
-                Trainee attendance
-              </MenuItem>
-            </>
-          ) : (
+          ) 
+          // : userEmail === "trainer@polycell.com" ? (
+          //   <MenuItem
+          //     icon={<SchoolIcon />}
+          //     component={<Link to="/trainee-course-page" />}
+          //   >
+          //     My Course
+          //   </MenuItem>
+          // ) : userEmail === "trainee@polycell.com" ? (
+          //   <>
+          //     <MenuItem
+          //       icon={<SchoolIcon />}
+          //       component={<Link to="/trainee-management" />}
+          //     >
+          //       Trainee List
+          //     </MenuItem>
+          //     <MenuItem
+          //       icon={<SchoolIcon />}
+          //       component={<Link to="/course-view" />}
+          //     >
+          //       Courses
+          //     </MenuItem>
+          //     <MenuItem
+          //       icon={<ForumIcon />}
+          //       component={<Link to="/trainee-attendance" />}
+          //     >
+          //       Trainee attendance
+          //     </MenuItem>
+          //   </>
+          // ) 
+          : (
             <></>
           )}
 

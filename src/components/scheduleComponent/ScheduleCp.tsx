@@ -10,12 +10,21 @@ import ScheduleTraineeListData from "./ScheduleTraineeListData";
 
 import { RootState } from "../../reduxs/Root";
 import { useSelector } from "react-redux";
+import { SessionData } from "../../utils/constant";
 
 const ScheduleCP: React.FC = () => {
   const onPanelChange = (value: Dayjs, mode: CalendarMode) => {
     console.log(value.format("YYYY-MM-DD"), mode);
   };
-  const { role } = useSelector((state: RootState) => state.user);
+  // const { role } = useSelector((state: RootState) => state.user);
+
+  const [sessionData, setSessionData] = React.useState<SessionData | null>(
+    localStorage.getItem("sessionData")
+      ? JSON.parse(localStorage.getItem("sessionData") || "")
+      : null
+  );
+
+  const {role} = sessionData!;
 
 
 

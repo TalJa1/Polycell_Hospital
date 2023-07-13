@@ -30,7 +30,7 @@ import {
 import { Class, Overlap } from "../../models/classManagementModel";
 import { formatTimeSlot } from "../../utils/formatDay";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ErrorItem } from "../../utils/constant";
+import { ErrorItem, SessionData } from "../../utils/constant";
 import { Program } from "../../models/programAddModel";
 
 type ChooseClassEnrollProps = {
@@ -44,10 +44,20 @@ const ChooseClassEnroll: React.FC<ChooseClassEnrollProps> = ({
 }) => {
   const navigate = useNavigate();
   const { list } = useSelector((state: RootState) => state.class);
-  const { id } = useSelector((state: RootState) => state.user);
+  // const { id } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const location = useLocation();
   const program: Program = location.state?.program;
+
+  const [sessionData, setSessionData] = React.useState<SessionData | null>(
+    localStorage.getItem("sessionData")
+      ? JSON.parse(localStorage.getItem("sessionData") || "")
+      : null
+  );
+
+  console.log(sessionData);
+
+  const { id } = sessionData!;
 
   const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>();
   const [listOverlap, setListOverlap] = useState<Overlap[]>([]);
