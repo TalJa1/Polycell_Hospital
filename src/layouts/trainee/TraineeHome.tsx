@@ -8,6 +8,7 @@ const TraineeHome: React.FC = () => {
   return (
     <div className="class-container">
       <TraineeHeader title="Pollycell" />
+
       <Box
         sx={{
           backgroundColor: "white",
