@@ -65,13 +65,12 @@ const HideOnScroll: React.FC<Props> = (props) => {
 
 interface HeaderProps {
   title: string;
+  children: React.ReactNode;
 }
 
 const TraineeHeader: React.FC<HeaderProps> = (props) => {
   const navigate = useNavigate();
   const { editMode, handleEditModeChange } = React.useContext(EditModeContext);
-  // const { id } = useSelector((state: RootState) => state.user);
-  const { currentPage } = useSelector((state: RootState) => state.currentPage);
 
   const [sessionData, setSessionData] = React.useState<SessionData | null>(
     localStorage.getItem("sessionData")
@@ -83,9 +82,6 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
 
   const { role } = sessionData!;
 
-  const dispatch = useDispatch();
-
-  // const [isSchedulePage, setIsSchedulePage] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -134,153 +130,166 @@ const TraineeHeader: React.FC<HeaderProps> = (props) => {
     </Menu>
   );
 
+  const pathName = window.location.pathname;
+
+  console.log(pathName);
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <HideOnScroll {...props}>
-        <AppBar>
-          <Toolbar
-            sx={{
-              backgroundColor: "#E6E6E6",
-            }}
-          >
-            <Box
+    <Box>
+      <Box sx={{ flexGrow: 1 }}>
+        <HideOnScroll {...props}>
+          <AppBar>
+            <Toolbar
               sx={{
-                display: "flex",
-                gap: "20px",
-                alignItems: "center",
+                backgroundColor: "#E6E6E6",
               }}
             >
-              {props.title !== "" ? (
-                <Box>
-                  <strong className="header-title" style={{ color: "black" }}>
-                    {props.title}
-                  </strong>
-                </Box>
-              ) : null}
-              <Tab
-                label="Home"
-                onClick={() => {
-                  dispatch(setCurrentPage("home"));
-                  if (role === "TRAINEE") {
-                    navigate("/course-list-page");
-                  } else {
-                    navigate("/home");
-                  }
-                }}
+              <Box
                 sx={{
-                  color: currentPage === "home" ? "blue" : "black",
-                  borderBottom:
-                    currentPage === "home" ? "2px solid blue" : "none",
+                  display: "flex",
+                  gap: "20px",
+                  alignItems: "center",
                 }}
-              />
-              <Tab
-                label="My courses"
-                onClick={() => {
-                  dispatch(setCurrentPage("myCourses"));
-                  navigate("/trainee-course-page");
-                }}
-                sx={{
-                  color: currentPage === "myCourses" ? "blue" : "black",
-                  borderBottom:
-                    currentPage === "myCourses" ? "2px solid blue" : "none",
-                }}
-              />
-              {role === "TRAINEE" && (
+              >
+                {props.title !== "" ? (
+                  <Box>
+                    <strong className="header-title" style={{ color: "black" }}>
+                      {props.title}
+                    </strong>
+                  </Box>
+                ) : null}
                 <Tab
-                  label="Attendance"
-                  onClick={() => {
-                    dispatch(setCurrentPage("attendance"));
-                    navigate("/trainee-attendance");
+                  label="Home"
+                  onClick={() => {;
+                    if (role === "TRAINEE") {
+                      navigate("/course-list-page");
+                    } else {
+                      navigate("/home");
+                    }
                   }}
                   sx={{
-                    color: currentPage === "attendance" ? "blue" : "black",
+                    color:
+                      pathName === "/course-list-page" || pathName === "/home"
+                        ? "blue"
+                        : "black",
                     borderBottom:
-                      currentPage === "attendance" ? "2px solid blue" : "none",
+                      pathName === "/course-list-page" || pathName === "/home"
+                        ? "2px solid blue"
+                        : "none",
                   }}
                 />
-              )}
-            </Box>
-            <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { md: "flex" }, color: "#1B5461" }}>
-              <Search>
-                <Paper
-                  component="form"
-                  sx={{
-                    p: "2px 4px",
-                    display: "flex",
-                    alignItems: "center",
-                    width: "100%",
+                <Tab
+                  label="My courses"
+                  onClick={() => {
+                    
+                    navigate("/trainee-course-page");
                   }}
-                >
-                  <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="Search Course"
-                    inputProps={{ "aria-label": "search course" }}
-                  />
-                  <IconButton type="button" aria-label="search">
-                    <SearchIcon />
-                  </IconButton>
-                </Paper>
-              </Search>
-              <Link
-                to="/schedule-page"
-                onClick={() => {
-                  dispatch(setCurrentPage("schedule"));
-                }}
-              >
-                <IconButton size="large">
-                  <CalendarMonthIcon
+                  sx={{
+                    color: pathName === "/trainee-course-page" ? "blue" : "black",
+                    borderBottom:
+                      pathName === "/trainee-course-page" ? "2px solid blue" : "none",
+                  }}
+                />
+                {role === "TRAINEE" && (
+                  <Tab
+                    label="Attendance"
+                    onClick={() => {
+                      
+                      navigate("/trainee-attendance");
+                    }}
                     sx={{
-                      color: currentPage === "schedule" ? "blue" : "#1B5461",
+                      color: pathName === "/trainee-attendance" ? "blue" : "black",
                       borderBottom:
-                        currentPage === "schedule" ? "2px solid blue" : "none",
+                      pathName === "/trainee-attendance" 
+                          ? "2px solid blue"
+                          : "none",
                     }}
                   />
-                </IconButton>
-              </Link>
+                )}
+              </Box>
+              <Box sx={{ flexGrow: 1 }} />
+              <Box sx={{ display: { md: "flex" }, color: "#1B5461" }}>
+                <Search>
+                  <Paper
+                    component="form"
+                    sx={{
+                      p: "2px 4px",
+                      display: "flex",
+                      alignItems: "center",
+                      width: "100%",
+                    }}
+                  >
+                    <InputBase
+                      sx={{ ml: 1, flex: 1 }}
+                      placeholder="Search Course"
+                      inputProps={{ "aria-label": "search course" }}
+                    />
+                    <IconButton type="button" aria-label="search">
+                      <SearchIcon />
+                    </IconButton>
+                  </Paper>
+                </Search>
+                <Link
+                  to="/schedule-page"
+                >
+                  <IconButton size="large">
+                    <CalendarMonthIcon
+                      sx={{
+                        color: pathName === "/schedule-page" ? "blue" : "#1B5461",
+                        borderBottom:
+                          pathName === "schedule-page"
+                            ? "2px solid blue"
+                            : "none",
+                      }}
+                    />
+                  </IconButton>
+                </Link>
 
-              <IconButton
-                size="large"
-                aria-label="show 17 new notifications"
-                color="inherit"
-              >
-                <Badge badgeContent={17} color="error">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              {role === "TRAINEE" ? (
-                <></>
-              ) : (
-                <>
-                  <Divider orientation="vertical" flexItem />
-                  <FormControlLabel
-                    label="Edit mode"
-                    control={
-                      <Switch
-                        checked={editMode}
-                        onChange={() => handleEditModeChange(!editMode)}
-                      />
-                    }
-                  />
-                </>
-              )}
-            </Box>
-          </Toolbar>
-        </AppBar>
-      </HideOnScroll>
-      <Toolbar />
-      {renderMenu}
+                <IconButton
+                  size="large"
+                  aria-label="show 17 new notifications"
+                  color="inherit"
+                >
+                  <Badge badgeContent={17} color="error">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                {role === "TRAINEE" ? (
+                  <></>
+                ) : (
+                  <>
+                    <Divider orientation="vertical" flexItem />
+                    <FormControlLabel
+                      label="Edit mode"
+                      control={
+                        <Switch
+                          checked={editMode}
+                          onChange={() => handleEditModeChange(!editMode)}
+                        />
+                      }
+                    />
+                  </>
+                )}
+              </Box>
+            </Toolbar>
+          </AppBar>
+        </HideOnScroll>
+        <Toolbar />
+
+        {renderMenu}
+      </Box>
+      {props.children}
     </Box>
   );
 };

@@ -20,20 +20,21 @@ const CourseCp: React.FC = () => {
 
   return (
     <div className="class-container">
-      <TraineeHeader title="Pollycell" />
-      <Box
-        sx={{
-          backgroundColor: "white",
-          display: "flex",
-          justifyContent: "center",
-          minHeight: "1000px",
-          height: "fit-content",
-          position: "relative",
-        }}
-      >
-        
-        <CourseTabBarCp editMode={editMode} />
-      </Box>
+      <TraineeHeader title="Pollycell">
+        <Box
+          sx={{
+            backgroundColor: "white",
+            display: "flex",
+            justifyContent: "center",
+            minHeight: "1000px",
+            height: "fit-content",
+            position: "relative",
+          }}
+        >
+          <CourseTabBarCp editMode={editMode} />
+        </Box>
+      </TraineeHeader>
+
       <Footer />
     </div>
   );

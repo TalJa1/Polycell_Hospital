@@ -23,28 +23,41 @@ const Home: React.FC = () => {
 
   return (
     <div className="container">
-      {role !== "TRAINEE" && role !== "TRAINER"  ? <Menubar /> : <></>}
+      {role !== "TRAINEE" && role !== "TRAINER" ? <Menubar /> : <></>}
       {/* <Menubar /> */}
       <main className="rightlayout">
         <div className="class-container">
           {role === "TRAINER" || role === "TRAINEE" ? (
             // <Header title="Home" imageUrl="" />
-            <TraineeHeader title="Pollycell" />
+            <TraineeHeader title="Pollycell">
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  // display: "flex",
+                  // justifyContent: "center",
+                  // height: "100vh",
+                  position: "relative",
+                }}
+              >
+                <HomeCp />
+              </Box>
+            </TraineeHeader>
           ) : (
-            <></>
+            <>
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  // display: "flex",
+                  // justifyContent: "center",
+                  // height: "100vh",
+                  position: "relative",
+                }}
+              >
+                <HomeCp />
+              </Box>
+            </>
           )}
 
-          <Box
-            sx={{
-              backgroundColor: "white",
-              // display: "flex",
-              // justifyContent: "center",
-              // height: "100vh",
-              position: "relative",
-            }}
-          >
-            <HomeCp />
-          </Box>
           <Footer />
         </div>
       </main>

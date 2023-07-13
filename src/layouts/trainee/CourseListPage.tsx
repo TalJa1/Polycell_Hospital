@@ -8,19 +8,21 @@ import TraineCourseListCp from "../../components/TraineeCourseListComponent/Trai
 const CourseListPage: React.FC = () => {
   return (
     <div className="class-container">
-      <TraineeHeader title="Pollycell" />
-      <Box
-        sx={{
-          backgroundColor: "white",
-          // display: "flex",
-          // justifyContent: "center",
-          // height: "100vh",
-          position: "relative",
-        }}
-      >
-        {/* <TraineCourseListCp /> */}
-        <TraineeClassListToEnrollCp/>
-      </Box>
+      <TraineeHeader title="Pollycell">
+        <Box
+          sx={{
+            backgroundColor: "white",
+            // display: "flex",
+            // justifyContent: "center",
+            // height: "100vh",
+            position: "relative",
+          }}
+        >
+          {/* <TraineCourseListCp /> */}
+          <TraineeClassListToEnrollCp />
+        </Box>
+      </TraineeHeader>
+
       <Footer />
     </div>
   );

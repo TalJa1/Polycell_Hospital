@@ -8,19 +8,20 @@ import Footer from "../../components/layoutComponents/Footer";
 const TraineeAttendanceCheck: React.FC = () => {
   return (
     <div className="class-container">
-      <TraineeHeader title="Pollycell" />
-      <Box
-        sx={{
-          backgroundColor: "white",
-          // display: "flex",
-          // justifyContent: "center",
-          // height: "100vh",
-          position: "relative",
-        }}
-      >
-        <TraineeAttendanceCp />
-      </Box>
-      <Footer />
+      <TraineeHeader title="Pollycell">
+        <Box
+          sx={{
+            backgroundColor: "white",
+            // display: "flex",
+            // justifyContent: "center",
+            // height: "100vh",
+            position: "relative",
+          }}
+        >
+          <TraineeAttendanceCp />
+        </Box>
+        <Footer />
+      </TraineeHeader>
     </div>
     // <div className="container">
     //   {/* <Menubar /> */}

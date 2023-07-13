@@ -17,8 +17,8 @@ const FormActivityCp: React.FC = () => {
         return <FormActivityUrl />;
       case "FILE":
         return <FormActivityFile />;
-      case "QUIZ": 
-        return <FormActivityQuiz/>;
+      case "QUIZ":
+        return <FormActivityQuiz />;
       default:
         return null;
     }
@@ -26,22 +26,24 @@ const FormActivityCp: React.FC = () => {
 
   return (
     <div className="class-container">
-      <TraineeHeader title="Course" />
-      <Box
-        sx={{
-          backgroundColor: "white",
-          display: "flex",
-          justifyContent: "center",
-          maxHeight: "100%",
-          position: "relative",
-        }}
-      >
-        {/* <CourseTabBarCp editMode={editMode} /> */}
-        <Box sx={{ width: "70%" }}>
-          <CourseTabBar />
-          {renderFormActivityComponent()}
+      <TraineeHeader title="Course">
+        <Box
+          sx={{
+            backgroundColor: "white",
+            display: "flex",
+            justifyContent: "center",
+            maxHeight: "100%",
+            position: "relative",
+          }}
+        >
+          {/* <CourseTabBarCp editMode={editMode} /> */}
+          <Box sx={{ width: "70%" }}>
+            <CourseTabBar />
+            {renderFormActivityComponent()}
+          </Box>
         </Box>
-      </Box>
+      </TraineeHeader>
+
       <Footer />
     </div>
   );

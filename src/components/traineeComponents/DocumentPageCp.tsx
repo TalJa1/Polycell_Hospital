@@ -9,7 +9,7 @@ const DocumentPageCp : React.FC = () => {
 
   return (
     <Box>
-      <TraineeHeader title='Document' />
+      {/* <TraineeHeader title='Document' /> */}
       <Grid
         container
         direction="row"

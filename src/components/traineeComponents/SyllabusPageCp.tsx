@@ -11,7 +11,7 @@ const SyllabusPageCp: React.FC = () => {
 
   return (
     <Box>
-      <TraineeHeader title='Syllabus' />
+      {/* <TraineeHeader title='Syllabus' /> */}
       <Grid
         container
         direction="row"

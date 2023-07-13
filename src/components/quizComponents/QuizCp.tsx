@@ -7,18 +7,20 @@ import QuizTabBarCp from "./QuizTabBarCp";
 const QuizCp: React.FC = () => {
   return (
     <div className="class-container">
-      <TraineeHeader title="Course" />
-      <Box
-        sx={{
-          backgroundColor: "white",
-          display: "flex",
-          justifyContent: "center",
-          maxHeight: "100%",
-          position: "relative",
-        }}
-      >
-        <QuizTabBarCp/>
-      </Box>
+      <TraineeHeader title="Course">
+        <Box
+          sx={{
+            backgroundColor: "white",
+            display: "flex",
+            justifyContent: "center",
+            maxHeight: "100%",
+            position: "relative",
+          }}
+        >
+          <QuizTabBarCp />
+        </Box>
+      </TraineeHeader>
+
       <Footer />
     </div>
   );

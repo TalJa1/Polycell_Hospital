@@ -24,29 +24,33 @@ const ScheduleCP: React.FC = () => {
       : null
   );
 
-  const {role} = sessionData!;
-
-
+  const { role } = sessionData!;
 
   return (
     <div className="class-container">
-      <TraineeHeader title="Pollycell" />
-      <Box
-        bgcolor="white"
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <TraineeHeader title="Pollycell">
         <Box
+          bgcolor="white"
           sx={{
-            width: "80%",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
-          {/* <Calendar onPanelChange={onPanelChange}  /> */}
-          {role === "TRAINEE" ? <ScheduleTraineeListData /> : <ScheduleListData />}
+          <Box
+            sx={{
+              width: "80%",
+            }}
+          >
+            {/* <Calendar onPanelChange={onPanelChange}  /> */}
+            {role === "TRAINEE" ? (
+              <ScheduleTraineeListData />
+            ) : (
+              <ScheduleListData />
+            )}
+          </Box>
         </Box>
-      </Box>
+      </TraineeHeader>
+
       <Footer />
     </div>
   );

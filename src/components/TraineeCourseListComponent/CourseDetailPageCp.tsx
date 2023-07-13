@@ -25,7 +25,7 @@ const CourseDetailPageCp: React.FC = () => {
   );
   return (
     <Box>
-      <TraineeHeader title={`${course?.code}`} />
+      {/* <TraineeHeader title={`${course?.code}`} /> */}
       <Grid
         container
         direction="row"

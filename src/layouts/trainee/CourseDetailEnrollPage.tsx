@@ -10,56 +10,58 @@ import { useLocation } from "react-router-dom";
 const CourseDetailEnrollPage: React.FC = () => {
   return (
     <div className="class-container">
-      <TraineeHeader title="Pollycell" />
-      <Box
-        sx={{
-          background: "rgb(255, 255, 255)",
-          // display: "flex",
-          // justifyContent: "center",
-          // height: "100vh",
-          position: "relative",
-        }}
-      >
-        <div>
-          <Box sx={boxStyle}>
-            <div style={overlayStyle}></div>
+      <TraineeHeader title="Pollycell">
+        <Box
+          sx={{
+            background: "rgb(255, 255, 255)",
+            // display: "flex",
+            // justifyContent: "center",
+            // height: "100vh",
+            position: "relative",
+          }}
+        >
+          <div>
+            <Box sx={boxStyle}>
+              <div style={overlayStyle}></div>
+              <Box
+                sx={{
+                  position: "absolute",
+                  background: "rgb(24, 43, 73)",
+                  color: "white",
+                  padding: "30px",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  textAlign: "center",
+                }}
+              >
+                <Typography variant="h4">ClASS DETAILS</Typography>
+              </Box>
+            </Box>
             <Box
               sx={{
-                position: "absolute",
-                background: "rgb(24, 43, 73)",
-                color: "white",
-                padding: "30px",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                textAlign: "center",
+                padding: "100px 0",
               }}
             >
-              <Typography variant="h4">ClASS DETAILS</Typography>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              padding: "100px 0",
-            }}
-          >
-            <Grid container sx={{ justifyContent: "center" }}>
-              <Grid item xs={9}>
-                <Grid container spacing={5}>
-                  <Grid item xs={9}>
-                    <CourseDetailEnrollLeft />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <CourseDetailEnrollRight />
-                  </Grid>
-                  {/* <Grid item xs={10}>
+              <Grid container sx={{ justifyContent: "center" }}>
+                <Grid item xs={9}>
+                  <Grid container spacing={5}>
+                    <Grid item xs={9}>
+                      <CourseDetailEnrollLeft />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <CourseDetailEnrollRight />
+                    </Grid>
+                    {/* <Grid item xs={10}>
               </Grid> */}
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Box>
-        </div>
-      </Box>
+            </Box>
+          </div>
+        </Box>
+      </TraineeHeader>
+
       <Footer />
     </div>
   );
