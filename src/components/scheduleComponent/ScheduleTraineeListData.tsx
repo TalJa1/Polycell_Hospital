@@ -11,12 +11,15 @@ import type { CellRenderInfo } from "rc-picker/lib/interface";
 import {
   Box,
   Button,
+  Card,
+  CardContent,
   Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Divider,
+  Stack,
   Typography,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -110,6 +113,11 @@ const ScheduleTraineeListData: React.FC = () => {
                 {dayjs(item.content.endTime, "HH:mm:ss").format("HH:mm")})
               </Typography> */}
             </Box>
+            <Divider
+              sx={{
+                margin: "5px 0",
+              }}
+            />
           </Box>
         ))}
       </Box>
@@ -157,13 +165,171 @@ const ScheduleTraineeListData: React.FC = () => {
       <Dialog
         open={dialogOpen}
         onClose={handleCloseDialog}
-        maxWidth="sm"
+        maxWidth="md"
         fullWidth
       >
         <DialogTitle bgcolor="ButtonHighlight">Event</DialogTitle>
         <Divider></Divider>
         <DialogContent>
           {selectedDate && (
+            <Box sx={{ width: "100%", overflowX: "auto", padding: "20px" }}>
+              <Stack direction="row" spacing={5}>
+                {getList(selectedDate).map((item, index) => (
+                  <Card
+                    key={index}
+                    sx={{
+                      width: "100%",
+                      padding: "0 20px",
+                    }}
+                  >
+                    <Box>
+                      <Box
+                        sx={{
+                          padding: "10px 0",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: "rgb(150, 150, 150)",
+                            }}
+                          >
+                            Class
+                          </Typography>
+                          <Typography variant="body1">
+                            {item.content.class.code}
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: "rgb(150, 150, 150)",
+                            }}
+                          >
+                            Program
+                          </Typography>
+                          <Typography variant="body1">
+                            {item.content.class.program.code}
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: "rgb(150, 150, 150)",
+                            }}
+                          >
+                            Room
+                          </Typography>
+                          <Typography variant="body1">
+                            {item.content.room.name}
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: "rgb(150, 150, 150)",
+                            }}
+                          >
+                            Trainer
+                          </Typography>
+                          <Typography variant="body1">
+                            {item.content.class.trainer.name} (
+                            {item.content.class.trainer.code})
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          borderTop: "1px dashed rgb(221, 221, 221)",
+                          borderBottom: "1px dashed rgb(221, 221, 221)",
+                          padding: "10px 0",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              paddingRight: "5px",
+                            }}
+                          >
+                            <AccessTimeIcon fontSize="small" color="disabled" />
+                          </Box>
+                          <Box>
+                            <Typography color="GrayText" variant="body2">
+                              {dayjs(item.content.date, "DD/MM/YYYY").format(
+                                "dddd, D MMMM"
+                              )}
+                            </Typography>
+                            <Typography>
+                              {dayjs(item.content.startTime, "HH:mm:ss").format(
+                                "HH:mm"
+                              )}{" "}
+                              -{" "}
+                              {dayjs(item.content.endTime, "HH:mm:ss").format(
+                                "HH:mm"
+                              )}
+                            </Typography>
+                          </Box>
+                        </Box>
+
+                        <Chip label="STUDYING" color="primary" />
+                      </Box>
+                      <Box
+                        sx={{
+                          padding: "10px 0",
+                        }}
+                      >
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          justifyContent="space-between"
+                          spacing={2}
+                        >
+                          <Chip
+                            label={item.content.class.status}
+                            color="primary"
+                            variant="outlined"
+                          />
+                          <Button>View detail</Button>
+                        </Stack>
+                      </Box>
+                    </Box>
+                  </Card>
+                ))}
+              </Stack>
+            </Box>
+          )}
+          {/* {selectedDate && (
             <Box>
               {getList(selectedDate).map((item, index) => (
                 <Box key={index}>
@@ -224,9 +390,9 @@ const ScheduleTraineeListData: React.FC = () => {
                           color="primary"
                           size="small"
                         />
-                        {/* <Typography variant="caption">
+                        <Typography variant="caption">
                           ({item.content.class.trainer.name})
-                        </Typography> */}
+                        </Typography>
                       </Typography>
                       <Typography variant="caption">at </Typography>
                       <Chip
@@ -239,7 +405,7 @@ const ScheduleTraineeListData: React.FC = () => {
                 </Box>
               ))}
             </Box>
-          )}
+          )} */}
         </DialogContent>
         <Divider></Divider>
         <DialogActions>
