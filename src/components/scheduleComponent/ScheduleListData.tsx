@@ -11,16 +11,20 @@ import { Schedule } from "../../models/scheduleModel";
 import {
   Box,
   Button,
+  Card,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Divider,
+  Stack,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { SessionData } from "../../utils/constant";
 
 const ScheduleListData: React.FC = () => {
   const { list } = useSelector((state: RootState) => state.schedule);
@@ -29,10 +33,18 @@ const ScheduleListData: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState<Dayjs | null>(dayjs());
 
+  const [sessionData, setSessionData] = React.useState<SessionData | null>(
+    localStorage.getItem("sessionData")
+      ? JSON.parse(localStorage.getItem("sessionData") || "")
+      : null
+  );
+
+  const { id } = sessionData!;
+
   const fetchSchedule = useCallback(async () => {
     try {
       const response = await scheduleApi.getScheduleOfTrainer(
-        "3ae6a7fb-87a4-423e-8f38-d1313e710a00"
+        id
       );
       const { data } = response;
 
@@ -40,7 +52,7 @@ const ScheduleListData: React.FC = () => {
     } catch (error) {
       console.error("Error fetching trainees:", error);
     }
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     fetchSchedule();
@@ -65,12 +77,40 @@ const ScheduleListData: React.FC = () => {
         {listData.map((item, index) => (
           <Box key={index}>
             <Typography variant="body1">
-              {item.content.class.code}
+              {item.content.class.code + " "}
+              {/* <Chip label={item.content.class.trainer.name} color="default" size="small" /> */}
+              <Typography variant="caption">at </Typography>
+              {/* <Chip
+                label={item.content.room.name}
+                color="success"
+                size="small"
+              /> */}
+
+              <Typography variant="caption">
+                {" "}
+                ({item.content.room.name})
+              </Typography>
             </Typography>
-            <Typography variant="caption">
-              ({dayjs(item.content.startTime, "HH:mm:ss").format("HH:mm")}-
-              {dayjs(item.content.endTime, "HH:mm:ss").format("HH:mm")})
-            </Typography>
+            <Box>
+              <Chip
+                label={
+                  dayjs(item.content.startTime, "HH:mm:ss").format("HH:mm") +
+                  " - " +
+                  dayjs(item.content.endTime, "HH:mm:ss").format("HH:mm")
+                }
+                color="default"
+                size="small"
+              />
+              {/* <Typography variant="caption">
+                ({dayjs(item.content.startTime, "HH:mm:ss").format("HH:mm")}-
+                {dayjs(item.content.endTime, "HH:mm:ss").format("HH:mm")})
+              </Typography> */}
+            </Box>
+            <Divider
+              sx={{
+                margin: "5px 0",
+              }}
+            />
           </Box>
         ))}
       </Box>
@@ -105,7 +145,6 @@ const ScheduleListData: React.FC = () => {
     setSelectedMonth(value);
   };
 
-
   return (
     <>
       <Calendar
@@ -119,75 +158,172 @@ const ScheduleListData: React.FC = () => {
       <Dialog
         open={dialogOpen}
         onClose={handleCloseDialog}
-        maxWidth="sm"
+        maxWidth="md"
         fullWidth
       >
         <DialogTitle bgcolor="ButtonHighlight">Event</DialogTitle>
         <Divider></Divider>
         <DialogContent>
           {selectedDate && (
-
-            <Box>
-              {getList(selectedDate).map((item, index) => (
-                <>
-                  <Box
+            <Box sx={{ width: "100%", overflowX: "auto", padding: "20px" }}>
+              <Stack direction="row" spacing={5}>
+                {getList(selectedDate).map((item, index) => (
+                  <Card
                     key={index}
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-
-                      paddingBottom: "10px",
+                      padding: "0 20px",
                     }}
                   >
-                    <Box
-                      sx={{
-                        paddingRight: "20px",
-                      }}
-                    >
-                      <AccessTimeIcon />
-                    </Box>
-                    <Typography color="GrayText">
-                      {dayjs(item.content.date, "DD/MM/YYYY").format(
-                        "dddd, D MMMM"
-                      )}{" "}
-                      (
-                      {dayjs(item.content.startTime, "HH:mm:ss").format(
-                        "HH:mm"
-                      )}{" "}
-                      -{" "}
-                      {dayjs(item.content.endTime, "HH:mm:ss").format("HH:mm")})
-                    </Typography>
-                  </Box>
-                  <Box
-                    key={index}
-                    sx={{
-                      display: "flex",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        paddingRight: "20px",
-                      }}
-                    >
-                      <CalendarMonthIcon />
-                    </Box>
+                    <Box>
+                      <Box
+                        sx={{
+                          padding: "10px 0",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: "rgb(150, 150, 150)",
+                            }}
+                          >
+                            Class
+                          </Typography>
+                          <Typography variant="body1">
+                            {item.content.class.code}
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: "rgb(150, 150, 150)",
+                            }}
+                          >
+                            Program
+                          </Typography>
+                          <Typography variant="body1">
+                            {item.content.class.program.code}
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: "rgb(150, 150, 150)",
+                            }}
+                          >
+                            Room
+                          </Typography>
+                          <Typography variant="body1">
+                            {item.content.room.name}
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: "rgb(150, 150, 150)",
+                            }}
+                          >
+                            Quantity
+                          </Typography>
+                          <Typography variant="body1">
+                            {item.content.class.trainees === null ? 0 : item.content.class.trainees.length}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          borderTop: "1px dashed rgb(221, 221, 221)",
+                          borderBottom: "1px dashed rgb(221, 221, 221)",
+                          padding: "10px 0",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              paddingRight: "5px",
+                            }}
+                          >
+                            <AccessTimeIcon fontSize="small" color="disabled" />
+                          </Box>
+                          <Box>
+                            <Typography color="GrayText" variant="body2">
+                              {dayjs(item.content.date, "DD/MM/YYYY").format(
+                                "dddd, D MMMM"
+                              )}
+                            </Typography>
+                            <Typography>
+                              {dayjs(item.content.startTime, "HH:mm:ss").format(
+                                "HH:mm"
+                              )}{" "}
+                              -{" "}
+                              {dayjs(item.content.endTime, "HH:mm:ss").format(
+                                "HH:mm"
+                              )}
+                            </Typography>
+                          </Box>
+                        </Box>
 
-                    <Box
-                      sx={
-                        {
-                          // display: "flex",
-                          // alignItems: "center",
-                        }
-                      }
-                    >
-                      <Typography>{item.content.class.code} </Typography>
-                      <Typography variant="caption">
-                        at {item.content.room.name}
-                      </Typography>
+                        <Chip
+                          label="TEACHING"
+                          color="primary"
+                          sx={{
+                            marginLeft: "50px",
+                          }}
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          padding: "10px 0",
+                        }}
+                      >
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          justifyContent="space-between"
+                          spacing={2}
+                        >
+                          <Chip
+                            label={item.content.class.status}
+                            color="primary"
+                            variant="outlined"
+                          />
+                          <Button>View</Button>
+                        </Stack>
+                      </Box>
                     </Box>
-                  </Box>
-                </>
-              ))}
+                  </Card>
+                ))}
+              </Stack>
             </Box>
           )}
         </DialogContent>

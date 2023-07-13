@@ -37,8 +37,6 @@ const ScheduleTraineeListData: React.FC = () => {
       : null
   );
 
-  console.log(sessionData);
-
   const { id } = sessionData!;
 
   const dispatch = useDispatch();
@@ -178,7 +176,6 @@ const ScheduleTraineeListData: React.FC = () => {
                   <Card
                     key={index}
                     sx={{
-                      width: "100%",
                       padding: "0 20px",
                     }}
                   >
@@ -302,7 +299,13 @@ const ScheduleTraineeListData: React.FC = () => {
                           </Box>
                         </Box>
 
-                        <Chip label="STUDYING" color="primary" />
+                        <Chip
+                          label="STUDYING"
+                          color="primary"
+                          sx={{
+                            marginLeft: "50px",
+                          }}
+                        />
                       </Box>
                       <Box
                         sx={{
@@ -320,7 +323,7 @@ const ScheduleTraineeListData: React.FC = () => {
                             color="primary"
                             variant="outlined"
                           />
-                          <Button>View detail</Button>
+                          <Button>View</Button>
                         </Stack>
                       </Box>
                     </Box>

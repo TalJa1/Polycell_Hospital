@@ -78,7 +78,7 @@ function Loginpage() {
     } else if (email === "trainer@polycell.com" && password === "1") {
       const sessionData: SessionData = {
         isLoggedIn: true,
-        id: "",
+        id: "3ae6a7fb-87a4-423e-8f38-d1313e710a00",
         role: "TRAINER",
       };
       localStorage.setItem("sessionData", JSON.stringify(sessionData));
